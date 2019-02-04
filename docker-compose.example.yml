@@ -28,9 +28,9 @@ services:
   # Beego
   #######################################
   beego:
-    build:
-      context: docker/beego/
-    image: ddc_beego
+    # build:
+    #   context: docker/beego/
+    image: natansdj/go-beego
     container_name: ddc_beego
     networks:
       - default
