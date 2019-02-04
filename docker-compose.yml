@@ -1,0 +1,114 @@
+version: '2'
+services:
+  #######################################
+  # Application Docker container
+  #######################################
+#   app:
+#     build:
+#       context: .
+#     image: jetbrainsinfra/golang:$VERSION
+#     container_name: ddc_golang
+#     networks:
+#       - default
+#     links:
+#       - mysql
+#     environment:
+#       VIRTUAL_HOST: "golang.vm"
+#       VIRTUAL_PORT: "80"
+#     mem_limit: 1g
+#     volumes:
+# #      - ../../go/src/:/go/src/
+# #      - ../../go/bin/:/go/bin/
+#       - ./:/docker/
+#     networks:
+#       default:
+#         ipv4_address: 172.18.0.51
+
+  #######################################
+  # Beego
+  #######################################
+  beego:
+    build:
+      context: docker/beego/
+    image: ddc_beego
+    container_name: ddc_beego
+    networks:
+      - default
+    links:
+      - mariadb
+    ports:
+      - "18080:8080"
+    # cap and privileged needed for slowlog
+    cap_add:
+      - SYS_PTRACE
+    privileged: true
+    environment:
+      VIRTUAL_HOST: "beego.vm"
+      VIRTUAL_PORT: "8080"
+    mem_limit: 1g
+    volumes:
+#      - ../../go/src/:/go/src/
+#      - ../../go/bin/:/go/bin/
+      - ./:/docker/
+      - ../../go/src/github.com/natansdj/beego_docker:/go/src/github.com/natansdj/beego_docker
+    networks:
+      default:
+        ipv4_address: 172.18.0.52
+    working_dir: "/go/src/github.com/natansdj/beego_docker"
+    entrypoint: "bee run"
+
+
+  #######################################
+  # Nginx
+  #######################################
+#  nginx:
+#    build:
+#      context: docker/nginx/
+#    container_name: ddc_nginx
+#    ports:
+#      - 180:80
+#      - 18080:8080
+#    mem_limit: 200m
+#    networks:
+#      default:
+#        ipv4_address: 172.18.0.53
+
+
+  #######################################
+  # MariaDB server
+  #######################################
+  mariadb:
+    build:
+      context: docker/mariadb/
+      dockerfile: MariaDB-10.Dockerfile
+    image: ddc_mariadb
+    container_name: ddc_mariadb
+    ports:
+      - 23306:3306
+    volumes:
+      - mariadb:/var/lib/mysql
+    env_file:
+      - etc/environment.yml
+      - etc/environment.development.yml
+    mem_limit: 1g
+    networks:
+      default:
+        ipv4_address: 172.18.0.54
+
+
+volumes:
+  mariadb:
+    driver: local
+    driver_opts:
+      device: /home/lxc/mariadb/db
+      o: bind
+  gopath:
+    driver: local
+    driver_opts:
+      device: /home/ip310/go
+      o: bind
+
+networks:
+  default:
+    external:
+      name: dev

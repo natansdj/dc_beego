@@ -1,0 +1,13 @@
+server {
+ listen 80;
+ server_name localhost;
+ client_max_body_size 20m;
+ client_header_timeout 1200;
+ client_body_timeout 1200;
+ send_timeout 1200;
+ keepalive_timeout 1200;
+
+location / {
+  proxy_pass http://beego.vm:8080;
+ }
+}
