@@ -86,6 +86,7 @@ services:
       - 23306:3306
     volumes:
       - mariadb:/var/lib/mysql
+      - ./backup:/storage
     env_file:
       - etc/environment.yml
       - etc/environment.development.yml
