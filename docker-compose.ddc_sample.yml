@@ -1,7 +1,7 @@
 version: '2'
 services:
   #######################################
-  # Application Docker container
+  # DDC React Frontend
   #######################################
   app:
     image: jojomi/nginx-static
@@ -51,11 +51,12 @@ services:
     networks:
       - default
     ports:
-      - "18080:8080"
-      - "18090:8090"
+      - "8080:8080"
+      - "8090:8090"
     environment:
       VIRTUAL_HOST: "api.ddc.vm"
       VIRTUAL_PORT: "8080"
+      # HOST_HOSTNAME: "service01"
     mem_limit: 100m
     volumes:
       - ./:/docker/
@@ -76,8 +77,8 @@ services:
       - default
     links:
       - mariadb
-    # ports:
-      # - "18080:8080"
+    ports:
+      - "28080:8080"
     # cap and privileged needed for slowlog
     cap_add:
       - SYS_PTRACE
@@ -85,7 +86,7 @@ services:
     environment:
       VIRTUAL_HOST: "beego.vm"
       VIRTUAL_PORT: "8080"
-    mem_limit: 100m
+    mem_limit: 200m
     volumes:
       - ./:/docker/
       - gosrc:/go/src/
@@ -99,6 +100,23 @@ services:
   #######################################
   # DDC Services
   #######################################
+  cors:
+    image: natansdj/go-beego
+    container_name: ddc_cors
+    links:
+      - mariadb
+    ports:
+      - "8079:8079"
+    environment:
+      VIRTUAL_HOST: "cors.ddc.vm"
+      VIRTUAL_PORT: "8079"
+    mem_limit: 200m
+    volumes:
+      - ./:/docker/
+      - gosrc:/go/src/
+      - gopkg:/go/pkg/
+    working_dir: "/go/src/ddc_cors"
+    entrypoint: "bee run"
   authentication:
     image: natansdj/go-beego
     container_name: ddc_authentication
@@ -109,12 +127,12 @@ services:
     environment:
       VIRTUAL_HOST: "auth.ddc.vm"
       VIRTUAL_PORT: "8083"
-    mem_limit: 100m
+    mem_limit: 200m
     volumes:
       - ./:/docker/
       - gosrc:/go/src/
       - gopkg:/go/pkg/
-    working_dir: "/home/ip310/go/src/bitbucket.org/ddccom/ddc_authentication"
+    working_dir: "/go/src/ddc_authentication"
     entrypoint: "bee run"
   profile:
     image: natansdj/go-beego
@@ -126,12 +144,12 @@ services:
     environment:
       VIRTUAL_HOST: "profile.ddc.vm"
       VIRTUAL_PORT: "8086"
-    mem_limit: 100m
+    mem_limit: 200m
     volumes:
       - ./:/docker/
       - gosrc:/go/src/
       - gopkg:/go/pkg/
-    working_dir: "/home/ip310/go/src/bitbucket.org/ddccom/ddc_profile"
+    working_dir: "/go/src/ddc_profile"
     entrypoint: "bee run"
 
 #######################################
@@ -147,7 +165,6 @@ volumes:
     driver: local
     driver_opts:
       device: /home/ip310/go/src
-      o: bind
       o: bind
   gopkg:
     driver: local

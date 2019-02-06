@@ -10,7 +10,7 @@
 # Webserver
 
 # General
-WEB_DOCUMENT_ROOT=/go/src/github.com/natansdj/beego_docker/
+WEB_DOCUMENT_ROOT=/go/src/
 
 #######################################
 # PHP settings
