@@ -53,49 +53,16 @@ services:
     ports:
       - "18080:8080"
       - "18090:8090"
-    depends_on:
-      - fake_api
-      - jaeger
     environment:
       VIRTUAL_HOST: "api.ddc.vm"
       VIRTUAL_PORT: "8080"
     mem_limit: 100m
     volumes:
       - ./:/docker/
-      - ./etc/krakend/krakend.sample.json:/etc/krakend/krakend.json
+      - ./etc/krakend/krakend.json:/etc/krakend/krakend.json
     networks:
       default:
         ipv4_address: 172.18.0.53
-
-  jaeger:
-    image: jaegertracing/all-in-one:latest
-    container_name: ddc_jaeger
-    ports:
-      - "16686:16686"
-      - "14268:14268"
-    environment:
-      VIRTUAL_HOST: "jaeger.vm"
-      VIRTUAL_PORT: "16686"
-
-  fake_api:
-    image: jaxgeller/lwan
-    container_name: ddc_fake_api
-    volumes:
-      - ./etc/fake-api:/lwan/wwwroot
-    ports:
-      - "18000:8080"
-    environment:
-      VIRTUAL_HOST: "fake_api.vm"
-      VIRTUAL_PORT: "8080"
-
-  fake_web:
-    build:
-      context: ./etc/fake-web
-    container_name: ddc_fake_web
-    volumes:
-      - ./etc/fake-web/auth0-variables.js:/home/app/auth0-variables.js
-    ports:
-      - "13000:3000"
 
   #######################################
   # Beego
@@ -121,12 +88,50 @@ services:
     mem_limit: 100m
     volumes:
       - ./:/docker/
-      - ../../go/src/:/go/src/
-      - ../../go/pkg/:/go/pkg/
+      - gosrc:/go/src/
+      - gopkg:/go/pkg/
     networks:
       default:
         ipv4_address: 172.18.0.54
     working_dir: "/go/src/github.com/natansdj/beego_docker"
+    entrypoint: "bee run"
+
+  #######################################
+  # DDC Services
+  #######################################
+  authentication:
+    image: natansdj/go-beego
+    container_name: ddc_authentication
+    links:
+      - mariadb
+    ports:
+      - "8083:8083"
+    environment:
+      VIRTUAL_HOST: "auth.ddc.vm"
+      VIRTUAL_PORT: "8083"
+    mem_limit: 100m
+    volumes:
+      - ./:/docker/
+      - gosrc:/go/src/
+      - gopkg:/go/pkg/
+    working_dir: "/home/ip310/go/src/bitbucket.org/ddccom/ddc_authentication"
+    entrypoint: "bee run"
+  profile:
+    image: natansdj/go-beego
+    container_name: ddc_profile
+    links:
+      - mariadb
+    ports:
+      - "8086:8086"
+    environment:
+      VIRTUAL_HOST: "profile.ddc.vm"
+      VIRTUAL_PORT: "8086"
+    mem_limit: 100m
+    volumes:
+      - ./:/docker/
+      - gosrc:/go/src/
+      - gopkg:/go/pkg/
+    working_dir: "/home/ip310/go/src/bitbucket.org/ddccom/ddc_profile"
     entrypoint: "bee run"
 
 #######################################
@@ -138,10 +143,16 @@ volumes:
     driver_opts:
       device: /home/lxc/mariadb/db
       o: bind
-  gopath:
+  gosrc:
     driver: local
     driver_opts:
-      device: /home/ip310/go
+      device: /home/ip310/go/src
+      o: bind
+      o: bind
+  gopkg:
+    driver: local
+    driver_opts:
+      device: /home/ip310/go/pkg
       o: bind
 
 networks:
