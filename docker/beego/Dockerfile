@@ -21,3 +21,4 @@ RUN go get github.com/beego/bee
 RUN go get gopkg.in/mgo.v2/bson
 RUN go get github.com/dgrijalva/jwt-go
 RUN go get github.com/garyburd/redigo/redis
+RUN go get github.com/go-delve/delve/cmd/dlv

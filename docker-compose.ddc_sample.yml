@@ -67,10 +67,10 @@ services:
   # Beego
   #######################################
   beego:
-    # build:
-      # context: .
-    # image: ddc_beego
-    image: natansdj/go-beego
+    build:
+      context: .
+    image: ddc_beego
+    # image: natansdj/go-beego
     container_name: ddc_beego
     links:
       - mariadb
@@ -130,6 +130,23 @@ services:
       - gosrc:/go/src/
       - gopkg:/go/pkg/
     working_dir: "/go/src/ddc_authentication"
+    entrypoint: "bee run"
+  challenge:
+    image: natansdj/go-beego
+    container_name: ddc_challenge
+    links:
+      - mariadb
+    ports:
+      - "8092:8092"
+    environment:
+      VIRTUAL_HOST: "challenge.ddc.vm"
+      VIRTUAL_PORT: "8092"
+    mem_limit: 200m
+    volumes:
+      - ./:/docker/
+      - gosrc:/go/src/
+      - gopkg:/go/pkg/
+    working_dir: "/go/src/ddc_challenge"
     entrypoint: "bee run"
   # cors:
   #   image: natansdj/go-beego
