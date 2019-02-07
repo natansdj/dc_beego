@@ -60,7 +60,7 @@ SSH_AUTH_KEY=""
 MYSQL_ROOT_PASSWORD=root
 MYSQL_USER=dev
 MYSQL_PASSWORD=secret
-MYSQL_DATABASE=ddc_golang
+MYSQL_DATABASE=ddc_database
 
 #######################################
 # FTP settings

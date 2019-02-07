@@ -1,0 +1,3197 @@
+{
+  "version": 2,
+  "extra_config": {
+    "github_com/devopsfaith/krakend-httpsecure": {
+      "disable": true,
+      "allowed_hosts": [],
+      "ssl_proxy_headers": {}
+    },
+    "github_com/devopsfaith/krakend-gologging": {
+      "level": "WARNING",
+      "prefix": "[KRAKEND]",
+      "syslog": false,
+      "stdout": true
+    },
+    "krakendesigner": {
+      "endpoint_defaults": {
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 0,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      }
+    },
+    "github_com/devopsfaith/krakend-cors": {
+      "allow_methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "allow_headers": [
+        "Origin",
+        "Authorization",
+        "Access-Control-Allow-Origin",
+        "Content-Type"
+      ],
+      "expose_headers": [
+        "Content-Length",
+        "Access-Control-Allow-Origin"
+      ],
+      "allow_credentials": true,
+      "max_age": "0s"
+    }
+  },
+  "max_idle_connections": 250,
+  "timeout": "3000ms",
+  "read_timeout": "0s",
+  "write_timeout": "0s",
+  "idle_timeout": "0s",
+  "read_header_timeout": "0s",
+  "cache_ttl": "300s",
+  "name": "DDC VM API Gateway",
+  "sd_providers": {
+    "hosts": [
+      {
+        "sd": "static",
+        "host": "http://172.18.0.1:8081"
+      },
+      {
+        "sd": "static",
+        "host": "http://172.18.0.1:8082"
+      },
+      {
+        "sd": "static",
+        "host": "http://172.18.0.1:8083"
+      },
+      {
+        "sd": "static",
+        "host": "http://172.18.0.1:8084"
+      },
+      {
+        "sd": "static",
+        "host": "http://172.18.0.1:8085"
+      },
+      {
+        "sd": "static",
+        "host": "http://172.18.0.1:8086"
+      },
+      {
+        "sd": "static",
+        "host": "http://172.18.0.1:8087"
+      }
+    ],
+    "providers": {
+      "static": true
+    }
+  },
+  "endpoints": [
+    {
+      "endpoint": "/shippingRequest",
+      "method": "GET",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/sicepat",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "encoding": "json",
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8081"
+          ],
+          "group": "sicepat"
+        },
+        {
+          "url_pattern": "/v3/tiki",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "encoding": "json",
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8081"
+          ],
+          "group": "tiki"
+        },
+        {
+          "url_pattern": "/v3/pos",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "encoding": "json",
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8081"
+          ],
+          "group": "pos"
+        },
+        {
+          "url_pattern": "/v3/jnt",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "encoding": "json",
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8081"
+          ],
+          "group": "jnt"
+        }
+      ],
+      "querystring_params": [
+        "origin",
+        "destination",
+        "weight",
+        "receiverPosCode",
+        "senderPosCode",
+        "itemValue"
+      ],
+      "output_encoding": "json",
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      }
+    },
+    {
+      "endpoint": "/tikiRequest",
+      "method": "GET",
+      "concurrent_calls": 1,
+      "querystring_params": [
+        "origin",
+        "destination",
+        "weight"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/tiki",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "encoding": "json",
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8081"
+          ]
+        }
+      ],
+      "output_encoding": "json",
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      }
+    },
+    {
+      "endpoint": "/sicepatRequest",
+      "method": "GET",
+      "concurrent_calls": 1,
+      "querystring_params": [
+        "origin",
+        "destination",
+        "weight"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/sicepat",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "encoding": "json",
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8081"
+          ]
+        }
+      ],
+      "output_encoding": "json",
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      }
+    },
+    {
+      "endpoint": "/posRequest",
+      "method": "GET",
+      "concurrent_calls": 1,
+      "querystring_params": [
+        "receiverPosCode",
+        "senderPosCode",
+        "weight",
+        "itemValue"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/pos",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "encoding": "json",
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8081"
+          ],
+          "group": ""
+        }
+      ],
+      "output_encoding": "json",
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      }
+    },
+    {
+      "endpoint": "/jntRequest",
+      "method": "GET",
+      "concurrent_calls": 1,
+      "querystring_params": [
+        "origin",
+        "destination",
+        "weight"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/jnt",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "encoding": "json",
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8081"
+          ],
+          "group": ""
+        }
+      ],
+      "output_encoding": "json",
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      }
+    },
+    {
+      "endpoint": "/emailRequest",
+      "method": "POST",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/email",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "encoding": "json",
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8082"
+          ]
+        }
+      ],
+      "output_encoding": "json",
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      }
+    },
+    {
+      "endpoint": "/emailWithTemplateRequest",
+      "method": "POST",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/email",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "encoding": "json",
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8082"
+          ]
+        }
+      ],
+      "output_encoding": "json",
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      }
+    },
+    {
+      "endpoint": "/templateEmail",
+      "method": "GET",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/templateEmail",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "encoding": "json",
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8082"
+          ]
+        }
+      ],
+      "output_encoding": "json",
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      }
+    },
+    {
+      "endpoint": "/registerMemberNonReseller",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/member/registerMemberNonReseller",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ]
+        }
+      ],
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      }
+    },
+    {
+      "endpoint": "/trendingProductCategory",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/trendingProductCategory",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ]
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [
+        "query",
+        "fields",
+        "sortby",
+        "order",
+        "limit",
+        "offset"
+      ],
+      "extra_config": {
+        "github.com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      }
+    },
+    {
+      "endpoint": "/smsRequest",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/sms",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8082"
+          ]
+        }
+      ],
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      }
+    },
+    {
+      "endpoint": "/registerMemberReseller",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/member/registerMemberReseller",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/loginMember",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 0,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/member/loginMember",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/detailMember/{uuid}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/member/{uuid}",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/preMember",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/preMember",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/authMember",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/member/authMember",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ]
+    },
+    {
+      "endpoint": "/product",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      },
+      "querystring_params": [
+        "query",
+        "fields",
+        "sortby",
+        "order",
+        "limit",
+        "offset",
+        "query2"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/product",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/referalCode/{code}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 50,
+          "clientMaxRate": 5,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/member/referalCode/{code}",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/payment",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 0,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      },
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/payment",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/principal",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 0,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      },
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/principal",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/courier",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 0,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/courier",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/generatePassword/{password}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 0,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/member/generatePassword/{password}",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/product/{uuid}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 0,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/product/{uuid}",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/province",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 0,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/province",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/city/{province_id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 0,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/city/{province_id}",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/district/{city_id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 0,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/district/{city_id}",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/product/{uuid}/review",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/product/{uuid}/review",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/tds",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/tds",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "querystring_params": [
+        "query",
+        "productid"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/forgotPassword/{email}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/forgotPassword/{email}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/forgotPassword",
+      "method": "PUT",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/forgotPassword",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/checkMemberEmail/{email}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/member/checkMemberEmail/{email}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/checkMemberPhone/{phone}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/member/checkMemberPhone/{phone}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/productSearch",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "querystring_params": [
+        "query",
+        "limit"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/product/search",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/wishlist",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/product/wishlist",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/tdsFavorite",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/tds/favorite",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/tdsFavorite/{uuid}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/tds/favorite/{uuid}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/wishlist",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/product/wishlist",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/branchFreeShipping/{branchid}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/order/free/{branchid}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/getBranchRecommend",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "querystring_params": [
+        "latlng",
+        "destination",
+        "receiverPosCode",
+        "weight",
+        "productId",
+        "quantity",
+        "memberId"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/branch/getBranchRecommend",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8081"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/getBranchTDSRecommend",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "querystring_params": [
+        "latlng",
+        "destination",
+        "receiverPosCode",
+        "weight",
+        "productId",
+        "quantity",
+        "memberId"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/branch/getBranchTDSRecommend",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8081"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/getShippings",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/branch/getShippings",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8081"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "querystring_params": [
+        "origin",
+        "destination",
+        "weight",
+        "senderPosCode",
+        "receiverPosCode"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/homepageContent",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/homepageContent",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profile/{addressId}/address",
+      "method": "PUT",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/profile/{addressId}/address",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profile/address",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/profile/address",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profile",
+      "method": "PUT",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/profile",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profileUpdate/{storeId}/store",
+      "method": "PUT",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/profile/{storeId}/store",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profileDetail",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/profile",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profileAddBank",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/profile/bankAccount",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profileEditBank/{accountId}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/profile/bankAccount/{accountId}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profileAddStore",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/profile/store",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/groupingCart",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCart",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/groupingCart",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCart",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/paymentConfirmation",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/payment/confirmation",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/totalCart",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCart/totalCart",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/bank",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/bank",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/orderBackoffice",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/order/backoffice",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/orderBackoffice/{orderId}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/order/backoffice/{orderId}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/order",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/order",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/productReview",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/product/review",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profileTdsRequest",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/profileTds/request",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profileTdsActive",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/profileTds/active",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/order",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/order",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "querystring_params": [
+        "query",
+        "fields",
+        "sortby",
+        "order",
+        "limit",
+        "offset",
+        "query2"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profileBalance",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/profileBalance",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "querystring_params": [
+        "fromDate",
+        "toDate",
+        "limit"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profileTdsInventory",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/profileTds/inventory",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "querystring_params": [],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profileBalanceWithdraw",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/profileBalance/withdraw",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/paymentNotification",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/midtrans/paymentNotification",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8087"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/deleteMemberDeliveryAddress/{id}",
+      "method": "DELETE",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/profile/{id}/address",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/getTotalPrice",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/order/getTotalPrice",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/profileBalance/{balanceType}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/profileBalance/{balanceType}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "querystring_params": [
+        "fromDate",
+        "toDate",
+        "limit"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/orderToTds",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [
+        "query",
+        "query2",
+        "fields",
+        "sortby",
+        "order",
+        "limit",
+        "offset"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/orderToTds",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/updateOrderStatusToTds/{uuid}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/orderStatus/updateOrderStatusToTds/{uuid}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/detailWishlist",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/product/detailWishlist",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/updateResi/{uuid}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/orderToTds/updateResi/{uuid}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/getWaybill",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "querystring_params": [
+        "resiNumber",
+        "shippingName"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/rajaongkir/getWaybill",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8081"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/article",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "querystring_params": [
+        "query",
+        "query2",
+        "fields",
+        "sortby",
+        "order",
+        "limit",
+        "offset"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/article",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/articleComment",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "querystring_params": [
+        "query",
+        "query2",
+        "fields",
+        "sortby",
+        "order",
+        "limit",
+        "offset"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/article/comment",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/createArticleComment",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/article/comment",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/balanceSendSms",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/profileBalance/sendSms",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/pointHistory",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/profileTds/pointHistory",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/tdsReview/{tdsId}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "querystring_params": [
+        "limit",
+        "offset"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/profileTds/review/{tdsId}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/tdsReview",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/profileTds/review",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/getGroupingCartByUuid/{uuid}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCart/uuid/{uuid}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/updateGroupingCart/{id}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCart/update/{id}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/deleteGroupingCart/{id}",
+      "method": "DELETE",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCart/delete/{id}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/orderRenewal",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/order/renewal",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/productRedeem",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/order/redeem",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/createCustomDelivery",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCart/createCustomDelivery",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/orderUpgrade",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/order/upgrade",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/getCareer",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "query",
+        "query2",
+        "fields",
+        "sortby",
+        "order",
+        "limit",
+        "offset"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/career",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/branch",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/branch",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/tdsReviewDetail/{reviewId}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/profile/review/{reviewId}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/emailPaymentConfirmation",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/payment/confirmationStatus",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/countMember",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/v3/member/countMember",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/emailCustomDelivery",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/customDelivery/kirimEstimasiHarga",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/tdsReviewComment/{reviewId}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/profile/reviewComment/{reviewId}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/shortenUrl",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/shortenUrl",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8082"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/stockAdjustmentsTds",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/adjusment/stockAdjusmentTds",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/renewal",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/profile/renewalTop",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/voucher",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [],
+      "querystring_params": [
+        "voucherCode",
+        "memberId"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/voucher",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/checkVoucher",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "voucherCode",
+        "branchId",
+        "deliveryMethod"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCart/checkVoucher",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/articles",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/article",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8091"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "querystring_params": [
+        "sortby",
+        "orderby",
+        "limit",
+        "offset",
+        "categoryId"
+      ]
+    },
+    {
+      "endpoint": "/articles/category",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/v3/article/category",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8091"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/articles/detail/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "backend": [
+        {
+          "url_pattern": "/v3/article/detail/{id}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8091"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/generateorder",
+      "method": "GET",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/order/generateOrder",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/upload/articlePhoto",
+      "method": "POST",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/upload/articlePhoto",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/challenge",
+      "method": "GET",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [
+        "limit",
+        "offset"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/challenge",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8092"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/challenge/detail/{slug}",
+      "method": "GET",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/challenge/{slug}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8092"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/registerChallenge",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/order/orderChallenge",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/challengeJoin/{challengeId}",
+      "method": "PUT",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/challenge/join/{challengeId}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8092"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/challenge/claim",
+      "method": "POST",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/challenge/claim",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8092"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/tdsReviewUpdate/{id}",
+      "method": "POST",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/profile/review/{id}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/challengeWinner/{slug}",
+      "method": "GET",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/challenge/winner/{slug}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8092"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/getBranch",
+      "method": "GET",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "querystring_params": [
+        "provinceName",
+        "cityName",
+        "districtName",
+        "cityId"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/branch/getBranch",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://172.18.0.1:8081"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    }
+  ],
+  "output_encoding": "json"
+}
