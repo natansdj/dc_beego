@@ -88,15 +88,6 @@ services:
       VIRTUAL_HOST: "fake_api.vm"
       VIRTUAL_PORT: "8080"
 
-  fake_web:
-    build:
-      context: ./etc/fake-web
-    container_name: ddc_fake_web
-    volumes:
-      - ./etc/fake-web/auth0-variables.js:/home/app/auth0-variables.js
-    ports:
-      - "13000:3000"
-
   #######################################
   # Beego
   #######################################
