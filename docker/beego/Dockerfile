@@ -2,7 +2,7 @@
 # Docker image
 # natansdj/go-beego
 ###
-ARG GO_VERSION=1.11
+ARG GO_VERSION=1.10
 
 #Base image is in https://registry.hub.docker.com/_/golang/
 #Refer to https://blog.golang.org/docker for usage
