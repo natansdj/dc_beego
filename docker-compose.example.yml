@@ -3,26 +3,99 @@ services:
   #######################################
   # Application Docker container
   #######################################
-#   app:
-#     build:
-#       context: .
-#     image: jetbrainsinfra/golang:$VERSION
-#     container_name: ddc_golang
-#     networks:
-#       - default
-#     links:
-#       - mysql
-#     environment:
-#       VIRTUAL_HOST: "golang.vm"
-#       VIRTUAL_PORT: "80"
-#     mem_limit: 1g
-#     volumes:
-# #      - ../../go/src/:/go/src/
-# #      - ../../go/bin/:/go/bin/
-#       - ./:/docker/
-#     networks:
-#       default:
-#         ipv4_address: 172.18.0.51
+  app:
+    image: jojomi/nginx-static
+    container_name: ddc_app
+    networks:
+      - default
+    environment:
+      VIRTUAL_HOST: "ddc.vm"
+      VIRTUAL_PORT: "80"
+    mem_limit: 100m
+    volumes:
+      - ./:/docker/
+      - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
+      - ../_htdocs_ddc/ddc_app/build:/var/www:ro
+    networks:
+      default:
+        ipv4_address: 172.18.0.51
+
+  #######################################
+  # MariaDB server
+  #######################################
+  mariadb:
+    build:
+      context: docker/mariadb/
+      dockerfile: MariaDB-10.Dockerfile
+    image: ddc_mariadb
+    container_name: ddc_mariadb
+    ports:
+      - 3306:3306
+    volumes:
+      - mariadb:/var/lib/mysql
+      - ./backup:/storage
+    env_file:
+      - etc/environment.yml
+      - etc/environment.development.yml
+    mem_limit: 1g
+    networks:
+      default:
+        ipv4_address: 172.18.0.52
+
+  #######################################
+  # KrakenD
+  #######################################
+  krakend:
+    image: devopsfaith/krakend
+    container_name: ddc_krakend
+    networks:
+      - default
+    ports:
+      - "18080:8080"
+      - "18090:8090"
+    depends_on:
+      - fake_api
+      - jaeger
+    environment:
+      VIRTUAL_HOST: "api.ddc.vm"
+      VIRTUAL_PORT: "8080"
+    mem_limit: 100m
+    volumes:
+      - ./:/docker/
+      - ./etc/krakend/krakend.sample.json:/etc/krakend/krakend.json
+    networks:
+      default:
+        ipv4_address: 172.18.0.53
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: ddc_jaeger
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    environment:
+      VIRTUAL_HOST: "jaeger.vm"
+      VIRTUAL_PORT: "16686"
+
+  fake_api:
+    image: jaxgeller/lwan
+    container_name: ddc_fake_api
+    volumes:
+      - ./etc/fake-api:/lwan/wwwroot
+    ports:
+      - "18000:8080"
+    environment:
+      VIRTUAL_HOST: "fake_api.vm"
+      VIRTUAL_PORT: "8080"
+
+  fake_web:
+    build:
+      context: ./etc/fake-web
+    container_name: ddc_fake_web
+    volumes:
+      - ./etc/fake-web/auth0-variables.js:/home/app/auth0-variables.js
+    ports:
+      - "13000:3000"
 
   #######################################
   # Beego
@@ -36,8 +109,8 @@ services:
       - default
     links:
       - mariadb
-    ports:
-      - "18080:8080"
+    # ports:
+      # - "18080:8080"
     # cap and privileged needed for slowlog
     cap_add:
       - SYS_PTRACE
@@ -45,57 +118,20 @@ services:
     environment:
       VIRTUAL_HOST: "beego.vm"
       VIRTUAL_PORT: "8080"
-    mem_limit: 1g
+    mem_limit: 100m
     volumes:
       - ./:/docker/
       - ../../go/src/:/go/src/
       - ../../go/pkg/:/go/pkg/
     networks:
       default:
-        ipv4_address: 172.18.0.52
+        ipv4_address: 172.18.0.54
     working_dir: "/go/src/github.com/natansdj/beego_docker"
     entrypoint: "bee run"
 
-
-  #######################################
-  # Nginx
-  #######################################
-#  nginx:
-#    build:
-#      context: docker/nginx/
-#    container_name: ddc_nginx
-#    ports:
-#      - 180:80
-#      - 18080:8080
-#    mem_limit: 200m
-#    networks:
-#      default:
-#        ipv4_address: 172.18.0.53
-
-
-  #######################################
-  # MariaDB server
-  #######################################
-  mariadb:
-    build:
-      context: docker/mariadb/
-      dockerfile: MariaDB-10.Dockerfile
-    image: ddc_mariadb
-    container_name: ddc_mariadb
-    ports:
-      - 23306:3306
-    volumes:
-      - mariadb:/var/lib/mysql
-      - ./backup:/storage
-    env_file:
-      - etc/environment.yml
-      - etc/environment.development.yml
-    mem_limit: 1g
-    networks:
-      default:
-        ipv4_address: 172.18.0.54
-
-
+#######################################
+# Volumes
+#######################################
 volumes:
   mariadb:
     driver: local

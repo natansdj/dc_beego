@@ -1,3 +1,4 @@
+##this is Dockerfile of jetbrainsinfra/golang image
 ARG GO_VERSION=1.11
 
 FROM golang:${GO_VERSION}

@@ -10,7 +10,7 @@
 # Webserver
 
 # General
-WEB_DOCUMENT_ROOT=/go/src/github.com/natansdj/beego_docker/
+WEB_DOCUMENT_ROOT=/go/src/
 
 #######################################
 # PHP settings
@@ -60,7 +60,7 @@ SSH_AUTH_KEY=""
 MYSQL_ROOT_PASSWORD=root
 MYSQL_USER=dev
 MYSQL_PASSWORD=secret
-MYSQL_DATABASE=ddc_golang
+MYSQL_DATABASE=ddc_database
 
 #######################################
 # FTP settings
