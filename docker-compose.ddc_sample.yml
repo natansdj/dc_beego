@@ -67,89 +67,75 @@ services:
   # Beego
   #######################################
   beego:
-    build:
-      context: .
-    image: ddc_beego
+    extends:
+      file: common-services.yml
+      service: beego
     # image: natansdj/go-beego
     container_name: ddc_beego
     links:
       - mariadb
     expose:
       - "8080"
-    # cap and privileged needed for slowlog
-    cap_add:
-      - SYS_PTRACE
-    privileged: true
     environment:
       VIRTUAL_HOST: "beego.vm"
       VIRTUAL_PORT: "8080"
-    mem_limit: 200m
-    volumes:
-      - ./:/docker/
-      - gosrc:/go/src/
-      - gopkg:/go/pkg/
     networks:
       default:
         ipv4_address: 172.18.0.54
     working_dir: "/go/src/github.com/natansdj/beego_docker"
-    entrypoint: "bee run"
 
   #######################################
   # DDC Services
   #######################################
-  # article:
-  #   image: natansdj/go-beego
-  #   container_name: ddc_article
-  #   links:
-  #     - mariadb
-  #   ports:
-  #     - "8084:8084"
-  #   environment:
-  #     VIRTUAL_HOST: "article.ddc.vm"
-  #     VIRTUAL_PORT: "8084"
-  #   mem_limit: 200m
-  #   volumes:
-  #     - ./:/docker/
-  #     - gosrc:/go/src/
-  #     - gopkg:/go/pkg/
-  #   working_dir: "/go/src/ddc_article"
-  #   entrypoint: "bee run"
+  article:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_article
+    links:
+      - mariadb
+    ports:
+      - "8084:8084"
+    environment:
+      VIRTUAL_HOST: "article.ddc.vm"
+      VIRTUAL_PORT: "8084"
+    working_dir: "/go/src/ddc_article"
+
   authentication:
-    image: natansdj/go-beego
+    extends:
+      file: common-services.yml
+      service: beego
     container_name: ddc_authentication
     links:
       - mariadb
     ports:
       - "8083:8083"
+    expose:
+      - "2345"
     environment:
       VIRTUAL_HOST: "auth.ddc.vm"
       VIRTUAL_PORT: "8083"
-    mem_limit: 200m
-    volumes:
-      - ./:/docker/
-      - gosrc:/go/src/
-      - gopkg:/go/pkg/
     working_dir: "/go/src/ddc_authentication"
-    entrypoint: "bee run"
-  challenge:
-    image: natansdj/go-beego
-    container_name: ddc_challenge
-    links:
-      - mariadb
-    ports:
-      - "8092:8092"
-    environment:
-      VIRTUAL_HOST: "challenge.ddc.vm"
-      VIRTUAL_PORT: "8092"
-    mem_limit: 200m
-    volumes:
-      - ./:/docker/
-      - gosrc:/go/src/
-      - gopkg:/go/pkg/
-    working_dir: "/go/src/ddc_challenge"
-    entrypoint: "bee run"
+    # entrypoint: "bee dlv -package=\"ddc_authentication\" -port=2345"
+
+  # challenge:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_challenge
+  #   links:
+  #     - mariadb
+  #   ports:
+  #     - "8092:8092"
+  #   environment:
+  #     VIRTUAL_HOST: "challenge.ddc.vm"
+  #     VIRTUAL_PORT: "8092"
+  #   working_dir: "/go/src/ddc_challenge"
+
   # cors:
-  #   image: natansdj/go-beego
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
   #   container_name: ddc_cors
   #   links:
   #     - mariadb
@@ -158,15 +144,12 @@ services:
   #   environment:
   #     VIRTUAL_HOST: "cors.ddc.vm"
   #     VIRTUAL_PORT: "8079"
-  #   mem_limit: 200m
-  #   volumes:
-  #     - ./:/docker/
-  #     - gosrc:/go/src/
-  #     - gopkg:/go/pkg/
   #   working_dir: "/go/src/ddc_cors"
-  #   entrypoint: "bee run"
+
   # notification:
-  #   image: natansdj/go-beego
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
   #   container_name: ddc_notification
   #   links:
   #     - mariadb
@@ -175,30 +158,21 @@ services:
   #   environment:
   #     VIRTUAL_HOST: "notif.ddc.vm"
   #     VIRTUAL_PORT: "8082"
-  #   mem_limit: 200m
-  #   volumes:
-  #     - ./:/docker/
-  #     - gosrc:/go/src/
-  #     - gopkg:/go/pkg/
   #   working_dir: "/go/src/ddc_notification"
-  #   entrypoint: "bee run"
-  profile:
-    image: natansdj/go-beego
-    container_name: ddc_profile
-    links:
-      - mariadb
-    ports:
-      - "8086:8086"
-    environment:
-      VIRTUAL_HOST: "profile.ddc.vm"
-      VIRTUAL_PORT: "8086"
-    mem_limit: 200m
-    volumes:
-      - ./:/docker/
-      - gosrc:/go/src/
-      - gopkg:/go/pkg/
-    working_dir: "/go/src/ddc_profile"
-    entrypoint: "bee run"
+
+  # profile:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_profile
+  #   links:
+  #     - mariadb
+  #   ports:
+  #     - "8086:8086"
+  #   environment:
+  #     VIRTUAL_HOST: "profile.ddc.vm"
+  #     VIRTUAL_PORT: "8086"
+  #   working_dir: "/go/src/ddc_profile"
 
 #######################################
 # Volumes

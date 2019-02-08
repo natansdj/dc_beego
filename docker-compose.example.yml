@@ -1,13 +1,11 @@
 version: '2'
 services:
   #######################################
-  # Application Docker container
+  # DDC React Frontend
   #######################################
   app:
     image: jojomi/nginx-static
     container_name: ddc_app
-    networks:
-      - default
     environment:
       VIRTUAL_HOST: "ddc.vm"
       VIRTUAL_PORT: "80"
@@ -26,17 +24,18 @@ services:
   mariadb:
     build:
       context: docker/mariadb/
-      dockerfile: MariaDB-10.Dockerfile
+      dockerfile: MariaDB-10.2.8.Dockerfile
+      # dockerfile: MariaDB-10.Dockerfile
     image: ddc_mariadb
     container_name: ddc_mariadb
     ports:
       - 3306:3306
     volumes:
       - mariadb:/var/lib/mysql
+      - ./etc/mariadb/z999-docker.cnf:/etc/mysql/conf.d/z999-docker.cnf
       - ./backup:/storage
     env_file:
       - etc/environment.yml
-      - etc/environment.development.yml
     mem_limit: 1g
     networks:
       default:
@@ -48,77 +47,42 @@ services:
   krakend:
     image: devopsfaith/krakend
     container_name: ddc_krakend
-    networks:
-      - default
     ports:
-      - "18080:8080"
-      - "18090:8090"
-    depends_on:
-      - fake_api
-      - jaeger
+      - "8080:8080"
+      - "8090:8090"
     environment:
       VIRTUAL_HOST: "api.ddc.vm"
       VIRTUAL_PORT: "8080"
     mem_limit: 100m
     volumes:
       - ./:/docker/
-      - ./etc/krakend/krakend.sample.json:/etc/krakend/krakend.json
+      - ./etc/krakend/krakend.json:/etc/krakend/krakend.json
     networks:
       default:
         ipv4_address: 172.18.0.53
-
-  jaeger:
-    image: jaegertracing/all-in-one:latest
-    container_name: ddc_jaeger
-    ports:
-      - "16686:16686"
-      - "14268:14268"
-    environment:
-      VIRTUAL_HOST: "jaeger.vm"
-      VIRTUAL_PORT: "16686"
-
-  fake_api:
-    image: jaxgeller/lwan
-    container_name: ddc_fake_api
-    volumes:
-      - ./etc/fake-api:/lwan/wwwroot
-    ports:
-      - "18000:8080"
-    environment:
-      VIRTUAL_HOST: "fake_api.vm"
-      VIRTUAL_PORT: "8080"
+    extra_hosts:
+      - "service01:172.18.0.1"
 
   #######################################
   # Beego
   #######################################
   beego:
-    build:
-      context: .
-    image: ddc_beego
+    extends:
+      file: common-services.yml
+      service: beego
+    # image: natansdj/go-beego
     container_name: ddc_beego
-    networks:
-      - default
     links:
       - mariadb
-    # ports:
-      # - "18080:8080"
-    # cap and privileged needed for slowlog
-    cap_add:
-      - SYS_PTRACE
-    privileged: true
+    expose:
+      - "8080"
     environment:
       VIRTUAL_HOST: "beego.vm"
       VIRTUAL_PORT: "8080"
-    mem_limit: 100m
-    volumes:
-      - ./:/docker/
-      - ../../go/src/:/go/src/
-      - ../../go/pkg/:/go/pkg/
     networks:
       default:
         ipv4_address: 172.18.0.54
     working_dir: "/go/src/github.com/natansdj/beego_docker"
-    entrypoint: "bee run"
 
 #######################################
 # Volumes
@@ -129,10 +93,15 @@ volumes:
     driver_opts:
       device: /home/lxc/mariadb/db
       o: bind
-  gopath:
+  gosrc:
     driver: local
     driver_opts:
-      device: /home/ip310/go
+      device: /home/ip310/go/src
+      o: bind
+  gopkg:
+    driver: local
+    driver_opts:
+      device: /home/ip310/go/pkg
       o: bind
 
 networks:
