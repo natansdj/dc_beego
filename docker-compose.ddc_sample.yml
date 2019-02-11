@@ -75,8 +75,11 @@ services:
     container_name: ddc_beego
     links:
       - mariadb
+    external_links:
+      - dev_mysql:mysql
     expose:
       - "8080"
+      - "8088"
     environment:
       VIRTUAL_HOST: "beego.vm"
       VIRTUAL_PORT: "8080"
@@ -176,22 +179,39 @@ services:
   #       ipv4_address: 172.18.0.82
   #   working_dir: "/go/src/ddc_notification"
 
-  profile:
+  # profile:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_profile
+  #   links:
+  #     - mariadb
+  #   ports:
+  #     - "8086:8086"
+  #   environment:
+  #     VIRTUAL_HOST: "profile.ddc.vm"
+  #     VIRTUAL_PORT: "8086"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.86
+  #   working_dir: "/go/src/ddc_profile"
+
+  voucher:
     extends:
       file: common-services.yml
       service: beego
-    container_name: ddc_profile
+    container_name: ddc_voucher
     links:
       - mariadb
     ports:
-      - "8086:8086"
+      - "8089:8089"
     environment:
-      VIRTUAL_HOST: "profile.ddc.vm"
-      VIRTUAL_PORT: "8086"
+      VIRTUAL_HOST: "voucher.ddc.vm"
+      VIRTUAL_PORT: "8089"
     networks:
       default:
-        ipv4_address: 172.18.0.86
-    working_dir: "/go/src/ddc_profile"
+        ipv4_address: 172.18.0.89
+    working_dir: "/go/src/ddc_voucher2"
 
 #######################################
 # Volumes
