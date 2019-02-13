@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: Dockerfile.api
     image: dev_workspace
-    container_name: ddc_api
+    container_name: ddc_backofficeapi
     links:
       - mariadb
     ports:
@@ -55,22 +55,22 @@ services:
   #######################################
   # DDC React Frontend
   #######################################
-  app:
-    image: jojomi/nginx-static
-    container_name: ddc_app
-    volumes:
-      - ./:/docker/
-      - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
-      - ../_htdocs_ddc/ddc_app/build:/var/www:ro
-    ports:
-      - 8081:80
-    environment:
-      VIRTUAL_HOST: "ddc.vm"
-      VIRTUAL_PORT: "80"
-    mem_limit: 100m
-    networks:
-      default:
-        ipv4_address: 172.18.0.51
+  # app:
+  #   image: jojomi/nginx-static
+  #   container_name: ddc_app
+  #   volumes:
+  #     - ./:/docker/
+  #     - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
+  #     - ../_htdocs_ddc/ddc_app/build:/var/www:ro
+  #   ports:
+  #     - 8081:80
+  #   environment:
+  #     VIRTUAL_HOST: "ddc.vm"
+  #     VIRTUAL_PORT: "80"
+  #   mem_limit: 100m
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.51
 
   #######################################
   # MariaDB server
