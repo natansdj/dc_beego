@@ -10,7 +10,7 @@
 # Webserver
 
 # General
-WEB_DOCUMENT_ROOT=/go/src/
+WEB_DOCUMENT_ROOT=/app/public/
 
 #######################################
 # PHP settings
