@@ -56,22 +56,22 @@ services:
   #######################################
   # DDC React Frontend
   #######################################
-   app:
-     image: jojomi/nginx-static
-     container_name: ddc_app
-     volumes:
-       - ./:/docker/
-       - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
-       - ../_htdocs_ddc/ddc_app_build:/var/www:ro
-     ports:
-       - 8081:80
-     environment:
-       VIRTUAL_HOST: "ddc.vm"
-       VIRTUAL_PORT: "80"
-     mem_limit: 100m
-     networks:
-       default:
-         ipv4_address: 172.18.0.51
+  # app:
+  #   image: jojomi/nginx-static
+  #   container_name: ddc_app
+  #   volumes:
+  #     - ./:/docker/
+  #     - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
+  #     - ../_htdocs_ddc/ddc_app_build:/var/www:ro
+  #   ports:
+  #     - 8081:80
+  #   environment:
+  #     VIRTUAL_HOST: "ddc.vm"
+  #     VIRTUAL_PORT: "80"
+  #   mem_limit: 100m
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.51
 
   #######################################
   # MariaDB server
@@ -80,7 +80,6 @@ services:
     build:
       context: docker/mariadb/
       dockerfile: MariaDB-10.2.8.Dockerfile
-      # dockerfile: MariaDB-10.Dockerfile
     image: ddc_mariadb
     container_name: ddc_mariadb
     ports:
@@ -250,6 +249,24 @@ services:
   #     default:
   #       ipv4_address: 172.18.0.86
   #   working_dir: "/go/src/ddc_profile"
+
+
+  event:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_event
+    links:
+      - mariadb
+    ports:
+      - "8093:8093"
+    environment:
+      VIRTUAL_HOST: "event.ddc.vm"
+      VIRTUAL_PORT: "8093"
+    networks:
+      default:
+        ipv4_address: 172.18.0.93
+    working_dir: "/go/src/ddc_event"
 
   voucher:
     extends:
