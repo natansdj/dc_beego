@@ -18,49 +18,6 @@
   ]
 },
 {
-  "endpoint": "/voucherAll",
-  "method": "GET",
-  "output_encoding": "json",
-  "concurrent_calls": 1,
-  "extra_config": {},
-  "backend": [
-    {
-      "url_pattern": "/v3/voucher/all",
-      "encoding": "json",
-      "extra_config": {},
-      "sd": "static",
-      "host": [
-        "http://service01:8089"
-      ],
-      "disable_host_sanitize": false
-    }
-  ]
-},
-{
-  "endpoint": "/filterVoucher",
-  "method": "GET",
-  "output_encoding": "json",
-  "concurrent_calls": 1,
-  "extra_config": {},
-  "querystring_params": [
-    "query", "fields",
-    "sortby", "order",
-    "limit", "offset"
-  ],
-  "backend": [
-    {
-      "url_pattern": "/v3/voucher/filter",
-      "encoding": "json",
-      "extra_config": {},
-      "sd": "static",
-      "host": [
-        "http://service01:8089"
-      ],
-      "disable_host_sanitize": false
-    }
-  ]
-},
-{
   "endpoint": "/voucher/{id}",
   "method": "GET",
   "output_encoding": "json",
@@ -69,6 +26,63 @@
   "backend": [
     {
       "url_pattern": "/v3/voucher/{id}",
+      "encoding": "json",
+      "extra_config": {},
+      "sd": "static",
+      "host": [
+        "http://service01:8089"
+      ],
+      "disable_host_sanitize": false
+    }
+  ]
+},
+{
+  "endpoint": "/voucherAll",
+  "method": "GET",
+  "output_encoding": "json",
+  "concurrent_calls": 1,
+  "extra_config": {},
+  "backend": [
+    {
+      "url_pattern": "/v3/voucher/view",
+      "encoding": "json",
+      "extra_config": {},
+      "sd": "static",
+      "host": [
+        "http://service01:8089"
+      ],
+      "disable_host_sanitize": false
+    }
+  ]
+},
+{
+  "endpoint": "/voucher/validatePayment",
+  "method": "GET",
+  "output_encoding": "json",
+  "concurrent_calls": 1,
+  "extra_config": {},
+  "backend": [
+    {
+      "url_pattern": "/v3/voucher/validate/payment",
+      "encoding": "json",
+      "extra_config": {},
+      "sd": "static",
+      "host": [
+        "http://service01:8089"
+      ],
+      "disable_host_sanitize": false
+    }
+  ]
+},
+{
+  "endpoint": "/voucher/validateRegister",
+  "method": "GET",
+  "output_encoding": "json",
+  "concurrent_calls": 1,
+  "extra_config": {},
+  "backend": [
+    {
+      "url_pattern": "/v3/voucher/validate/register",
       "encoding": "json",
       "extra_config": {},
       "sd": "static",

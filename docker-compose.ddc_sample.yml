@@ -103,11 +103,13 @@ services:
     container_name: ddc_krakend
     ports:
       - "8080:8080"
-      - "8090:8090"
+      # - "8090:8090"
+    expose:
+      - "8090"
     environment:
       VIRTUAL_HOST: "api.ddc.vm"
       VIRTUAL_PORT: "8080"
-      # KRAKEND_CONFIG: "krakend.json"
+      KRAKEND_CONFIG: "krakend.json"
     mem_limit: 100m
     volumes:
       - ./:/docker/
@@ -117,30 +119,31 @@ services:
         ipv4_address: 172.18.0.53
     extra_hosts:
       - "service01:172.18.0.1"
+      - "servicestaging01:172.18.0.1"
 
   #######################################
   # Beego
   #######################################
-  beego:
-    extends:
-      file: common-services.yml
-      service: beego
-    # image: natansdj/go-beego
-    container_name: ddc_beego
-    links:
-      - mariadb
-    external_links:
-      - dev_mysql:mysql
-    expose:
-      - "8080"
-      - "8088"
-    environment:
-      VIRTUAL_HOST: "beego.vm"
-      VIRTUAL_PORT: "8080"
-    networks:
-      default:
-        ipv4_address: 172.18.0.54
-    working_dir: "/go/src/github.com/natansdj/beego_docker"
+  # beego:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   # image: natansdj/go-beego
+  #   container_name: ddc_beego
+  #   links:
+  #     - mariadb
+  #   external_links:
+  #     - dev_mysql:mysql
+  #   expose:
+  #     - "8080"
+  #     - "8088"
+  #   environment:
+  #     VIRTUAL_HOST: "beego.vm"
+  #     VIRTUAL_PORT: "8080"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.54
+  #   working_dir: "/go/src/github.com/natansdj/beego_docker"
 
   #######################################
   # DDC Services
@@ -250,23 +253,39 @@ services:
   #       ipv4_address: 172.18.0.86
   #   working_dir: "/go/src/ddc_profile"
 
+  # event:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_event
+  #   links:
+  #     - mariadb
+  #   ports:
+  #     - "8093:8093"
+  #   environment:
+  #     VIRTUAL_HOST: "event.ddc.vm"
+  #     VIRTUAL_PORT: "8093"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.93
+  #   working_dir: "/go/src/ddc_event"
 
-  event:
+  order:
     extends:
       file: common-services.yml
       service: beego
-    container_name: ddc_event
+    container_name: ddc_order
     links:
       - mariadb
     ports:
-      - "8093:8093"
+      - "8085:8085"
     environment:
-      VIRTUAL_HOST: "event.ddc.vm"
-      VIRTUAL_PORT: "8093"
+      VIRTUAL_HOST: "order.ddc.vm"
+      VIRTUAL_PORT: "8085"
     networks:
       default:
-        ipv4_address: 172.18.0.93
-    working_dir: "/go/src/ddc_event"
+        ipv4_address: 172.18.0.85
+    working_dir: "/go/src/ddc_order"
 
   voucher:
     extends:
