@@ -56,7 +56,7 @@
   ]
 },
 {
-  "endpoint": "/voucher/validatePayment",
+  "endpoint": "/voucherValidate/payment",
   "method": "GET",
   "output_encoding": "json",
   "concurrent_calls": 1,
@@ -75,7 +75,7 @@
   ]
 },
 {
-  "endpoint": "/voucher/validateRegister",
+  "endpoint": "/voucherValidate/register",
   "method": "GET",
   "output_encoding": "json",
   "concurrent_calls": 1,
