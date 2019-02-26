@@ -285,7 +285,7 @@ services:
     networks:
       default:
         ipv4_address: 172.18.0.88
-    working _dir: "/go/src/ddc_scheduler"
+    working_dir: "/go/src/ddc_scheduler"
 
   shipping:
     extends:
