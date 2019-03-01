@@ -10,6 +10,7 @@ services:
     privileged: true
     security_opt:
       - apparmor=unconfined
+      - seccomp=unconfined
     extra_hosts:
       - "service01:172.18.0.1"
       - "servicestaging01:172.18.0.1"

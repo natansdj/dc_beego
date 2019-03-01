@@ -1,122 +1,143 @@
 {
-  "endpoint": "/voucher",
-  "method": "GET",
-  "output_encoding": "json",
-  "concurrent_calls": 1,
-  "extra_config": {},
-  "backend": [
-    {
-      "url_pattern": "/v3/voucher",
-      "encoding": "json",
+      "endpoint": "/voucher",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
       "extra_config": {},
-      "sd": "static",
-      "host": [
-        "http://service01:8089"
+      "headers_to_pass": [
+        "Authorization"
       ],
-      "disable_host_sanitize": false
-    }
-  ]
-},
-{
-  "endpoint": "/voucher/{id}",
-  "method": "GET",
-  "output_encoding": "json",
-  "concurrent_calls": 1,
-  "extra_config": {},
-  "backend": [
+      "backend": [
+        {
+          "url_pattern": "/v3/voucher",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
     {
-      "url_pattern": "/v3/voucher/{id}",
-      "encoding": "json",
+      "endpoint": "/voucher/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
       "extra_config": {},
-      "sd": "static",
-      "host": [
-        "http://service01:8089"
+      "headers_to_pass": [
+        "Authorization"
       ],
-      "disable_host_sanitize": false
-    }
-  ]
-},
-{
-  "endpoint": "/voucherAll",
-  "method": "GET",
-  "output_encoding": "json",
-  "concurrent_calls": 1,
-  "extra_config": {},
-  "backend": [
+      "backend": [
+        {
+          "url_pattern": "/v3/voucher/{id}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
     {
-      "url_pattern": "/v3/voucher/view",
-      "encoding": "json",
+      "endpoint": "/voucherAll",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
       "extra_config": {},
-      "sd": "static",
-      "host": [
-        "http://service01:8089"
+      "headers_to_pass": [
+        "Authorization"
       ],
-      "disable_host_sanitize": false
-    }
-  ]
-},
-{
-  "endpoint": "/voucherValidate/payment",
-  "method": "GET",
-  "output_encoding": "json",
-  "concurrent_calls": 1,
-  "extra_config": {},
-  "backend": [
+      "backend": [
+        {
+          "url_pattern": "/v3/voucher/view",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
     {
-      "url_pattern": "/v3/voucher/validate/payment",
-      "encoding": "json",
+      "endpoint": "/voucherValidate/payment",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
       "extra_config": {},
-      "sd": "static",
-      "host": [
-        "http://service01:8089"
+      "querystring_params": [
+        "voucherCode"
       ],
-      "disable_host_sanitize": false
-    }
-  ]
-},
-{
-  "endpoint": "/voucherValidate/register",
-  "method": "GET",
-  "output_encoding": "json",
-  "concurrent_calls": 1,
-  "extra_config": {},
-  "backend": [
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/voucher/validate/payment",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
     {
-      "url_pattern": "/v3/voucher/validate/register",
-      "encoding": "json",
+      "endpoint": "/voucherValidate/register",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
       "extra_config": {},
-      "sd": "static",
-      "host": [
-        "http://service01:8089"
+      "querystring_params": [
+        "voucherCode"
       ],
-      "disable_host_sanitize": false
-    }
-  ]
-},
-{
-  "endpoint": "/checkVoucher",
-  "method": "GET",
-  "output_encoding": "json",
-  "concurrent_calls": 1,
-  "extra_config": {},
-  "querystring_params": [
-    "voucherCode",
-    "branchId",
-    "deliveryMethod"
-  ],
-  "headers_to_pass": [
-    "Authorization"
-  ],
-  "backend": [
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/voucher/validate/register",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
     {
-      "url_pattern": "/v3/groupingCart/checkVoucher",
-      "encoding": "json",
+      "endpoint": "/checkVoucher",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
       "extra_config": {},
-      "sd": "static",
-      "host": [
-        "http://service01:8085"
+      "querystring_params": [
+        "voucherCode",
+        "branchId",
+        "deliveryMethod"
       ],
-      "disable_host_sanitize": false
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCart/checkVoucher",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
     }
-  ]
-},
