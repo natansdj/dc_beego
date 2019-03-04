@@ -3482,13 +3482,83 @@
         }
       ]
     },
-
+    {
+      "endpoint": "/eventHistory",
+      "method": "GET",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "querystring_params": [
+        "limit",
+        "offset"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/event/list/history",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8093"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/cancelEvent/{slug}",
+      "method": "PUT",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/event/cancel/{slug}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8093"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/eventEdit/{slug}",
+      "method": "PUT",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/event/{slug}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8093"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    
     {
       "endpoint": "/voucher",
       "method": "GET",
       "output_encoding": "json",
       "concurrent_calls": 1,
       "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
       "backend": [
         {
           "url_pattern": "/v3/voucher",
@@ -3508,6 +3578,9 @@
       "output_encoding": "json",
       "concurrent_calls": 1,
       "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
       "backend": [
         {
           "url_pattern": "/v3/voucher/{id}",
@@ -3527,6 +3600,9 @@
       "output_encoding": "json",
       "concurrent_calls": 1,
       "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
       "backend": [
         {
           "url_pattern": "/v3/voucher/view",
@@ -3546,6 +3622,12 @@
       "output_encoding": "json",
       "concurrent_calls": 1,
       "extra_config": {},
+      "querystring_params": [
+        "voucherCode"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
       "backend": [
         {
           "url_pattern": "/v3/voucher/validate/payment",
@@ -3565,6 +3647,12 @@
       "output_encoding": "json",
       "concurrent_calls": 1,
       "extra_config": {},
+      "querystring_params": [
+        "voucherCode"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
       "backend": [
         {
           "url_pattern": "/v3/voucher/validate/register",
