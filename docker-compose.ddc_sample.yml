@@ -35,23 +35,23 @@ services:
   #######################################
   # DDC Backoffice Angular Front
   #######################################
-  # backoffice:
-  #   image: jojomi/nginx-static
-  #   container_name: ddc_backoffice
-  #   volumes:
-  #     - ./:/docker/
-  #     - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
-  #     - ../_htdocs_ddc/ddc_backoffice_dev_build:/var/www:ro
-  #   ports:
-  #     - 3000:80
-  #   mem_limit: 100m
-  #   environment:
-  #     - WEB_DOCUMENT_ROOT=/var/www/dist
-  #     - VIRTUAL_HOST=backoffice.ddc.vm
-  #     - VIRTUAL_PORT=80
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.50
+  backoffice:
+    image: jojomi/nginx-static
+    container_name: ddc_backoffice
+    volumes:
+      - ./:/docker/
+      - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
+      - ../_htdocs_ddc/ddc_backoffice_dev_build:/var/www:ro
+    ports:
+      - 3000:80
+    mem_limit: 100m
+    environment:
+      - WEB_DOCUMENT_ROOT=/var/www/dist
+      - VIRTUAL_HOST=backoffice.ddc.vm
+      - VIRTUAL_PORT=80
+    networks:
+      default:
+        ipv4_address: 172.18.0.50
 
   #######################################
   # DDC React Frontend
@@ -270,22 +270,22 @@ services:
         ipv4_address: 172.18.0.86
     working_dir: "/go/src/ddc_profile"
 
-  scheduler:
-    extends:
-      file: common-services.yml
-      service: beego
-    container_name: ddc_scheduler
-    links:
-      - mariadb
-    ports:
-      - "8088:8088"
-    environment:
-      VIRTUAL_HOST: "scheduler.ddc.vm"
-      VIRTUAL_PORT: "8088"
-    networks:
-      default:
-        ipv4_address: 172.18.0.88
-    working_dir: "/go/src/ddc_scheduler"
+  # scheduler:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_scheduler
+  #   links:
+  #     - mariadb
+  #   ports:
+  #     - "8088:8088"
+  #   environment:
+  #     VIRTUAL_HOST: "scheduler.ddc.vm"
+  #     VIRTUAL_PORT: "8088"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.88
+  #   working_dir: "/go/src/ddc_scheduler"
 
   shipping:
     extends:
@@ -338,22 +338,22 @@ services:
         ipv4_address: 172.18.0.85
     working_dir: "/go/src/ddc_order"
 
-  # voucher:
-  #   extends:
-  #     file: common-services.yml
-  #     service: beego
-  #   container_name: ddc_voucher
-  #   links:
-  #     - mariadb
-  #   ports:
-  #     - "8089:8089"
-  #   environment:
-  #     VIRTUAL_HOST: "voucher.ddc.vm"
-  #     VIRTUAL_PORT: "8089"
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.89
-  #   working_dir: "/go/src/ddc_voucher"
+  voucher:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_voucher
+    links:
+      - mariadb
+    ports:
+      - "8089:8089"
+    environment:
+      VIRTUAL_HOST: "voucher.ddc.vm"
+      VIRTUAL_PORT: "8089"
+    networks:
+      default:
+        ipv4_address: 172.18.0.89
+    working_dir: "/go/src/ddc_voucher"
 
 #######################################
 # Volumes
