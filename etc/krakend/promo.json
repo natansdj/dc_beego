@@ -1,0 +1,244 @@
+{
+    "endpoint": "/product/{uuid}",
+    "method": "GET",
+    "output_encoding": "json",
+    "concurrent_calls": 1,
+    "extra_config": {
+      "github_com/devopsfaith/krakend-httpsecure": {
+        "disable": true,
+        "allowed_hosts": [],
+        "ssl_proxy_headers": {}
+      },
+      "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+        "maxRate": 0,
+        "clientMaxRate": 0,
+        "strategy": "ip"
+      }
+    },
+    "headers_to_pass": [
+      "Authorization"
+    ],
+    "backend": [
+      {
+        "url_pattern": "/v3/product/{uuid}",
+        "encoding": "json",
+        "extra_config": {
+          "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+            "is_disabled": true,
+            "endpoint_params": {}
+          }
+        },
+        "sd": "static",
+        "host": [
+          "http://service01:8084"
+        ],
+        "disable_host_sanitize": false
+      }
+    ]
+  },
+  {
+    "endpoint": "/homepageContent",
+    "method": "GET",
+    "output_encoding": "json",
+    "concurrent_calls": 1,
+    "headers_to_pass": [
+      "Authorization"
+    ],
+    "backend": [
+      {
+        "url_pattern": "/v3/homepageContent",
+        "encoding": "json",
+        "extra_config": {},
+        "sd": "static",
+        "host": [
+          "http://service01:8084"
+        ],
+        "disable_host_sanitize": false
+      }
+    ],
+    "extra_config": {}
+  },
+  {
+    "endpoint": "/promo",
+    "method": "GET",
+    "output_encoding": "json",
+    "concurrent_calls": 1,
+    "extra_config": {},
+    "querystring_params": [
+      "fields",
+      "limit",
+      "offset",
+      "sortby",
+      "order",
+      "query"
+    ],
+    "headers_to_pass": [
+      "Authorization"
+    ],
+    "backend": [
+      {
+        "url_pattern": "/v3/promo",
+        "encoding": "json",
+        "extra_config": {},
+        "sd": "static",
+        "host": [
+          "http://service01:8094"
+        ],
+        "disable_host_sanitize": false
+      }
+    ]
+  },
+  {
+    "endpoint": "/promo/{id}",
+    "method": "GET",
+    "output_encoding": "json",
+    "concurrent_calls": 1,
+    "extra_config": {},
+    "headers_to_pass": [
+      "Authorization"
+    ],
+    "backend": [
+      {
+        "url_pattern": "/v3/promo/{id}",
+        "encoding": "json",
+        "extra_config": {
+        },
+        "sd": "static",
+        "host": [
+          "http://service01:8094"
+        ],
+        "disable_host_sanitize": false
+      }
+    ]
+  },
+  {
+    "endpoint": "/promoBanner",
+    "method": "GET",
+    "output_encoding": "json",
+    "concurrent_calls": 1,
+    "extra_config": {},
+    "querystring_params": [
+      "fields",
+      "limit",
+      "offset",
+      "sortby",
+      "order",
+      "query"
+    ],
+    "headers_to_pass": [
+      "Authorization"
+    ],
+    "backend": [
+      {
+        "url_pattern": "/v3/promo/banner",
+        "encoding": "json",
+        "extra_config": {},
+        "sd": "static",
+        "host": [
+          "http://service01:8094"
+        ],
+        "disable_host_sanitize": false
+      }
+    ]
+  },
+  {
+    "endpoint": "/promoNow",
+    "method": "GET",
+    "output_encoding": "json",
+    "concurrent_calls": 1,
+    "extra_config": {},
+    "querystring_params": [],
+    "headers_to_pass": [
+      "Authorization"
+    ],
+    "backend": [
+      {
+        "url_pattern": "/v3/promo/viewNow",
+        "encoding": "json",
+        "extra_config": {},
+        "sd": "static",
+        "host": [
+          "http://service01:8094"
+        ],
+        "disable_host_sanitize": false
+      }
+    ]
+  },
+  {
+    "endpoint": "/promoDiscount/{id}",
+    "method": "GET",
+    "output_encoding": "json",
+    "concurrent_calls": 1,
+    "extra_config": {},
+    "querystring_params": [],
+    "headers_to_pass": [
+      "Authorization"
+    ],
+    "backend": [
+      {
+        "url_pattern": "/v3/promoProduct/disc/{id}",
+        "encoding": "json",
+        "extra_config": {},
+        "sd": "static",
+        "host": [
+          "http://service01:8094"
+        ],
+        "disable_host_sanitize": false
+      }
+    ]
+  },
+  {
+    "endpoint": "/promoBanner/home",
+    "method": "GET",
+    "output_encoding": "json",
+    "concurrent_calls": 1,
+    "extra_config": {},
+    "querystring_params": [
+      "fields",
+      "limit",
+      "offset",
+      "sortby",
+      "order",
+      "query"
+    ],
+    "headers_to_pass": [
+      "Authorization"
+    ],
+    "backend": [
+      {
+        "url_pattern": "/v3/promoProduct/banner",
+        "encoding": "json",
+        "extra_config": {},
+        "sd": "static",
+        "host": [
+          "http://service01:8094"
+        ],
+        "disable_host_sanitize": false
+      }
+    ]
+  },
+  {
+    "endpoint": "/promoProductTest",
+    "method": "GET",
+    "output_encoding": "json",
+    "concurrent_calls": 1,
+    "extra_config": {},
+    "querystring_params": [
+      "productId"
+    ],
+    "headers_to_pass": [
+      "Authorization"
+    ],
+    "backend": [
+      {
+        "url_pattern": "/v3/promoTest/test",
+        "encoding": "json",
+        "extra_config": {},
+        "sd": "static",
+        "host": [
+          "http://service01:8084"
+        ],
+        "disable_host_sanitize": false
+      }
+    ]
+  }

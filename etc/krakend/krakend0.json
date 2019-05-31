@@ -54,11 +54,11 @@
   },
   "max_idle_connections": 250,
   "timeout": "90s",
-  "read_timeout": "0s",
-  "write_timeout": "0s",
-  "idle_timeout": "0s",
-  "read_header_timeout": "0s",
-  "cache_ttl": "0s",
+  "read_timeout": "5s",
+  "write_timeout": "5s",
+  "idle_timeout": "5s",
+  "read_header_timeout": "5s",
+  "cache_ttl": "5s",
   "name": "DDC API Gateway",
   "sd_providers": {
     "hosts": [
@@ -89,6 +89,10 @@
       {
         "sd": "static",
         "host": "http://service01:8087"
+      },
+      {
+        "sd": "static",
+        "host": "http://service01:8089"
       }
     ],
     "providers": {
@@ -3549,7 +3553,69 @@
         }
       ]
     },
-    
+    {
+      "endpoint": "/eventClaim/{slug}/claimPrice",
+      "method": "GET",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/eventClaim/{slug}/claimPrice",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8093"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/postEventClaim/{slug}",
+      "method": "POST",
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/eventClaim/store/{slug}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8093"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/productRSS",
+      "method": "GET",
+      "extra_config": {},
+      "output_encoding": "no-op",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/product/productRss",
+          "encoding": "no-op",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
     {
       "endpoint": "/voucher",
       "method": "GET",
@@ -3667,6 +3733,53 @@
       ]
     },
     {
+      "endpoint": "/voucherApply/payment",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "method": "POST",
+          "url_pattern": "/v3/voucher/apply/payment",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/voucherUnapply/payment",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "method": "POST",
+          "url_pattern": "/v3/voucher/unapply/payment",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
       "endpoint": "/checkVoucher",
       "method": "GET",
       "output_encoding": "json",
@@ -3674,20 +3787,306 @@
       "extra_config": {},
       "querystring_params": [
         "voucherCode",
+        "gcUuid",
+        "orderDetailProductId",
         "branchId",
-        "deliveryMethod"
+        "orderId"
       ],
       "headers_to_pass": [
         "Authorization"
       ],
       "backend": [
         {
-          "url_pattern": "/v3/groupingCart/checkVoucher",
+          "url_pattern": "/v3/orderVoucher/checkVoucher",
           "encoding": "json",
           "extra_config": {},
           "sd": "static",
           "host": [
             "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/voucherRecalc",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/voucher/recalc",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/voucherOrderAmount",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/voucherOrder/getAmount",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/voucherOrderCode",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/voucherOrder/getCode",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/voucherReservation",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "fields",
+        "limit",
+        "offset",
+        "sortby",
+        "order",
+        "query"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/voucherReservation",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/voucherTest",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "voucherCode",
+        "fields",
+        "limit",
+        "offset",
+        "sortby",
+        "order",
+        "query"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/voucherTest/test",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/promo",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "fields",
+        "limit",
+        "offset",
+        "sortby",
+        "order",
+        "query"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/promo",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8093"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/promo/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/promo/{id}",
+          "encoding": "json",
+          "extra_config": {
+          },
+          "sd": "static",
+          "host": [
+            "http://service01:8093"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/promoBanner",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "fields",
+        "limit",
+        "offset",
+        "sortby",
+        "order",
+        "query"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/promo/banner",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8093"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/promoNow",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/promo/viewNow",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8093"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/promoDisc/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/promoDisc/product/{id}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8093"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/promoProductTest",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "test"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/promoTest/test",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8084"
           ],
           "disable_host_sanitize": false
         }
