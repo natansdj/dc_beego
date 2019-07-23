@@ -19,7 +19,7 @@
     "github_com/devopsfaith/krakend-etcd": {
       "dial_timeout": "90s",
       "dial_keepalive": "90s",
-      "header_timeout": "60s"
+      "header_timeout": "90s"
     },
     "github_com/devopsfaith/krakend-opencensus": {
       "sample_rate": 100,
@@ -54,11 +54,11 @@
   },
   "max_idle_connections": 250,
   "timeout": "90s",
-  "read_timeout": "5s",
-  "write_timeout": "5s",
-  "idle_timeout": "5s",
-  "read_header_timeout": "5s",
-  "cache_ttl": "5s",
+  "read_timeout": "0s",
+  "write_timeout": "0s",
+  "idle_timeout": "0s",
+  "read_header_timeout": "0s",
+  "cache_ttl": "0s",
   "name": "DDC API Gateway",
   "sd_providers": {
     "hosts": [
@@ -92,7 +92,15 @@
       },
       {
         "sd": "static",
+        "host": "http://service01:8093"
+      },
+      {
+        "sd": "static",
         "host": "http://service01:8089"
+      },
+      {
+        "sd": "static",
+        "host": "http://service01:8094"
       }
     ],
     "providers": {
@@ -1118,6 +1126,9 @@
           "strategy": "ip"
         }
       },
+      "headers_to_pass": [
+        "Authorization"
+      ],
       "backend": [
         {
           "url_pattern": "/v3/product/{uuid}",
@@ -1573,7 +1584,8 @@
         "destination",
         "weight",
         "senderPosCode",
-        "receiverPosCode"
+        "receiverPosCode",
+        "branchId"
       ],
       "headers_to_pass": [
         "Authorization"
@@ -1585,6 +1597,9 @@
       "method": "GET",
       "output_encoding": "json",
       "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
       "backend": [
         {
           "url_pattern": "/v3/homepageContent",
@@ -3617,6 +3632,27 @@
       ]
     },
     {
+      "endpoint": "/infusionsoft",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/infusionsoft",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
       "endpoint": "/voucher",
       "method": "GET",
       "output_encoding": "json",
@@ -3939,30 +3975,94 @@
       ]
     },
     {
-      "endpoint": "/promo",
+      "endpoint": "/productBrand",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/productBrand",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/productBrandCategories",
       "method": "GET",
       "output_encoding": "json",
       "concurrent_calls": 1,
       "extra_config": {},
       "querystring_params": [
-        "fields",
-        "limit",
-        "offset",
+        "brandId"
+      ],
+      "headers_to_pass": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/productBrand/productCategories",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/catalogs",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "query",
         "sortby",
         "order",
-        "query"
+        "limit",
+        "offset"
       ],
       "headers_to_pass": [
         "Authorization"
       ],
       "backend": [
         {
-          "url_pattern": "/v3/promo",
+          "url_pattern": "/v3/catalog",
           "encoding": "json",
           "extra_config": {},
           "sd": "static",
           "host": [
-            "http://service01:8093"
+            "http://service01:8091"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/catalog/download/{uuid}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/catalog/download/{uuid}",
+          "encoding": "no-op",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8091"
           ],
           "disable_host_sanitize": false
         }
@@ -3985,7 +4085,7 @@
           },
           "sd": "static",
           "host": [
-            "http://service01:8093"
+            "http://service01:8094"
           ],
           "disable_host_sanitize": false
         }
@@ -4015,7 +4115,7 @@
           "extra_config": {},
           "sd": "static",
           "host": [
-            "http://service01:8093"
+            "http://service01:8094"
           ],
           "disable_host_sanitize": false
         }
@@ -4038,14 +4138,123 @@
           "extra_config": {},
           "sd": "static",
           "host": [
-            "http://service01:8093"
+            "http://service01:8094"
           ],
           "disable_host_sanitize": false
         }
       ]
     },
     {
-      "endpoint": "/promoDisc/{id}",
+      "endpoint": "/promoDiscount/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "quantity"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/promoProduct/disc/{id}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8094"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/promoPrice/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "quantity",
+        "memberType",
+        "memberLevel"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/promoProduct/price/{id}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8094"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/promoBigi/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "quantity",
+        "member_type",
+        "member_level"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/promoProduct/bigi/{id}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8094"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/promoBanner/home",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "fields",
+        "limit",
+        "offset",
+        "sortby",
+        "order",
+        "query"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/promoProduct/banner",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8094"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/promoDetail/{id}",
       "method": "GET",
       "output_encoding": "json",
       "concurrent_calls": 1,
@@ -4056,12 +4265,35 @@
       ],
       "backend": [
         {
-          "url_pattern": "/v3/promoDisc/product/{id}",
+          "url_pattern": "/v3/promo/{id}",
           "encoding": "json",
           "extra_config": {},
           "sd": "static",
           "host": [
-            "http://service01:8093"
+            "http://service01:8094"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/voucherDetail/{id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/voucher/{id}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8094"
           ],
           "disable_host_sanitize": false
         }
@@ -4074,7 +4306,8 @@
       "concurrent_calls": 1,
       "extra_config": {},
       "querystring_params": [
-        "test"
+        "productId",
+        "quantity"
       ],
       "headers_to_pass": [
         "Authorization"
@@ -4091,6 +4324,161 @@
           "disable_host_sanitize": false
         }
       ]
+    },
+    {
+      "endpoint": "/searchbrand",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "query",
+        "sortby",
+        "order",
+        "limit",
+        "offset"
+      ],
+      "headers_to_pass": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/productBrand/searchbrand",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8084"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/provincetds",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 0,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/province/tds",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://service01:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/citytds/{province_id}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 0,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/v3/city/tds/{province_id}",
+          "encoding": "json",
+          "extra_config": {
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
+          "sd": "static",
+          "host": [
+            "http://service01:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/CheckMemberEmailStatus/{email}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/member/CheckMemberEmailStatus/{email}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/CheckMemberPhoneStatus/{email}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/member/CheckMemberPhoneStatus/{email}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/registerMemberExpress",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/member/registerMemberExpress",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [],
+      "extra_config": {}
     }
   ],
   "output_encoding": "json"
