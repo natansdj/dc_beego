@@ -362,17 +362,20 @@ volumes:
   mariadb:
     driver: local
     driver_opts:
+      type: bind
       device: /home/lxc/mariadb/db
       o: bind
   gosrc:
     driver: local
     driver_opts:
-      device: /home/ip310/go/src
+      type: bind
+      device: /home/a407/go/src
       o: bind
   gopkg:
     driver: local
     driver_opts:
-      device: /home/ip310/go/pkg
+      type: bind
+      device: /home/a407/go/pkg
       o: bind
 
 networks:
