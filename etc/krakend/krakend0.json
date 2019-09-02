@@ -1820,6 +1820,9 @@
       "headers_to_pass": [
         "Authorization"
       ],
+      "querystring_params": [
+        "nocache"
+      ],
       "backend": [
         {
           "url_pattern": "/v3/groupingCart",
