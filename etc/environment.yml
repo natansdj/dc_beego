@@ -62,6 +62,11 @@ MYSQL_USER=dev
 MYSQL_PASSWORD=secret
 MYSQL_DATABASE=ddc_database
 
+MYSQL_MASTER_PASSWORD=root
+MYSQL_SLAVE_PASSWORD=root
+MYSQL_REPLICATION_USER=rep1
+MYSQL_REPLICATION_PASSWORD=rep1
+
 #######################################
 # FTP settings
 FTP_USER=dev
