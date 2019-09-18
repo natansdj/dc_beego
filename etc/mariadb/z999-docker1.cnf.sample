@@ -1,0 +1,74 @@
+[mysqld]
+server-id=1
+log-bin=mysql-bin
+log-slave-updates=1
+datadir=/var/lib/mysql/
+innodb_flush_method = O_DIRECT
+
+skip-host-cache
+skip-name-resolve
+;skip-grant-tables
+
+;; default sql_mode for mysql 5.6
+;sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+;foreign_key_checks = 0
+
+;;http://blog.triantech.com/memory-drain-issues-on-mysql-5-6/
+performance_schema = 0
+
+;;===========================
+;;DEFAULT VALUES
+;;===========================
+innodb_doublewrite = 1
+max_allowed_packet = 4M
+innodb_buffer_pool_size = 128M
+innodb_log_buffer_size = 16M
+innodb_log_file_size = 48M
+innodb_write_io_threads = 4
+innodb_flush_log_at_trx_commit = 1
+
+
+;;===========================
+;;MEDIUM PERF VALUES
+;;===========================
+;innodb_doublewrite = 1
+;max_allowed_packet = 16M
+;innodb_buffer_pool_size = 256M
+;innodb_log_buffer_size = 32M
+;innodb_log_file_size = 256M
+;innodb_write_io_threads = 4
+;innodb_flush_log_at_trx_commit = 1
+
+
+;;===========================
+;;ONLY for import performance
+;;===========================
+;max_allowed_packet = 256M
+
+;;disables the InnoDB Double Write Buffer (0)
+;innodb_doublewrite = 0
+
+;;will cache frequently read data (4G)
+;innodb_buffer_pool_size = 1G
+
+;;Larger buffer reduces write I/O to Transaction Logs (256M)
+;innodb_log_buffer_size = 256M
+
+;;Larger log file reduces checkpointing and write I/O (1G)
+;innodb_log_file_size = 1G
+
+;;Service Write Operations to .ibd files. Each thread can handle up to 256 pending I/O requests
+;;Default for MySQL is 4, 8 for Percona Server. Max is 64. (16)
+;innodb_write_io_threads = 16
+
+;;In the event of a crash, both 0 and 2 can lose once second of data.
+;;The tradeoff is that both 0 and 2 increase write performance.
+;;Choose 0 over 2 because 0 flushes the InnoDB Log Buffer to the Transaction Logs (ib_logfile0, ib_logfile1) once per second, with or without a commit.
+;;Setting 2 flushes the InnoDB Log Buffer only on commit. (0)
+;innodb_flush_log_at_trx_commit = 0
+
+
+;;================================
+;;ONLY for minimal memory settings
+;;================================
+;;http://www.tocker.ca/2014/03/10/configuring-mysql-to-use-minimal-memory.html
