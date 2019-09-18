@@ -1,4 +1,5 @@
-{
+[
+  {
     "endpoint": "/product/{uuid}",
     "method": "GET",
     "output_encoding": "json",
@@ -15,6 +16,11 @@
         "strategy": "ip"
       }
     },
+    "querystring_params": [
+      "branch_id",
+      "delivery_method",
+      "delivery_address_id"
+    ],
     "headers_to_pass": [
       "Authorization"
     ],
@@ -170,7 +176,12 @@
     "output_encoding": "json",
     "concurrent_calls": 1,
     "extra_config": {},
-    "querystring_params": [],
+    "querystring_params": [
+      "quantity",
+      "branch_id",
+      "delivery_method",
+      "delivery_address_id"
+    ],
     "headers_to_pass": [
       "Authorization"
     ],
@@ -181,7 +192,67 @@
         "extra_config": {},
         "sd": "static",
         "host": [
-          "http://service01:8094"
+          "http://service01:8085"
+        ],
+        "disable_host_sanitize": false
+      }
+    ]
+  },
+  {
+    "endpoint": "/promoPrice/{id}",
+    "method": "GET",
+    "output_encoding": "json",
+    "concurrent_calls": 1,
+    "extra_config": {},
+    "querystring_params": [
+      "quantity",
+      "branch_id",
+      "delivery_method",
+      "delivery_address_id",
+      "memberType",
+      "memberLevel"
+    ],
+    "headers_to_pass": [
+      "Authorization"
+    ],
+    "backend": [
+      {
+        "url_pattern": "/v3/promoProduct/price/{id}",
+        "encoding": "json",
+        "extra_config": {},
+        "sd": "static",
+        "host": [
+          "http://service01:8085"
+        ],
+        "disable_host_sanitize": false
+      }
+    ]
+  },
+  {
+    "endpoint": "/promoBigi/{id}",
+    "method": "GET",
+    "output_encoding": "json",
+    "concurrent_calls": 1,
+    "extra_config": {},
+    "querystring_params": [
+      "quantity",
+      "branch_id",
+      "delivery_method",
+      "delivery_address_id",
+      "member_type",
+      "member_level"
+    ],
+    "headers_to_pass": [
+      "Authorization"
+    ],
+    "backend": [
+      {
+        "url_pattern": "/v3/promoProduct/bigi/{id}",
+        "encoding": "json",
+        "extra_config": {},
+        "sd": "static",
+        "host": [
+          "http://service01:8085"
         ],
         "disable_host_sanitize": false
       }
@@ -218,13 +289,60 @@
     ]
   },
   {
+    "endpoint": "/promoDetail/{id}",
+    "method": "GET",
+    "output_encoding": "json",
+    "concurrent_calls": 1,
+    "extra_config": {},
+    "querystring_params": [],
+    "headers_to_pass": [
+      "Authorization"
+    ],
+    "backend": [
+      {
+        "url_pattern": "/v3/promo/{id}",
+        "encoding": "json",
+        "extra_config": {},
+        "sd": "static",
+        "host": [
+          "http://service01:8094"
+        ],
+        "disable_host_sanitize": false
+      }
+    ]
+  },
+  {
+    "endpoint": "/voucherDetail/{id}",
+    "method": "GET",
+    "output_encoding": "json",
+    "concurrent_calls": 1,
+    "extra_config": {},
+    "querystring_params": [],
+    "headers_to_pass": [
+      "Authorization"
+    ],
+    "backend": [
+      {
+        "url_pattern": "/v3/voucher/{id}",
+        "encoding": "json",
+        "extra_config": {},
+        "sd": "static",
+        "host": [
+          "http://service01:8094"
+        ],
+        "disable_host_sanitize": false
+      }
+    ]
+  },
+  {
     "endpoint": "/promoProductTest",
     "method": "GET",
     "output_encoding": "json",
     "concurrent_calls": 1,
     "extra_config": {},
     "querystring_params": [
-      "productId"
+      "productId",
+      "quantity"
     ],
     "headers_to_pass": [
       "Authorization"
@@ -242,3 +360,4 @@
       }
     ]
   }
+]

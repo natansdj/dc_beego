@@ -1126,6 +1126,11 @@
           "strategy": "ip"
         }
       },
+      "querystring_params": [
+        "branch_id",
+        "delivery_method",
+        "delivery_address_id"
+      ],
       "headers_to_pass": [
         "Authorization"
       ],
@@ -4154,7 +4159,10 @@
       "concurrent_calls": 1,
       "extra_config": {},
       "querystring_params": [
-        "quantity"
+        "quantity",
+        "branch_id",
+        "delivery_method",
+        "delivery_address_id"
       ],
       "headers_to_pass": [
         "Authorization"
@@ -4166,7 +4174,7 @@
           "extra_config": {},
           "sd": "static",
           "host": [
-            "http://service01:8094"
+            "http://service01:8085"
           ],
           "disable_host_sanitize": false
         }
@@ -4180,6 +4188,9 @@
       "extra_config": {},
       "querystring_params": [
         "quantity",
+        "branch_id",
+        "delivery_method",
+        "delivery_address_id",
         "memberType",
         "memberLevel"
       ],
@@ -4193,7 +4204,7 @@
           "extra_config": {},
           "sd": "static",
           "host": [
-            "http://service01:8094"
+            "http://service01:8085"
           ],
           "disable_host_sanitize": false
         }
@@ -4207,6 +4218,9 @@
       "extra_config": {},
       "querystring_params": [
         "quantity",
+        "branch_id",
+        "delivery_method",
+        "delivery_address_id",
         "member_type",
         "member_level"
       ],
@@ -4220,7 +4234,7 @@
           "extra_config": {},
           "sd": "static",
           "host": [
-            "http://service01:8094"
+            "http://service01:8085"
           ],
           "disable_host_sanitize": false
         }
@@ -4482,6 +4496,169 @@
       ],
       "headers_to_pass": [],
       "extra_config": {}
+    },
+    {
+      "endpoint": "/patunganList",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+        "github_com/devopsfaith/krakend-httpsecure": {
+          "disable": true,
+          "allowed_hosts": [],
+          "ssl_proxy_headers": {}
+        },
+        "github.com/devopsfaith/krakend-ratelimit/juju/router": {
+          "maxRate": 0,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      },
+      "querystring_params": [
+        "fields",
+        "limit",
+        "offset",
+        "sortby",
+        "order",
+        "query"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/patungan",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/patunganCreate",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/patungan",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/patunganDetail/{uuid}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/patungan/{uuid}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/patunganJoin/{uuid}",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/patungan/join/{uuid}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/patunganInvite/{uuid}",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/patungan/invite/{uuid}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/memberReseller",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "fields",
+        "limit",
+        "offset",
+        "sortby",
+        "order",
+        "query",
+        "search"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/members/reseller",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
     }
   ],
   "output_encoding": "json"

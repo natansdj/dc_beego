@@ -14,8 +14,11 @@ up:
 start:
 	docker-compose start mariadb krakend api app auth product shipping profile voucher discount order
 
+start2:
+    docker-compose start mariadb krakend redis api app auth profile product shipping voucher discount
+
 stop:
-	docker-compose stop mariadb krakend api app auth product shipping profile voucher discount order
+	docker-compose stop
 
 state:
 	docker-compose ps
