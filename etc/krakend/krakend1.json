@@ -1126,6 +1126,11 @@
           "strategy": "ip"
         }
       },
+      "querystring_params": [
+        "branch_id",
+        "delivery_method",
+        "delivery_address_id"
+      ],
       "headers_to_pass": [
         "Authorization"
       ],
@@ -1821,7 +1826,9 @@
         "Authorization"
       ],
       "querystring_params": [
-        "nocache"
+        "nocache",
+        "isPatungan",
+        "uuid"
       ],
       "backend": [
         {
@@ -1961,6 +1968,28 @@
       ]
     },
     {
+      "endpoint": "/orderPatungan",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/order/patungan",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
       "endpoint": "/productReview",
       "method": "POST",
       "output_encoding": "json",
@@ -2033,6 +2062,10 @@
       "concurrent_calls": 1,
       "headers_to_pass": [
         "Authorization"
+      ],
+      "querystring_params": [
+        "isPatungan",
+        "uuid"
       ],
       "backend": [
         {
@@ -2189,6 +2222,11 @@
       ],
       "headers_to_pass": [
         "Authorization"
+      ],
+      "querystring_params": [
+        "nocache",
+        "isPatungan",
+        "uuid"
       ],
       "extra_config": {}
     },
@@ -3728,7 +3766,9 @@
       "concurrent_calls": 1,
       "extra_config": {},
       "querystring_params": [
-        "voucherCode"
+        "voucherCode",
+        "isPatungan",
+        "uuid"
       ],
       "headers_to_pass": [
         "Authorization"
@@ -3777,7 +3817,10 @@
       "output_encoding": "json",
       "concurrent_calls": 1,
       "extra_config": {},
-      "querystring_params": [],
+      "querystring_params": [
+        "isPatungan",
+        "uuid"
+      ],
       "headers_to_pass": [
         "Authorization"
       ],
@@ -3801,6 +3844,10 @@
       "output_encoding": "json",
       "concurrent_calls": 1,
       "extra_config": {},
+      "querystring_params": [
+        "isPatungan",
+        "uuid"
+      ],
       "headers_to_pass": [
         "Authorization"
       ],
@@ -3819,41 +3866,15 @@
       ]
     },
     {
-      "endpoint": "/checkVoucher",
-      "method": "GET",
-      "output_encoding": "json",
-      "concurrent_calls": 1,
-      "extra_config": {},
-      "querystring_params": [
-        "voucherCode",
-        "gcUuid",
-        "orderDetailProductId",
-        "branchId",
-        "orderId"
-      ],
-      "headers_to_pass": [
-        "Authorization"
-      ],
-      "backend": [
-        {
-          "url_pattern": "/v3/orderVoucher/checkVoucher",
-          "encoding": "json",
-          "extra_config": {},
-          "sd": "static",
-          "host": [
-            "http://service01:8085"
-          ],
-          "disable_host_sanitize": false
-        }
-      ]
-    },
-    {
       "endpoint": "/voucherRecalc",
       "method": "GET",
       "output_encoding": "json",
       "concurrent_calls": 1,
       "extra_config": {},
-      "querystring_params": [],
+      "querystring_params": [
+        "isPatungan",
+        "uuid"
+      ],
       "headers_to_pass": [
         "Authorization"
       ],
@@ -3876,7 +3897,10 @@
       "output_encoding": "json",
       "concurrent_calls": 1,
       "extra_config": {},
-      "querystring_params": [],
+      "querystring_params": [
+        "isPatungan",
+        "uuid"
+      ],
       "headers_to_pass": [
         "Authorization"
       ],
@@ -3899,7 +3923,10 @@
       "output_encoding": "json",
       "concurrent_calls": 1,
       "extra_config": {},
-      "querystring_params": [],
+      "querystring_params": [
+        "isPatungan",
+        "uuid"
+      ],
       "headers_to_pass": [
         "Authorization"
       ],
@@ -3928,7 +3955,9 @@
         "offset",
         "sortby",
         "order",
-        "query"
+        "query",
+        "isPatungan",
+        "uuid"
       ],
       "headers_to_pass": [
         "Authorization"
@@ -3959,7 +3988,9 @@
         "offset",
         "sortby",
         "order",
-        "query"
+        "query",
+        "isPatungan",
+        "uuid"
       ],
       "headers_to_pass": [
         "Authorization"
@@ -3969,6 +4000,90 @@
           "url_pattern": "/v3/voucherTest/test",
           "encoding": "json",
           "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/voucherValidate/patungan",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+      },
+      "querystring_params": [
+        "voucherCode",
+        "uuid"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/voucher/validate/patungan",
+          "encoding": "json",
+          "extra_config": {
+          },
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/voucherApply/patungan",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+      },
+      "querystring_params": [
+        "uuid"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "method": "POST",
+          "url_pattern": "/v3/voucher/apply/patungan",
+          "encoding": "json",
+          "extra_config": {
+          },
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/voucherUnapply/patungan",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+      },
+      "querystring_params": [
+        "uuid"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "method": "POST",
+          "url_pattern": "/v3/voucher/unapply/patungan",
+          "encoding": "json",
+          "extra_config": {
+          },
           "sd": "static",
           "host": [
             "http://service01:8089"
@@ -4154,7 +4269,10 @@
       "concurrent_calls": 1,
       "extra_config": {},
       "querystring_params": [
-        "quantity"
+        "quantity",
+        "branch_id",
+        "delivery_method",
+        "delivery_address_id"
       ],
       "headers_to_pass": [
         "Authorization"
@@ -4166,7 +4284,7 @@
           "extra_config": {},
           "sd": "static",
           "host": [
-            "http://service01:8094"
+            "http://service01:8085"
           ],
           "disable_host_sanitize": false
         }
@@ -4180,6 +4298,9 @@
       "extra_config": {},
       "querystring_params": [
         "quantity",
+        "branch_id",
+        "delivery_method",
+        "delivery_address_id",
         "memberType",
         "memberLevel"
       ],
@@ -4193,7 +4314,7 @@
           "extra_config": {},
           "sd": "static",
           "host": [
-            "http://service01:8094"
+            "http://service01:8085"
           ],
           "disable_host_sanitize": false
         }
@@ -4207,6 +4328,9 @@
       "extra_config": {},
       "querystring_params": [
         "quantity",
+        "branch_id",
+        "delivery_method",
+        "delivery_address_id",
         "member_type",
         "member_level"
       ],
@@ -4220,7 +4344,7 @@
           "extra_config": {},
           "sd": "static",
           "host": [
-            "http://service01:8094"
+            "http://service01:8085"
           ],
           "disable_host_sanitize": false
         }
@@ -4482,6 +4606,297 @@
       ],
       "headers_to_pass": [],
       "extra_config": {}
+    },
+    {
+      "endpoint": "/createPin",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/member/secretPin",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/checkPin",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/member/checkSecretPin",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/forgotPin",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/member/forgotSecretPin",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8083"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/patunganList",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "fields",
+        "limit",
+        "offset",
+        "sortby",
+        "order",
+        "query",
+        "self",
+        "status",
+        "statusMember",
+        "type"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/patungan",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/patunganCreate",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/patungan",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/patunganDetail/{uuid}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/patungan/{uuid}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/patunganJoin/{uuid}",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/patungan/join/{uuid}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/patunganInvite/{uuid}",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/patungan/invite/{uuid}",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/patunganCart/{uuid}",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/patungan/{uuid}/cart",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/patunganCart/{uuid}",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/patungan/{uuid}/cart",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/patunganCart/{uuid}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/patungan/{uuid}/cart",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/memberReseller",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "querystring_params": [
+        "fields",
+        "limit",
+        "offset",
+        "sortby",
+        "order",
+        "query",
+        "search"
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/members/reseller",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8086"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
     }
   ],
   "output_encoding": "json"
