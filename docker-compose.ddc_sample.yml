@@ -38,6 +38,23 @@ services:
       default:
         ipv4_address: 172.18.0.100
 
+  cron:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_cron
+    ports:
+      - "8099:8099"
+    environment:
+      VIRTUAL_HOST: "cron.ddc.vm"
+      VIRTUAL_PORT: "8099"
+    mem_limit: 100m
+    networks:
+      default:
+        ipv4_address: 172.18.0.99
+    working_dir: "/go/src/ddc_cron"
+    entrypoint: "./run.sh"
+
   #######################################
   # DDC Backoffice Angular Front
   #######################################
@@ -491,12 +508,12 @@ volumes:
       type: bind
       device: /home/lxc/mariadb/db
       o: bind
-  mariadb2:
-    driver: local
-    driver_opts:
-      type: bind
-      device: /home/lxc/mariadb2/db
-      o: bind
+  # mariadb2:
+  #   driver: local
+  #   driver_opts:
+  #     type: bind
+  #     device: /home/lxc/mariadb2/db
+  #     o: bind
   gosrc:
     driver: local
     driver_opts:
