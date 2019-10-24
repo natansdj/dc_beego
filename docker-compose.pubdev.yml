@@ -55,6 +55,7 @@ services:
         ipv4_address: 172.18.0.99
     working_dir: "/go/src/ddc_cron"
     entrypoint: "./run.sh"
+    restart: always
 
   #######################################
   # DDC Backoffice Angular Front
