@@ -466,6 +466,7 @@ services:
     mem_limit: 1024m
     volumes:
       - ./etc/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+      - rabbitmq-homedir:/var/lib/rabbitmq
     environment:
       RABBITMQ_VM_MEMORY_HIGH_WATERMARK: "55%"
       RABBITMQ_ERLANG_COOKIE: "RABBITCOOKIE"
@@ -557,6 +558,12 @@ volumes:
   #     type: bind
   #     device: /home/a407/Documents/dc_beego/backup/grafana
   #     o: bind
+  rabbitmq-homedir:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /home/lxc/rabbitmq
+      o: bind
 
 networks:
   default:
