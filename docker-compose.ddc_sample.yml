@@ -145,13 +145,13 @@ services:
     image: devopsfaith/krakend:config-watcher
     container_name: ddc_krakend
     ports:
-      - "8080"
+      - "8080:80"
     expose:
       - "8090"
       - "9091"
     environment:
       VIRTUAL_HOST: "api.ddc.vm"
-      VIRTUAL_PORT: "8080"
+      VIRTUAL_PORT: "80"
       KRAKEND_CONFIG: "krakend.json"
     mem_limit: 100m
     volumes:

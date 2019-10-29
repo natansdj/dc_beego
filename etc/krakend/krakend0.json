@@ -16,17 +16,22 @@
         }
       }
     },
-    "github_com/devopsfaith/krakend-etcd": {
-      "dial_timeout": "90s",
-      "dial_keepalive": "90s",
-      "header_timeout": "90s"
-    },
+    "github_com/devopsfaith/krakend-etcd": {},
     "github_com/devopsfaith/krakend-opencensus": {
       "sample_rate": 100,
       "reporting_period": 1,
+      "enabled_layers": {
+        "backend": true,
+        "router": true
+      },
       "exporters": {
         "prometheus": {
-          "port": ":9090"
+          "port": 9091,
+          "namespace" : "krakend"
+        },
+        "logger": {
+          "stats": true,
+          "spans": true
         }
       }
     },
@@ -50,7 +55,11 @@
       ],
       "allow_credentials": true,
       "max_age": "0s"
-    }
+    },
+    "github_com/devopsfaith/krakend-logstash": {
+      "enabled": true
+    },
+    "github_com/devopsfaith/krakend-metrics": {}
   },
   "max_idle_connections": 250,
   "timeout": "90s",
@@ -4674,6 +4683,28 @@
       "extra_config": {}
     },
     {
+      "endpoint": "/switchShipping",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCart/switchConfirmShipping",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
       "endpoint": "/patunganList",
       "method": "GET",
       "output_encoding": "json",
@@ -4899,5 +4930,6 @@
       ]
     }
   ],
-  "output_encoding": "json"
+  "output_encoding": "json",
+  "port": "80"
 }
