@@ -44,7 +44,7 @@ services:
       service: beego
     container_name: ddc_cron
     ports:
-      - "8099"
+      - "8099:8099"
     environment:
       VIRTUAL_HOST: "cron.ddc.vm"
       VIRTUAL_PORT: "8099"
@@ -107,7 +107,7 @@ services:
     image: ddc_mariadb
     container_name: ddc_mariadb
     ports:
-      - "3306"
+      - "3306:3306"
     volumes:
       - mariadb:/var/lib/mysql
       - ./etc/mariadb/z999-docker1.cnf:/etc/mysql/conf.d/z999-docker.cnf
@@ -199,7 +199,7 @@ services:
   #   links:
   #     - mariadb
   #   ports:
-  #     - "8091"
+  #     - "8091:8091"
   #   environment:
   #     VIRTUAL_HOST: "article.ddc.vm"
   #     VIRTUAL_PORT: "8091"
@@ -216,7 +216,7 @@ services:
     links:
       - mariadb
     ports:
-      - "8083"
+      - "8083:8083"
     expose:
       - "2345"
     environment:
@@ -236,7 +236,7 @@ services:
   #   links:
   #     - mariadb
   #   ports:
-  #     - "8092"
+  #     - "8092:8092"
   #   environment:
   #     VIRTUAL_HOST: "challenge.ddc.vm"
   #     VIRTUAL_PORT: "8092"
@@ -253,7 +253,7 @@ services:
   #   links:
   #     - mariadb
   #   ports:
-  #     - "8079"
+  #     - "8079:8079"
   #   environment:
   #     VIRTUAL_HOST: "cors.ddc.vm"
   #     VIRTUAL_PORT: "8079"
@@ -270,7 +270,7 @@ services:
     links:
       - mariadb
     ports:
-      - "8082"
+      - "8082:8082"
     environment:
       VIRTUAL_HOST: "notif.ddc.vm"
       VIRTUAL_PORT: "8082"
@@ -287,7 +287,7 @@ services:
     links:
       - mariadb
     ports:
-      - "8084"
+      - "8084:8084"
     environment:
       VIRTUAL_HOST: "product.ddc.vm"
       VIRTUAL_PORT: "8084"
@@ -304,7 +304,7 @@ services:
 #    links:
 #      - mariadb
 #    ports:
-#      - "8087"
+#      - "8087:8087"
 #    environment:
 #      VIRTUAL_HOST: "payment.ddc.vm"
 #      VIRTUAL_PORT: "8087"
@@ -321,7 +321,7 @@ services:
     links:
       - mariadb
     ports:
-      - "8086"
+      - "8086:8086"
     environment:
       VIRTUAL_HOST: "profile.ddc.vm"
       VIRTUAL_PORT: "8086"
@@ -338,7 +338,7 @@ services:
     links:
       - mariadb
     ports:
-      - "8088"
+      - "8088:8088"
     environment:
       VIRTUAL_HOST: "scheduler.ddc.vm"
       VIRTUAL_PORT: "8088"
@@ -355,7 +355,7 @@ services:
     links:
       - mariadb
     ports:
-      - "8081"
+      - "8081:8081"
     environment:
       VIRTUAL_HOST: "shipping.ddc.vm"
       VIRTUAL_PORT: "8081"
@@ -372,7 +372,7 @@ services:
   #   links:
   #     - mariadb
   #   ports:
-  #     - "8093"
+  #     - "8093:8093"
   #   environment:
   #     VIRTUAL_HOST: "event.ddc.vm"
   #     VIRTUAL_PORT: "8093"
@@ -389,7 +389,7 @@ services:
     links:
       - mariadb
     ports:
-      - "8085"
+      - "8085:8085"
     expose:
       - "18085"
     environment:
@@ -408,7 +408,7 @@ services:
     links:
       - mariadb
     ports:
-      - "8089"
+      - "8089:8089"
     environment:
       VIRTUAL_HOST: "voucher.ddc.vm"
       VIRTUAL_PORT: "8089"
@@ -425,7 +425,7 @@ services:
     links:
       - mariadb
     ports:
-      - "8094"
+      - "8094:8094"
     environment:
       VIRTUAL_HOST: "discount.ddc.vm"
       VIRTUAL_PORT: "8094"
@@ -444,7 +444,7 @@ services:
       default:
         ipv4_address: 172.18.0.254
     ports:
-      - "6379"
+      - "6379:6379"
     mem_limit: 200m
     environment:
       VIRTUAL_HOST: "redis.ddc.vm"
@@ -461,8 +461,8 @@ services:
       default:
         ipv4_address: 172.18.0.253
     ports:
-      - "5672"
-      - "15672"
+      - "5672:5672"
+      - "15672:15672"
     mem_limit: 1024m
     volumes:
       - ./etc/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
@@ -488,7 +488,7 @@ services:
   #     default:
   #       ipv4_address: 172.18.0.253
   #   ports:
-  #     - "9090"
+  #     - "9090:9090"
   #   expose:
   #     - "9091"
   #     - "9093"
@@ -511,7 +511,7 @@ services:
   #     default:
   #       ipv4_address: 172.18.0.252
   #   ports:
-  #     - "3000"
+  #     - "3000:3000"
   #   volumes:
   #     - grafana-storage:/var/lib/grafana
   #   links:
