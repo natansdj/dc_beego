@@ -138,6 +138,22 @@ services:
   #     default:
   #       ipv4_address: 172.18.0.53
 
+  mongodb:
+    image: "mongo:3.6.11"
+    container_name: ddc_mongodb
+    volumes:
+      - mongodb:/data/db
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    mem_limit: 1g
+    networks:
+      default:
+        ipv4_address: 172.18.0.55
+
   #######################################
   # KrakenD
   #######################################
@@ -262,22 +278,22 @@ services:
   #       ipv4_address: 172.18.0.79
   #   working_dir: "/go/src/ddc_cors"
 
-  notification:
-    extends:
-      file: common-services.yml
-      service: beego
-    container_name: ddc_notification
-    links:
-      - mariadb
-    ports:
-      - "8082:8082"
-    environment:
-      VIRTUAL_HOST: "notif.ddc.vm"
-      VIRTUAL_PORT: "8082"
-    networks:
-      default:
-        ipv4_address: 172.18.0.82
-    working_dir: "/go/src/ddc_notification"
+  # notification:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_notification
+  #   links:
+  #     - mariadb
+  #   ports:
+  #     - "8082:8082"
+  #   environment:
+  #     VIRTUAL_HOST: "notif.ddc.vm"
+  #     VIRTUAL_PORT: "8082"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.82
+  #   working_dir: "/go/src/ddc_notification"
 
   product:
     extends:
@@ -434,6 +450,23 @@ services:
         ipv4_address: 172.18.0.94
     working_dir: "/go/src/ddc_discount"
 
+  queue:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_queue
+    links:
+      - mariadb
+    ports:
+      - "8095:8095"
+    environment:
+      VIRTUAL_HOST: "queue.ddc.vm"
+      VIRTUAL_PORT: "8095"
+    networks:
+      default:
+        ipv4_address: 172.18.0.95
+    working_dir: "/go/src/ddc_queue"
+
   #######################################
   # Redis
   #######################################
@@ -446,6 +479,7 @@ services:
     ports:
       - "6379:6379"
     mem_limit: 200m
+    restart: unless-stopped
     environment:
       VIRTUAL_HOST: "redis.ddc.vm"
       VIRTUAL_PORT: "80"
@@ -464,6 +498,7 @@ services:
       - "5672:5672"
       - "15672:15672"
     mem_limit: 1024m
+    restart: unless-stopped
     volumes:
       - ./etc/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
       - rabbitmq-homedir:/var/lib/rabbitmq
@@ -540,6 +575,12 @@ volumes:
   #     type: bind
   #     device: /home/lxc/mariadb2/db
   #     o: bind
+  mongodb:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /home/lxc/mongodata
+      o: bind
   gosrc:
     driver: local
     driver_opts:
