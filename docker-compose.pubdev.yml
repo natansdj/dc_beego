@@ -165,6 +165,7 @@ services:
         ipv4_address: 172.18.0.59
     extra_hosts:
       - "service01:172.18.0.1"
+      - "service02:172.18.0.1"
       - "servicestaging01:172.18.0.1"
     restart: always
 
