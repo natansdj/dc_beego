@@ -24,6 +24,10 @@
     "github_com/devopsfaith/krakend-opencensus": {
       "sample_rate": 100,
       "reporting_period": 1,
+      "enabled_layers": {
+        "backend": true,
+        "router": true
+      },
       "exporters": {
         "prometheus": {
           "port": ":9090"
@@ -50,7 +54,11 @@
       ],
       "allow_credentials": true,
       "max_age": "0s"
-    }
+    },
+    "github_com/devopsfaith/krakend-logstash": {
+      "enabled": true
+    },
+    "github_com/devopsfaith/krakend-metrics": {}
   },
   "max_idle_connections": 250,
   "timeout": "90s",
@@ -4973,5 +4981,6 @@
       "extra_config": {}
     }
   ],
-  "output_encoding": "json"
+  "output_encoding": "json",
+  "port": "80"
 }
