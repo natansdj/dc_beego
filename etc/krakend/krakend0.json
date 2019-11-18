@@ -616,7 +616,21 @@
         {
           "url_pattern": "/v3/trendingProductCategory",
           "encoding": "json",
-          "extra_config": {},
+          "extra_config": {
+            "github.com/devopsfaith/krakend-ratelimit/juju/proxy": {
+              "maxRate": 2,
+              "capacity": 2
+            },
+            "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+              "interval": 60,
+              "timeout": 10,
+              "maxErrors": 1
+            },
+            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
+              "is_disabled": true,
+              "endpoint_params": {}
+            }
+          },
           "sd": "static",
           "host": [
             "http://service02:8084"
