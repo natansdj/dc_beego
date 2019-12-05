@@ -12,10 +12,10 @@ up:
 	docker-compose up -d
 
 start:
-	docker-compose up -d mariadb krakend redis api app auth profile product shipping voucher discount
+	docker-compose up -d mariadb krakend app auth profile product shipping voucher discount
 
 start2:
-	docker-compose up -d mariadb krakend redis api app auth profile product shipping voucher discount order
+	docker-compose up -d mariadb krakend app auth profile product shipping voucher discount redis rabbit mongodb
 
 stop:
 	docker-compose stop
