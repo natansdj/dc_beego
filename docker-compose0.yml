@@ -1,0 +1,615 @@
+version: '2.1'
+services:
+  #######################################
+  # PHP Backoffice API Docker container
+  #######################################
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    image: dev_workspace
+    container_name: ddc_backofficeapi
+    links:
+      - mariadb
+      - redis
+    # ports:
+    #   - "8000:80"
+    expose:
+      - "80"
+      - "443"
+      - "4200"
+      - "9000"
+    volumes:
+      - ../_htdocs_ddc/ddc_api:/app/
+      - ./:/docker/
+      - ./etc/php/development.ini:/opt/docker/etc/php/development.ini
+    # cap and privileged needed for slowlog
+    cap_add:
+      - SYS_PTRACE
+    privileged: true
+    env_file:
+      - etc/environment.yml
+      - etc/environment.development.yml
+    mem_limit: 300m
+    environment:
+      VIRTUAL_HOST: "backofficeapi.ddc.vm"
+      VIRTUAL_PORT: "80"
+    networks:
+      default:
+        ipv4_address: 172.18.0.100
+
+  cron:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_cron
+    ports:
+      - "8099:8099"
+    environment:
+      VIRTUAL_HOST: "cron.ddc.vm"
+      VIRTUAL_PORT: "8099"
+    mem_limit: 100m
+    networks:
+      default:
+        ipv4_address: 172.18.0.99
+    working_dir: "/go/src/ddc_cron"
+    entrypoint: "./run.sh"
+
+  #######################################
+  # DDC Backoffice Angular Front
+  #######################################
+  backoffice:
+    image: jojomi/nginx-static
+    container_name: ddc_backoffice
+    volumes:
+      - ./:/docker/
+      - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
+      - ../_htdocs_ddc/ddc_backoffice_dev_build:/var/www:ro
+#      - ../_htdocs_ddc/ddc_backoffice/dist:/var/www:ro
+    ports:
+      - "3000:80"
+    mem_limit: 100m
+    environment:
+      - WEB_DOCUMENT_ROOT=/var/www/dist
+      - VIRTUAL_HOST=backoffice.ddc.vm
+      - VIRTUAL_PORT=80
+    networks:
+      default:
+        ipv4_address: 172.18.0.50
+
+  #######################################
+  # DDC React Frontend
+  #######################################
+  app:
+    image: jojomi/nginx-static
+    container_name: ddc_app
+    volumes:
+      - ./:/docker/
+      - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
+      - ../_htdocs_ddc/ddc_app_build:/var/www:ro
+    ports:
+      - "18080:80"
+    environment:
+      VIRTUAL_HOST: "ddc.vm"
+      VIRTUAL_PORT: "80"
+    mem_limit: 100m
+    networks:
+      default:
+        ipv4_address: 172.18.0.51
+
+  #######################################
+  # MariaDB server
+  #######################################
+  mariadb:
+    build:
+      context: docker/mariadb/
+      dockerfile: MariaDB-10.2.8.Dockerfile
+    image: ddc_mariadb
+    container_name: ddc_mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb:/var/lib/mysql
+      - ./etc/mariadb/z999-docker1.cnf:/etc/mysql/conf.d/z999-docker.cnf
+      - ./backup:/storage
+    env_file:
+      - etc/environment.yml
+    mem_limit: 1g
+    networks:
+      default:
+        ipv4_address: 172.18.0.52
+
+  # mariadb2:
+  #   build:
+  #     context: docker/mariadb/
+  #     dockerfile: MariaDB-10.2.8.Dockerfile
+  #   image: ddc_mariadb
+  #   container_name: ddc_mariadb2
+  #   ports:
+  #     - "3307:3306"
+  #   volumes:
+  #     - mariadb2:/var/lib/mysql
+  #     - ./etc/mariadb/z999-docker2.cnf:/etc/mysql/conf.d/z999-docker.cnf
+  #     - ./backup:/storage
+  #   env_file:
+  #     - etc/environment.yml
+  #   mem_limit: 1g
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.53
+
+  mongodb:
+    # image: "mongo:3.6.11"
+    image: "mongo:4.0-xenial"
+    container_name: ddc_mongodb
+    volumes:
+      - mongodb:/data/db
+    # ports:
+      # - "27017:27017"
+    # restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    mem_limit: 1g
+    networks:
+      default:
+        ipv4_address: 172.18.0.55
+
+  #######################################
+  # KrakenD
+  #######################################
+  krakend:
+    image: devopsfaith/krakend:config-watcher
+    container_name: ddc_krakend
+    ports:
+      - "8080:80"
+    expose:
+      - "8090"
+      - "9091"
+    environment:
+      VIRTUAL_HOST: "api.ddc.vm"
+      VIRTUAL_PORT: "80"
+      KRAKEND_CONFIG: "krakend.json"
+    mem_limit: 100m
+    volumes:
+      - ./:/docker/
+      - ./etc/krakend:/etc/krakend
+    networks:
+      default:
+        ipv4_address: 172.18.0.59
+    extra_hosts:
+      - "service01:172.18.0.1"
+      - "service02:172.18.0.1"
+      - "servicestaging01:172.18.0.1"
+
+  #######################################
+  # Beego
+  #######################################
+  # beego:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   # image: natansdj/go-beego
+  #   container_name: ddc_beego
+  #   links:
+  #     - mariadb
+  #   external_links:
+  #     - dev_mysql:mysql
+  #   expose:
+  #     - "8080"
+  #     - "8088"
+  #   environment:
+  #     VIRTUAL_HOST: "beego.vm"
+  #     VIRTUAL_PORT: "8080"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.54
+  #   working_dir: "/go/src/github.com/natansdj/beego_docker"
+
+  #######################################
+  # DDC Services
+  #######################################
+  # article:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_article
+  #   links:
+  #     - mariadb
+  #   ports:
+  #     - "8091:8091"
+  #   environment:
+  #     VIRTUAL_HOST: "article.ddc.vm"
+  #     VIRTUAL_PORT: "8091"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.91
+  #   working_dir: "/go/src/ddc_article"
+
+  auth:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_auth
+    links:
+      - mariadb
+    ports:
+      - "8083:8083"
+    expose:
+      - "2345"
+    environment:
+      VIRTUAL_HOST: "auth.ddc.vm"
+      VIRTUAL_PORT: "8083"
+    networks:
+      default:
+        ipv4_address: 172.18.0.83
+    working_dir: "/go/src/ddc_authentication"
+    # entrypoint: "bee dlv -package=\"ddc_auth\" -port=2345"
+
+  # challenge:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_challenge
+  #   links:
+  #     - mariadb
+  #   ports:
+  #     - "8092:8092"
+  #   environment:
+  #     VIRTUAL_HOST: "challenge.ddc.vm"
+  #     VIRTUAL_PORT: "8092"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.92
+  #   working_dir: "/go/src/ddc_challenge"
+
+  # cors:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_cors
+  #   links:
+  #     - mariadb
+  #   ports:
+  #     - "8079:8079"
+  #   environment:
+  #     VIRTUAL_HOST: "cors.ddc.vm"
+  #     VIRTUAL_PORT: "8079"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.79
+  #   working_dir: "/go/src/ddc_cors"
+
+  # notification:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_notification
+  #   links:
+  #     - mariadb
+  #   ports:
+  #     - "8082:8082"
+  #   environment:
+  #     VIRTUAL_HOST: "notif.ddc.vm"
+  #     VIRTUAL_PORT: "8082"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.82
+  #   working_dir: "/go/src/ddc_notification"
+
+  product:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_product
+    links:
+      - mariadb
+    ports:
+      - "8084:8084"
+    environment:
+      VIRTUAL_HOST: "product.ddc.vm"
+      VIRTUAL_PORT: "8084"
+    networks:
+      default:
+        ipv4_address: 172.18.0.84
+    working_dir: "/go/src/ddc_product"
+
+#  payment:
+#    extends:
+#      file: common-services.yml
+#      service: beego
+#    container_name: ddc_payment
+#    links:
+#      - mariadb
+#    ports:
+#      - "8087:8087"
+#    environment:
+#      VIRTUAL_HOST: "payment.ddc.vm"
+#      VIRTUAL_PORT: "8087"
+#    networks:
+#      default:
+#        ipv4_address: 172.18.0.87
+#    working_dir: "/go/src/ddc_payment"
+
+  profile:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_profile
+    links:
+      - mariadb
+    ports:
+      - "8086:8086"
+    environment:
+      VIRTUAL_HOST: "profile.ddc.vm"
+      VIRTUAL_PORT: "8086"
+    networks:
+      default:
+        ipv4_address: 172.18.0.86
+    working_dir: "/go/src/ddc_profile"
+
+  scheduler:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_scheduler
+    links:
+      - mariadb
+    ports:
+      - "8088:8088"
+    environment:
+      VIRTUAL_HOST: "scheduler.ddc.vm"
+      VIRTUAL_PORT: "8088"
+    networks:
+      default:
+        ipv4_address: 172.18.0.88
+    working_dir: "/go/src/ddc_scheduler"
+
+  shipping:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_shipping
+    links:
+      - mariadb
+    ports:
+      - "8081:8081"
+    environment:
+      VIRTUAL_HOST: "shipping.ddc.vm"
+      VIRTUAL_PORT: "8081"
+    networks:
+      default:
+        ipv4_address: 172.18.0.81
+    working_dir: "/go/src/ddc_shipping"
+
+  # event:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_event
+  #   links:
+  #     - mariadb
+  #   ports:
+  #     - "8093:8093"
+  #   environment:
+  #     VIRTUAL_HOST: "event.ddc.vm"
+  #     VIRTUAL_PORT: "8093"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.93
+  #   working_dir: "/go/src/ddc_event"
+
+  order:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_order
+    links:
+      - mariadb
+      - mongodb
+    ports:
+      - "8085:8085"
+    mem_limit: 400m
+    environment:
+      VIRTUAL_HOST: "order.ddc.vm"
+      VIRTUAL_PORT: "8085"
+    networks:
+      default:
+        ipv4_address: 172.18.0.85
+    working_dir: "/go/src/ddc_order"
+
+  voucher:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_voucher
+    links:
+      - mariadb
+    ports:
+      - "8089:8089"
+    environment:
+      VIRTUAL_HOST: "voucher.ddc.vm"
+      VIRTUAL_PORT: "8089"
+    networks:
+      default:
+        ipv4_address: 172.18.0.89
+    working_dir: "/go/src/ddc_voucher"
+
+  discount:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_discount
+    links:
+      - mariadb
+    ports:
+      - "8094:8094"
+    environment:
+      VIRTUAL_HOST: "discount.ddc.vm"
+      VIRTUAL_PORT: "8094"
+    networks:
+      default:
+        ipv4_address: 172.18.0.94
+    working_dir: "/go/src/ddc_discount"
+
+  queue:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_queue
+    links:
+      - mariadb
+    ports:
+      - "8095:8095"
+    environment:
+      VIRTUAL_HOST: "queue.ddc.vm"
+      VIRTUAL_PORT: "8095"
+    networks:
+      default:
+        ipv4_address: 172.18.0.95
+    working_dir: "/go/src/ddc_queue"
+
+  #######################################
+  # Redis
+  #######################################
+  redis:
+    image: redis:alpine
+    container_name: ddc_redis
+    networks:
+      default:
+        ipv4_address: 172.18.0.254
+    ports:
+      - "6379:6379"
+    mem_limit: 200m
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: "redis.ddc.vm"
+      VIRTUAL_PORT: "80"
+
+  #######################################
+  # RabbitMQ
+  #######################################
+  rabbit:
+    image: rabbitmq:3.8.0-management
+    container_name: ddc_rabbit
+    hostname: ddc_rabbit
+    networks:
+      default:
+        ipv4_address: 172.18.0.253
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    mem_limit: 1024m
+    restart: unless-stopped
+    volumes:
+      - ./etc/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+      - rabbitmq-homedir:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_VM_MEMORY_HIGH_WATERMARK: "55%"
+      RABBITMQ_ERLANG_COOKIE: "RABBITCOOKIE"
+      RABBITMQ_NODENAME: "rabbit@ddc_rabbit"
+      RABBITMQ_DEFAULT_USER: "dev"
+      RABBITMQ_DEFAULT_PASS: "secret"
+      VIRTUAL_HOST: "rabbit.ddc.vm"
+      VIRTUAL_PORT: "15672"
+
+  #######################################
+  # Prometheus
+  #######################################
+  # prom:
+  #   image: prom/prometheus
+  #   container_name: ddc_prom
+  #   volumes:
+  #     - ./etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.253
+  #   ports:
+  #     - "9090:9090"
+  #   expose:
+  #     - "9091"
+  #     - "9093"
+  #     - "9094"
+  #   extra_hosts:
+  #     - "service01:172.18.0.1"
+  #     - "service02:172.18.0.1"
+  #     - "servicestaging01:172.18.0.1"
+  #   mem_limit: 200m
+  #   environment:
+  #     VIRTUAL_HOST: "prom.ddc.vm"
+  #     VIRTUAL_PORT: "9090"
+
+  #######################################
+  # Grafana
+  #######################################
+  # grafana:
+  #   image: grafana/grafana
+  #   container_name: ddc_grafana
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.252
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - grafana-storage:/var/lib/grafana
+  #   links:
+  #     - mariadb
+  #   mem_limit: 512m
+  #   environment:
+  #     VIRTUAL_HOST: "grafana.ddc.vm"
+  #     VIRTUAL_PORT: "3000"
+  #     GF_SECURITY_ADMIN_PASSWORD: "secret"
+  #     # GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource,ryantxu-ajax-panel"
+
+
+#######################################
+# Volumes
+#######################################
+volumes:
+  mariadb:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /home/lxc/mariadb/db
+      o: bind
+  # mariadb2:
+  #   driver: local
+  #   driver_opts:
+  #     type: bind
+  #     device: /home/lxc/mariadb2/db
+  #     o: bind
+  mongodb:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /home/lxc/mongodata
+      o: bind
+  gosrc:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /home/a407/go/src
+      o: bind
+  gopkg:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /home/a407/go/pkg
+      o: bind
+  # grafana-storage:
+  #   driver: local
+  #   driver_opts:
+  #     type: bind
+  #     device: /home/a407/Documents/dc_beego/backup/grafana
+  #     o: bind
+  rabbitmq-homedir:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /home/lxc/rabbitmq
+      o: bind
+
+networks:
+  default:
+    external:
+      name: dev

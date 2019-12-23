@@ -1,0 +1,23 @@
+version: '2.1'
+services:
+  beego:
+    build:
+      context: .
+    image: ddc_beego
+    # cap and privileged needed for slowlog
+    cap_add:
+      - SYS_PTRACE
+    privileged: true
+    security_opt:
+      - apparmor=unconfined
+      - seccomp=unconfined
+    extra_hosts:
+      - "service01:172.18.0.1"
+      - "service02:172.18.0.1"
+      - "servicestaging01:172.18.0.1"
+    mem_limit: 200m
+    volumes:
+      - ./:/docker/
+      - gosrc:/go/src/
+      - gopkg:/go/pkg/
+    entrypoint: "bee run"
