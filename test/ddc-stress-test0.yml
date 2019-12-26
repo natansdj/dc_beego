@@ -1,0 +1,13 @@
+config:
+    target: https://apigwstaging.dusdusan.com
+    phases:
+      - duration: 20
+        arrivalRate: 90
+scenarios:
+    - flow:
+        - get:
+            url: "/product?offset=0&limit=12&query2=type_product__in:1-4"
+            capture:
+              - regexp: "[^]*"
+                as: "response"
+        - log: "response= {{response}}"
