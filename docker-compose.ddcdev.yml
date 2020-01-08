@@ -3,22 +3,22 @@ services:
   #######################################
   # Helper Service
   #######################################
-  # cron:
-  #   extends:
-  #     file: common-services.yml
-  #     service: beego
-  #   container_name: ddc_cron
-  #   ports:
-  #     - "8099:8099"
-  #   environment:
-  #     VIRTUAL_HOST: "cron.ddc.vm"
-  #     VIRTUAL_PORT: "8099"
-  #   mem_limit: 100m
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.99
-  #   working_dir: "/go/src/ddc_cron"
-  #   entrypoint: "./run.sh"
+  cron:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_cron
+    ports:
+      - "8199:8199"
+    environment:
+      VIRTUAL_HOST: "cron.ddc.vm"
+      VIRTUAL_PORT: "8199"
+    mem_limit: 100m
+    networks:
+      default:
+        ipv4_address: 172.18.0.199
+    working_dir: "/go/src/ddc_cron"
+    entrypoint: "./run.sh"
 
   #######################################
   # DDC Services
@@ -54,7 +54,7 @@ services:
       default:
         ipv4_address: 172.18.0.83
     working_dir: "/go/src/ddc_authentication"
-    entrypoint: "bee dlv -package=\"ddc_auth\" -port=2345"
+    # entrypoint: "bee dlv -package=\"ddc_auth\" -port=2345"
 
   challenge:
     extends:
