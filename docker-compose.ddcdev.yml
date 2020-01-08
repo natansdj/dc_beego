@@ -28,8 +28,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_article
-    links:
-      - mariadb
     ports:
       - "8091:8091"
     environment:
@@ -45,8 +43,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_auth
-    links:
-      - mariadb
     ports:
       - "8083:8083"
     expose:
@@ -65,8 +61,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_challenge
-    links:
-      - mariadb
     ports:
       - "8092:8092"
     environment:
@@ -82,8 +76,6 @@ services:
   #     file: common-services.yml
   #     service: beego
   #   container_name: ddc_cors
-  #   links:
-  #     - mariadb
   #   ports:
   #     - "8079:8079"
   #   environment:
@@ -99,8 +91,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_notification
-    links:
-      - mariadb
     ports:
       - "8082:8082"
     environment:
@@ -116,8 +106,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_product
-    links:
-      - mariadb
     ports:
       - "8084:8084"
     environment:
@@ -133,8 +121,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_payment
-    links:
-      - mariadb
     ports:
       - "8087:8087"
     environment:
@@ -150,8 +136,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_profile
-    links:
-      - mariadb
     ports:
       - "8086:8086"
     environment:
@@ -167,8 +151,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_scheduler
-    links:
-      - mariadb
     ports:
       - "8088:8088"
     environment:
@@ -184,8 +166,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_shipping
-    links:
-      - mariadb
     ports:
       - "8081:8081"
     environment:
@@ -201,8 +181,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_event
-    links:
-      - mariadb
     ports:
       - "8093:8093"
     environment:
@@ -218,8 +196,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_order
-    links:
-      - mariadb
     ports:
       - "8085:8085"
     expose:
@@ -237,8 +213,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_voucher
-    links:
-      - mariadb
     ports:
       - "8089:8089"
     environment:
@@ -254,8 +228,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_discount
-    links:
-      - mariadb
     ports:
       - "8094:8094"
     environment:
@@ -271,8 +243,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_queue
-    # links:
-      # - mariadb
     ports:
       - "8095:8095"
     environment:
