@@ -1,11 +1,11 @@
 config:
-    target: http://api.ddc.vm
+    target: https://apigwdev.dusdusan.com
     phases:
       - duration: 10m
         arrivalRate: 1
     defaults:
       headers:
-        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDc3NDI0MDksImlzcyI6IjU2YWZmYWRiLWI1NTktNWE5OC1iNGE2LTY1MzY1YzFkZjM2YSIsInN1YiI6IkxvZ2luIn0.T8fKZ0BQAy2BcE5w4ppsEJxl2tRKwf91fMSv80O0ztY'
+        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDg0NTAxNTEsImlzcyI6IjY5OTRlNGJkLWYxYmEtNWQzNi05NTU1LTMwZGE5ODZkNmRiZiIsInN1YiI6IkxvZ2luIn0.i9MY8p4fUhnJZ_6G-NQ1Y9rLhbToRV8RjmUWVKfbtcE'
 scenarios:
     - flow:
         - get:
