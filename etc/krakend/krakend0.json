@@ -1463,6 +1463,9 @@
       "method": "GET",
       "output_encoding": "json",
       "concurrent_calls": 1,
+      "querystring_params": [
+        "productId"
+      ],
       "backend": [
         {
           "url_pattern": "/v3/tds/favorite/{uuid}",
@@ -5076,6 +5079,5 @@
       "extra_config": {}
     }
   ],
-  "output_encoding": "json",
-  "port": "80"
+  "output_encoding": "json"
 }

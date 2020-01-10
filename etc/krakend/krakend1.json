@@ -4995,6 +4995,5 @@
       "extra_config": {}
     }
   ],
-  "output_encoding": "json",
-  "port": "80"
+  "output_encoding": "json"
 }

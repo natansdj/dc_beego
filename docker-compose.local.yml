@@ -139,13 +139,14 @@ services:
   #       ipv4_address: 172.18.0.53
 
   mongodb:
-    image: "mongo:3.6.11"
+    # image: "mongo:3.6.11"
+    image: "mongo:4.0-xenial"
     container_name: ddc_mongodb
     volumes:
       - mongodb:/data/db
-    ports:
-      - "27017:27017"
-    restart: unless-stopped
+    # ports:
+      # - "27017:27017"
+    # restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
@@ -161,8 +162,9 @@ services:
     image: devopsfaith/krakend:config-watcher
     container_name: ddc_krakend
     ports:
-      - "8080:80"
+      - "8080:8080"
     expose:
+      - "8080"
       - "8090"
       - "9091"
     environment:
@@ -313,22 +315,22 @@ services:
         ipv4_address: 172.18.0.84
     working_dir: "/go/src/ddc_product"
 
-#  payment:
-#    extends:
-#      file: common-services.yml
-#      service: beego
-#    container_name: ddc_payment
-#    links:
-#      - mariadb
-#    ports:
-#      - "8087:8087"
-#    environment:
-#      VIRTUAL_HOST: "payment.ddc.vm"
-#      VIRTUAL_PORT: "8087"
-#    networks:
-#      default:
-#        ipv4_address: 172.18.0.87
-#    working_dir: "/go/src/ddc_payment"
+  # payment:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_payment
+  #   links:
+  #     - mariadb
+  #   ports:
+  #     - "8087:8087"
+  #   environment:
+  #     VIRTUAL_HOST: "payment.ddc.vm"
+  #     VIRTUAL_PORT: "8087"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.87
+  #   working_dir: "/go/src/ddc_payment"
 
   profile:
     extends:
@@ -405,10 +407,10 @@ services:
     container_name: ddc_order
     links:
       - mariadb
+      - mongodb
     ports:
       - "8085:8085"
-    expose:
-      - "18085"
+    mem_limit: 400m
     environment:
       VIRTUAL_HOST: "order.ddc.vm"
       VIRTUAL_PORT: "8085"
