@@ -164,12 +164,11 @@ services:
     ports:
       - "8080:8080"
     expose:
-      - "8080"
       - "8090"
       - "9091"
     environment:
       VIRTUAL_HOST: "api.ddc.vm"
-      VIRTUAL_PORT: "80"
+      VIRTUAL_PORT: "8080"
       KRAKEND_CONFIG: "krakend.json"
     mem_limit: 100m
     volumes:
@@ -315,22 +314,22 @@ services:
         ipv4_address: 172.18.0.84
     working_dir: "/go/src/ddc_product"
 
-  # payment:
-  #   extends:
-  #     file: common-services.yml
-  #     service: beego
-  #   container_name: ddc_payment
-  #   links:
-  #     - mariadb
-  #   ports:
-  #     - "8087:8087"
-  #   environment:
-  #     VIRTUAL_HOST: "payment.ddc.vm"
-  #     VIRTUAL_PORT: "8087"
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.87
-  #   working_dir: "/go/src/ddc_payment"
+  payment:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_payment
+    links:
+      - mariadb
+    ports:
+      - "8087:8087"
+    environment:
+      VIRTUAL_HOST: "payment.ddc.vm"
+      VIRTUAL_PORT: "8087"
+    networks:
+      default:
+        ipv4_address: 172.18.0.87
+    working_dir: "/go/src/ddc_payment"
 
   profile:
     extends:
