@@ -5,7 +5,7 @@ config:
         arrivalRate: 1
     defaults:
       headers:
-        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDc3NDI0MDksImlzcyI6IjU2YWZmYWRiLWI1NTktNWE5OC1iNGE2LTY1MzY1YzFkZjM2YSIsInN1YiI6IkxvZ2luIn0.T8fKZ0BQAy2BcE5w4ppsEJxl2tRKwf91fMSv80O0ztY'
+        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDk3NTU2ODQsImlzcyI6IjlkNjgyMTk3LWJkNjgtMTFlOC1iMzNmLTAyMDAyM2JmMDAwMSIsInN1YiI6IkxvZ2luIn0.wxO7h7jRnodAogfhxwRTh5ZtpH8HHIvfAyY0gXI7nJA'
 scenarios:
     - flow:
         - get:

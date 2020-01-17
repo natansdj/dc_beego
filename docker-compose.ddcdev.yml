@@ -3,22 +3,22 @@ services:
   #######################################
   # Helper Service
   #######################################
-  cron:
-    extends:
-      file: common-services.yml
-      service: beego
-    container_name: ddc_cron
-    ports:
-      - "8199:8199"
-    environment:
-      VIRTUAL_HOST: "cron.ddc.vm"
-      VIRTUAL_PORT: "8199"
-    mem_limit: 100m
-    networks:
-      default:
-        ipv4_address: 172.18.0.199
-    working_dir: "/go/src/ddc_cron"
-    entrypoint: "./run.sh"
+#  cron:
+#    extends:
+#      file: common-services.yml
+#      service: beego
+#    container_name: ddc_cron
+#    ports:
+#      - "8199:8199"
+#    environment:
+#      VIRTUAL_HOST: "cron.ddc.vm"
+#      VIRTUAL_PORT: "8199"
+#    mem_limit: 100m
+#    networks:
+#      default:
+#        ipv4_address: 172.18.0.199
+#    working_dir: "/go/src/ddc_cron"
+#    entrypoint: "./run.sh"
 
   #######################################
   # DDC Services
@@ -37,6 +37,7 @@ services:
       default:
         ipv4_address: 172.18.0.91
     working_dir: "/go/src/ddc_article"
+    entrypoint: "./ddc_article"
 
   auth:
     extends:
@@ -54,7 +55,7 @@ services:
       default:
         ipv4_address: 172.18.0.83
     working_dir: "/go/src/ddc_authentication"
-    # entrypoint: "bee dlv -package=\"ddc_auth\" -port=2345"
+    entrypoint: "./ddc_authentication"
 
   challenge:
     extends:
@@ -70,6 +71,7 @@ services:
       default:
         ipv4_address: 172.18.0.92
     working_dir: "/go/src/ddc_challenge"
+    entrypoint: "./ddc_challenge"
 
   # cors:
   #   extends:
@@ -100,6 +102,7 @@ services:
       default:
         ipv4_address: 172.18.0.82
     working_dir: "/go/src/ddc_notification"
+    entrypoint: "./ddc_notification"
 
   product:
     extends:
@@ -130,6 +133,7 @@ services:
       default:
         ipv4_address: 172.18.0.87
     working_dir: "/go/src/ddc_payment"
+    entrypoint: "./ddc_payment"
 
   profile:
     extends:
@@ -145,6 +149,7 @@ services:
       default:
         ipv4_address: 172.18.0.86
     working_dir: "/go/src/ddc_profile"
+    entrypoint: "./ddc_profile"
 
   scheduler:
     extends:
@@ -160,6 +165,7 @@ services:
       default:
         ipv4_address: 172.18.0.88
     working_dir: "/go/src/ddc_scheduler"
+    entrypoint: "./ddc_scheduler"
 
   shipping:
     extends:
@@ -175,6 +181,7 @@ services:
       default:
         ipv4_address: 172.18.0.81
     working_dir: "/go/src/ddc_shipping"
+    entrypoint: "./ddc_shipping"
 
   event:
     extends:
@@ -190,6 +197,7 @@ services:
       default:
         ipv4_address: 172.18.0.93
     working_dir: "/go/src/ddc_event"
+    entrypoint: "./ddc_event"
 
   order:
     extends:
@@ -222,6 +230,7 @@ services:
       default:
         ipv4_address: 172.18.0.89
     working_dir: "/go/src/ddc_voucher"
+    entrypoint: "./ddc_voucher"
 
   discount:
     extends:
@@ -237,6 +246,7 @@ services:
       default:
         ipv4_address: 172.18.0.94
     working_dir: "/go/src/ddc_discount"
+    entrypoint: "./ddc_discount"
 
   queue:
     extends:
@@ -252,6 +262,7 @@ services:
       default:
         ipv4_address: 172.18.0.95
     working_dir: "/go/src/ddc_queue"
+    entrypoint: "./ddc_queue"
 
 #######################################
 # Volumes

@@ -21,3 +21,4 @@ services:
       - gosrc:/go/src/
       - gopkg:/go/pkg/
     entrypoint: "bee run"
+    restart: always
