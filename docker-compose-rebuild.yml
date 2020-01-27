@@ -37,7 +37,7 @@ services:
       default:
         ipv4_address: 172.18.0.91
     working_dir: "/go/src/ddc_article"
-    entrypoint: "./ddc_article"
+#    entrypoint: "./ddc_article"
 
   auth:
     extends:
@@ -55,7 +55,7 @@ services:
       default:
         ipv4_address: 172.18.0.83
     working_dir: "/go/src/ddc_authentication"
-    entrypoint: "./ddc_authentication"
+#    entrypoint: "./ddc_authentication"
 
   challenge:
     extends:
@@ -71,7 +71,7 @@ services:
       default:
         ipv4_address: 172.18.0.92
     working_dir: "/go/src/ddc_challenge"
-    entrypoint: "./ddc_challenge"
+#    entrypoint: "./ddc_challenge"
 
   # cors:
   #   extends:
@@ -102,7 +102,7 @@ services:
       default:
         ipv4_address: 172.18.0.82
     working_dir: "/go/src/ddc_notification"
-    entrypoint: "./ddc_notification"
+#    entrypoint: "./ddc_notification"
 
   product:
     extends:
@@ -117,8 +117,7 @@ services:
     networks:
       default:
         ipv4_address: 172.18.0.84
-    working_dir: "/go/src/ddc_product"
-    entrypoint: "./ddc_product"
+#    working_dir: "/go/src/ddc_product"
 
   payment:
     extends:
@@ -134,7 +133,7 @@ services:
       default:
         ipv4_address: 172.18.0.87
     working_dir: "/go/src/ddc_payment"
-    entrypoint: "./ddc_payment"
+#    entrypoint: "./ddc_payment"
 
   profile:
     extends:
@@ -150,7 +149,7 @@ services:
       default:
         ipv4_address: 172.18.0.86
     working_dir: "/go/src/ddc_profile"
-    entrypoint: "./ddc_profile"
+#    entrypoint: "./ddc_profile"
 
   scheduler:
     extends:
@@ -166,7 +165,7 @@ services:
       default:
         ipv4_address: 172.18.0.88
     working_dir: "/go/src/ddc_scheduler"
-    entrypoint: "./ddc_scheduler"
+#    entrypoint: "./ddc_scheduler"
 
   shipping:
     extends:
@@ -182,7 +181,7 @@ services:
       default:
         ipv4_address: 172.18.0.81
     working_dir: "/go/src/ddc_shipping"
-    entrypoint: "./ddc_shipping"
+#    entrypoint: "./ddc_shipping"
 
   event:
     extends:
@@ -198,7 +197,7 @@ services:
       default:
         ipv4_address: 172.18.0.93
     working_dir: "/go/src/ddc_event"
-    entrypoint: "./ddc_event"
+#    entrypoint: "./ddc_event"
 
   order:
     extends:
@@ -216,7 +215,6 @@ services:
       default:
         ipv4_address: 172.18.0.85
     working_dir: "/go/src/ddc_order"
-    entrypoint: "./ddc_order"
 
   voucher:
     extends:
@@ -232,7 +230,7 @@ services:
       default:
         ipv4_address: 172.18.0.89
     working_dir: "/go/src/ddc_voucher"
-    entrypoint: "./ddc_voucher"
+#    entrypoint: "./ddc_voucher"
 
   discount:
     extends:
@@ -248,7 +246,7 @@ services:
       default:
         ipv4_address: 172.18.0.94
     working_dir: "/go/src/ddc_discount"
-    entrypoint: "./ddc_discount"
+#    entrypoint: "./ddc_discount"
 
   queue:
     extends:
@@ -264,7 +262,7 @@ services:
       default:
         ipv4_address: 172.18.0.95
     working_dir: "/go/src/ddc_queue"
-    entrypoint: "./ddc_queue"
+#    entrypoint: "./ddc_queue"
 
 #######################################
 # Volumes

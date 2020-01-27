@@ -19,6 +19,8 @@ services:
     volumes:
       - ./:/docker/
       - gosrc:/go/src/
+      - gosrc:/var/www/go/src/
       - gopkg:/go/pkg/
+      - gopkg:/var/www/go/pkg/      
     entrypoint: "bee run"
     restart: always
