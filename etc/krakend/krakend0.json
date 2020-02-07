@@ -1836,6 +1836,50 @@
       ]
     },
     {
+      "endpoint": "/groupingCartV2",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCart/v2",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/groupingCartShipping",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCartShipping",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
       "endpoint": "/groupingCart",
       "method": "GET",
       "output_encoding": "json",
@@ -1846,7 +1890,8 @@
       "querystring_params": [
         "nocache",
         "isPatungan",
-        "uuid"
+        "uuid",
+        "withshipping"
       ],
       "backend": [
         {
@@ -5077,6 +5122,28 @@
         }
       ],
       "extra_config": {}
+    },
+    {
+      "endpoint": "/notificationcustomdelivery",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/customDelivery/notificationCustomDelivery",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
     }
   ],
   "output_encoding": "json"

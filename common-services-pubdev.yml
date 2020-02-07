@@ -17,7 +17,7 @@ services:
       - "servicestaging01:172.18.0.1"
     environment:
       TZ: "Asia/Jakarta"
-    mem_limit: 200m
+    mem_limit: 300m
     volumes:
       - ./:/docker/
       - gosrc:/go/src/
@@ -25,3 +25,4 @@ services:
       - gopkg:/go/pkg/
       - gopkg:/var/www/go/pkg/
     entrypoint: "bee run"
+    restart: unless-stopped

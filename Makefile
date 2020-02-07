@@ -17,6 +17,9 @@ start:
 start2:
 	docker-compose up -d mariadb krakend app auth profile product shipping voucher discount redis rabbit mongodb
 
+recreate:
+	docker-compose up -d --force-recreate mariadb krakend app auth profile product shipping voucher discount redis rabbit mongodb
+
 stop:
 	docker-compose stop
 
