@@ -38,22 +38,22 @@ services:
       default:
         ipv4_address: 172.18.0.100
 
-  cron:
-    extends:
-      file: common-services.yml
-      service: beego
-    container_name: ddc_cron
-    ports:
-      - "8099:8099"
-    environment:
-      VIRTUAL_HOST: "cron.ddc.vm"
-      VIRTUAL_PORT: "8099"
-    mem_limit: 100m
-    networks:
-      default:
-        ipv4_address: 172.18.0.99
-    working_dir: "/go/src/ddc_cron"
-    entrypoint: "./run.sh"
+  # cron:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_cron
+  #   ports:
+  #     - "8099:8099"
+  #   environment:
+  #     VIRTUAL_HOST: "cron.ddc.vm"
+  #     VIRTUAL_PORT: "8099"
+  #   mem_limit: 100m
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.99
+  #   working_dir: "/go/src/ddc_cron"
+  #   entrypoint: "./run.sh"
 
   #######################################
   # DDC Backoffice Angular Front
@@ -118,25 +118,6 @@ services:
     networks:
       default:
         ipv4_address: 172.18.0.52
-
-  # mariadb2:
-  #   build:
-  #     context: docker/mariadb/
-  #     dockerfile: MariaDB-10.2.8.Dockerfile
-  #   image: ddc_mariadb
-  #   container_name: ddc_mariadb2
-  #   ports:
-  #     - "3307:3306"
-  #   volumes:
-  #     - mariadb2:/var/lib/mysql
-  #     - ./etc/mariadb/z999-docker2.cnf:/etc/mysql/conf.d/z999-docker.cnf
-  #     - ./backup:/storage
-  #   env_file:
-  #     - etc/environment.yml
-  #   mem_limit: 1g
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.53
 
   mongodb:
     # image: "mongo:3.6.11"
@@ -296,7 +277,6 @@ services:
       default:
         ipv4_address: 172.18.0.82
     working_dir: "/go/src/ddc_notification"
-    entrypoint: "./ddc_notification"
 
   product:
     extends:
