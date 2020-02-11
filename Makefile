@@ -15,10 +15,16 @@ start:
 	docker-compose up -d mariadb krakend app auth profile product shipping voucher discount
 
 start2:
-	docker-compose up -d mariadb krakend app auth profile product shipping voucher discount redis rabbit mongodb
+	docker-compose up -d mariadb krakend app auth profile product shipping voucher discount redis rabbit mongodb queue payment
 
 recreate:
-	docker-compose up -d --force-recreate mariadb krakend app auth profile product shipping voucher discount redis rabbit mongodb
+	docker-compose -f docker-compose.local.yml up -d --force-recreate mariadb krakend app auth profile product shipping voucher discount redis rabbit mongodb queue payment
+
+recreatebo:
+	docker-compose -f docker-compose.local.yml up -d --force-recreate mariadb redis backoffice api
+
+startbo:
+	docker-compose up -d mariadb redis backoffice api
 
 stop:
 	docker-compose stop

@@ -1307,7 +1307,12 @@
       ],
       "querystring_params": [
         "query",
-        "productid"
+        "productId",
+        "latlng",
+        "destination",
+        "weight",
+        "memberId",
+        "quantity"
       ],
       "extra_config": {}
     },
@@ -1463,6 +1468,9 @@
       "method": "GET",
       "output_encoding": "json",
       "concurrent_calls": 1,
+      "querystring_params": [
+        "productId"
+      ],
       "backend": [
         {
           "url_pattern": "/v3/tds/favorite/{uuid}",
@@ -1605,7 +1613,8 @@
         "weight",
         "senderPosCode",
         "receiverPosCode",
-        "branchId"
+        "branchId",
+        "productId"
       ],
       "headers_to_pass": [
         "Authorization"
@@ -1833,6 +1842,50 @@
       ]
     },
     {
+      "endpoint": "/groupingCartV2",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCart/v2",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/groupingCartShipping",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/groupingCartShipping",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
       "endpoint": "/groupingCart",
       "method": "GET",
       "output_encoding": "json",
@@ -1843,7 +1896,8 @@
       "querystring_params": [
         "nocache",
         "isPatungan",
-        "uuid"
+        "uuid",
+        "withshipping"
       ],
       "backend": [
         {
@@ -1976,7 +2030,7 @@
           "extra_config": {},
           "sd": "static",
           "host": [
-            "http://service01:8095"
+            "http://service02:8095"
           ],
           "disable_host_sanitize": false
         }
@@ -2055,6 +2109,10 @@
       "concurrent_calls": 1,
       "headers_to_pass": [
         "Authorization"
+      ],
+      "querystring_params": [
+        "isPatungan",
+        "uuid"
       ],
       "backend": [
         {
@@ -2161,6 +2219,25 @@
       "backend": [
         {
           "url_pattern": "/v3/midtrans/paymentNotification",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8087"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/paymentNotificationDoku",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/doku/paymentNotification",
           "encoding": "json",
           "extra_config": {},
           "sd": "static",
@@ -4033,6 +4110,17 @@
       "headers_to_pass": [
         "Authorization"
       ],
+      "querystring_params": [
+        "fields",
+        "limit",
+        "offset",
+        "sortby",
+        "order",
+        "query",
+        "type",
+        "isPatungan",
+        "uuid"
+      ],
       "backend": [
         {
           "url_pattern": "/v3/voucher",
@@ -4077,11 +4165,54 @@
       "headers_to_pass": [
         "Authorization"
       ],
+      "querystring_params": [
+        "limit",
+        "offset",
+        "sortby",
+        "order",
+        "type",
+        "isPatungan",
+        "uuid"
+      ],
       "backend": [
         {
           "url_pattern": "/v3/voucher/view",
           "encoding": "json",
           "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8089"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/voucherMemberList",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {
+      },
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [
+        "limit",
+        "offset",
+        "sortby",
+        "order",
+        "availfor",
+        "type",
+        "isPatungan",
+        "uuid"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/voucherMember/list",
+          "encoding": "json",
+          "extra_config": {
+          },
           "sd": "static",
           "host": [
             "http://service01:8089"
@@ -4995,8 +5126,52 @@
         }
       ],
       "extra_config": {}
+    },
+    {
+      "endpoint": "/orderActive",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/v3/order/totalorderactive",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/notificationcustomdelivery",
+      "method": "GET",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "extra_config": {},
+      "headers_to_pass": [
+        "Authorization"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v3/customDelivery/notificationCustomDelivery",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8085"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
     }
   ],
-  "output_encoding": "json",
-  "port": "80"
+  "output_encoding": "json"
 }
