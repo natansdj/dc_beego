@@ -7,5 +7,5 @@ ENV GOPATH /go
 # && rm -rf /var/lib/apt/lists/*
 
 RUN rm -f /etc/localtime \
-    && ln -s /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
+    && ln -s /usr/share/zoneinfo/Asia/Jakarta /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata

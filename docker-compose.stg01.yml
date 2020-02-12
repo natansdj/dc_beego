@@ -1,0 +1,213 @@
+version: '2.2'
+services:
+  #######################################
+  # DDC Services
+  #######################################
+
+   article:
+    extends:
+       file: common-services.yml
+       service: beego
+    container_name: ddc_article
+    ports:
+       - "8091:8091"
+    network_mode: "host"
+   # networks:
+   #  default:
+   #   ipv4_address: 172.18.0.91
+    working_dir: "/go/src/ddc_article"
+    entrypoint: "./ddc_article"
+
+   auth:
+    extends:
+       file: common-services.yml
+       service: beego
+    container_name: ddc_auth
+    ports:
+       - "8083:8083"
+    expose:
+       - "2345"
+    network_mode: "host"
+   # networks:
+   #    default:
+   #      ipv4_address: 172.18.0.83
+    working_dir: "/go/src/ddc_authentication"
+    entrypoint: "./ddc_authentication"
+
+   challenge:
+    extends:
+       file: common-services.yml
+       service: beego
+    container_name: ddc_challenge
+    ports:
+       - "8092:8092"
+    network_mode: "host"
+    #networks:
+    #   default:
+    #     ipv4_address: 172.18.0.92
+    working_dir: "/go/src/ddc_challenge"
+    entrypoint: "./ddc_challenge"
+
+   notification:
+    extends:
+       file: common-services.yml
+       service: beego
+    container_name: ddc_notification
+    ports:
+       - "8082:8082"
+    network_mode: "host"
+    #networks:
+    #   default:
+    #     ipv4_address: 172.18.0.82
+    working_dir: "/go/src/ddc_notification"
+    entrypoint: "./ddc_notification"
+
+   product:
+    extends:
+       file: common-services.yml
+       service: beego
+    container_name: ddc_product
+    ports:
+       - "8084:8084"
+    network_mode: "host"
+    #networks:
+    #   default:
+    #     ipv4_address: 172.18.0.84
+    working_dir: "/go/src/ddc_product"
+    entrypoint: "./ddc_product"
+
+   payment:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_payment
+    ports:
+      - "8087:8087"
+    network_mode: "host"
+    #networks:
+    #   default:
+    #     ipv4_address: 172.18.0.87
+    working_dir: "/go/src/ddc_payment"
+    entrypoint: "./ddc_payment"
+
+   profile:
+    extends:
+       file: common-services.yml
+       service: beego
+    container_name: ddc_profile
+    ports:
+       - "8086:8086"
+    network_mode: "host"
+    #networks:
+    #   default:
+    #     ipv4_address: 172.18.0.86
+    working_dir: "/go/src/ddc_profile"
+    entrypoint: "./ddc_profile"
+
+   scheduler:
+    extends:
+       file: common-services.yml
+       service: beego
+    container_name: ddc_scheduler
+    ports:
+       - "8088:8088"
+    network_mode: "host"
+    #networks:
+    #   default:
+    #     ipv4_address: 172.18.0.88
+    working_dir: "/go/src/ddc_scheduler"
+    entrypoint: "./ddc_scheduler"
+
+   shipping:
+    extends:
+       file: common-services.yml
+       service: beego
+    container_name: ddc_shipping
+    ports:
+       - "8081:8081"
+    network_mode: "host"
+    #networks:
+    #   default:
+    #     ipv4_address: 172.18.0.81
+    working_dir: "/go/src/ddc_shipping"
+    entrypoint: "./ddc_shipping"
+
+   event:
+    extends:
+       file: common-services.yml
+       service: beego
+    container_name: ddc_event
+    ports:
+       - "8093:8093"
+    network_mode: "host"
+    #networks:
+    #   default:
+    #     ipv4_address: 172.18.0.93
+    working_dir: "/go/src/ddc_event"
+    entrypoint: "./ddc_event"
+
+   order:
+    extends:
+       file: common-services.yml
+       service: beego
+    container_name: ddc_order
+    ports:
+       - "8085:8085"
+    expose:
+       - "18085"
+    network_mode: "host"
+    #networks:
+    #   default:
+    #     ipv4_address: 172.18.0.85
+    working_dir: "/go/src/ddc_order"
+    entrypoint: "./ddc_order"
+
+   voucher:
+    extends:
+       file: common-services.yml
+       service: beego
+    container_name: ddc_voucher
+    ports:
+       - "8089:8089"
+    network_mode: "host"
+    #networks:
+    #   default:
+    #     ipv4_address: 172.18.0.89
+    working_dir: "/go/src/ddc_voucher"
+    entrypoint: "./ddc_voucher"
+
+   discount:
+    extends:
+       file: common-services.yml
+       service: beego
+    container_name: ddc_discount
+    ports:
+       - "8094:8094"
+    network_mode: "host"
+    #networks:
+    #   default:
+    #     ipv4_address: 172.18.0.94
+    working_dir: "/go/src/ddc_discount"
+    entrypoint: "./ddc_discount"
+
+#######################################
+# Volumes
+#######################################
+volumes:
+  gosrc:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /var/go/src
+      o: bind
+  gopkg:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /var/go/pkg
+      o: bind
+
+#networks:
+#  default:
+#    external:
+#      name: dev
