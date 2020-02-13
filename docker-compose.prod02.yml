@@ -17,18 +17,18 @@ services:
     working_dir: "/go/src/ddc_product"
     entrypoint: "./ddc_product"
 
-  queue:
-    extends:
-      file: common-services.yml
-      service: beego
-    container_name: ddc_queue
-    ports:
-      - "8095:8095"
-    networks:
-      default:
-        ipv4_address: 172.18.0.95
-    working_dir: "/go/src/ddc_queue"
-    entrypoint: "./ddc_queue"
+  # queue:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_queue
+  #   ports:
+  #     - "8095:8095"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.95
+  #   working_dir: "/go/src/ddc_queue"
+  #   entrypoint: "./ddc_queue"
 
 #######################################
 # Volumes
