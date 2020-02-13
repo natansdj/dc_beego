@@ -11,24 +11,26 @@ services:
     container_name: ddc_product
     ports:
       - "8084:8084"
-    networks:
-      default:
-        ipv4_address: 172.18.0.84
+    network_mode: "host"
+    # networks:
+    #   default:
+    #     ipv4_address: 172.18.0.84
     working_dir: "/go/src/ddc_product"
     entrypoint: "./ddc_product"
 
-  # queue:
-  #   extends:
-  #     file: common-services.yml
-  #     service: beego
-  #   container_name: ddc_queue
-  #   ports:
-  #     - "8095:8095"
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.95
-  #   working_dir: "/go/src/ddc_queue"
-  #   entrypoint: "./ddc_queue"
+  queue:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_queue
+    ports:
+      - "8095:8095"
+    network_mode: "host"
+    # networks:
+    #   default:
+    #     ipv4_address: 172.18.0.95
+    working_dir: "/go/src/ddc_queue"
+    entrypoint: "./ddc_queue"
 
 #######################################
 # Volumes
@@ -47,7 +49,7 @@ volumes:
       device: /var/go/pkg
       o: bind
 
-networks:
-  default:
-    external:
-      name: dev
+# networks:
+#   default:
+#     external:
+#       name: dev
