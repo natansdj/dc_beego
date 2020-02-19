@@ -24,4 +24,7 @@ services:
       - gosrc:/var/www/go/src/
       - gopkg:/go/pkg/
       - gopkg:/var/www/go/pkg/
-    entrypoint: "bee run"
+      - gosrc:/home/a407/go/src/
+      - gopkg:/home/a407/go/pkg/
+    # entrypoint: "bee run"
+    entrypoint: "/docker/docker/beego/beerun.sh"
