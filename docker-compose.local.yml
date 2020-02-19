@@ -38,22 +38,22 @@ services:
       default:
         ipv4_address: 172.18.0.100
 
-  # cron:
-  #   extends:
-  #     file: common-services.yml
-  #     service: beego
-  #   container_name: ddc_cron
-  #   ports:
-  #     - "8099:8099"
-  #   environment:
-  #     VIRTUAL_HOST: "cron.ddc.vm"
-  #     VIRTUAL_PORT: "8099"
-  #   mem_limit: 100m
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.99
-  #   working_dir: "/go/src/ddc_cron"
-  #   entrypoint: "./run.sh"
+  cron:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_cron
+    ports:
+      - "8099:8099"
+    environment:
+      VIRTUAL_HOST: "cron.ddc.vm"
+      VIRTUAL_PORT: "8099"
+    mem_limit: 100m
+    networks:
+      default:
+        ipv4_address: 172.18.0.99
+    working_dir: "/go/src/ddc_cron"
+    entrypoint: "./run.sh"
 
   #######################################
   # DDC Backoffice Angular Front
@@ -118,6 +118,25 @@ services:
     networks:
       default:
         ipv4_address: 172.18.0.52
+
+  # mariadb2:
+  #   build:
+  #     context: docker/mariadb/
+  #     dockerfile: MariaDB-10.2.8.Dockerfile
+  #   image: ddc_mariadb
+  #   container_name: ddc_mariadb2
+  #   ports:
+  #     - "3307:3306"
+  #   volumes:
+  #     - mariadb2:/var/lib/mysql
+  #     - ./etc/mariadb/z999-docker2.cnf:/etc/mysql/conf.d/z999-docker.cnf
+  #     - ./backup:/storage
+  #   env_file:
+  #     - etc/environment.yml
+  #   mem_limit: 1g
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.53
 
   mongodb:
     # image: "mongo:3.6.11"
@@ -226,6 +245,7 @@ services:
         ipv4_address: 172.18.0.83
     working_dir: "/go/src/ddc_authentication"
     # entrypoint: "bee dlv -package=\"ddc_auth\" -port=2345"
+    entrypoint: "./ddc_authentication"
 
   # challenge:
   #   extends:
@@ -277,6 +297,7 @@ services:
       default:
         ipv4_address: 172.18.0.82
     working_dir: "/go/src/ddc_notification"
+    entrypoint: "./ddc_notification"
 
   product:
     extends:
@@ -294,6 +315,7 @@ services:
       default:
         ipv4_address: 172.18.0.84
     working_dir: "/go/src/ddc_product"
+    entrypoint: "./ddc_product"
 
   payment:
     extends:
@@ -311,6 +333,7 @@ services:
       default:
         ipv4_address: 172.18.0.87
     working_dir: "/go/src/ddc_payment"
+    entrypoint: "./ddc_payment"
 
   profile:
     extends:
@@ -328,6 +351,7 @@ services:
       default:
         ipv4_address: 172.18.0.86
     working_dir: "/go/src/ddc_profile"
+    entrypoint: "./ddc_profile"
 
   scheduler:
     extends:
@@ -345,6 +369,7 @@ services:
       default:
         ipv4_address: 172.18.0.88
     working_dir: "/go/src/ddc_scheduler"
+    entrypoint: "./ddc_scheduler"
 
   shipping:
     extends:
@@ -362,6 +387,7 @@ services:
       default:
         ipv4_address: 172.18.0.81
     working_dir: "/go/src/ddc_shipping"
+    entrypoint: "./ddc_shipping"
 
   # event:
   #   extends:
@@ -398,6 +424,7 @@ services:
       default:
         ipv4_address: 172.18.0.85
     working_dir: "/go/src/ddc_order"
+    entrypoint: "./ddc_order"
 
   voucher:
     extends:
@@ -415,6 +442,7 @@ services:
       default:
         ipv4_address: 172.18.0.89
     working_dir: "/go/src/ddc_voucher"
+    entrypoint: "./ddc_voucher"
 
   discount:
     extends:
@@ -432,6 +460,7 @@ services:
       default:
         ipv4_address: 172.18.0.94
     working_dir: "/go/src/ddc_discount"
+    entrypoint: "./ddc_discount"
 
   queue:
     extends:
@@ -449,6 +478,10 @@ services:
       default:
         ipv4_address: 172.18.0.95
     working_dir: "/go/src/ddc_queue"
+    entrypoint: "./ddc_queue"
+    volumes:
+      - gosrc:/home/a407/go/src/
+      - gopkg:/home/a407/go/pkg/
 
   #######################################
   # Redis
