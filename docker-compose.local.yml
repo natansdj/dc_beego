@@ -169,11 +169,12 @@ services:
     environment:
       VIRTUAL_HOST: "api.ddc.vm"
       VIRTUAL_PORT: "8080"
-      KRAKEND_CONFIG: "krakend.json"
+      KRAKEND_CONFIG: "ddcApiGateway.json"
     mem_limit: 100m
     volumes:
       - ./:/docker/
       - ./etc/krakend:/etc/krakend
+      - ../_htdocs_ddc/ddc_api_gateway/ddcApiGateway.json:/etc/krakend/ddcApiGateway.json
     networks:
       default:
         ipv4_address: 172.18.0.59
