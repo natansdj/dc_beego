@@ -1,0 +1,31 @@
+config:
+    target: http://api.ddc.vm
+    phases:
+      - duration: 10m
+        arrivalRate: 1
+    defaults:
+      headers:
+        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDk3NTU2ODQsImlzcyI6IjlkNjgyMTk3LWJkNjgtMTFlOC1iMzNmLTAyMDAyM2JmMDAwMSIsInN1YiI6IkxvZ2luIn0.wxO7h7jRnodAogfhxwRTh5ZtpH8HHIvfAyY0gXI7nJA'
+scenarios:
+    - flow:
+        - get:
+            url: "/product?offset=0&limit=50"
+            capture:
+              - regexp: "[^]*"
+                as: "response"
+        # - log: "response= {{response}}"
+        - get:
+            url: "/homepageContent"
+            capture:
+              - regexp: "[^]*"
+                as: "response3"
+        - get:
+            url: "/trendingProductCategory?query=trending:1"
+            capture:
+              - regexp: "[^]*"
+                as: "response4"
+        - get:
+            url: "/promoBanner/home"
+            capture:
+              - regexp: "[^]*"
+                as: "response5"

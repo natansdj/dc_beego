@@ -3,3 +3,5 @@
 /docker-compose.yml
 /Dockerfile
 backup/
+./report.json
+report.json

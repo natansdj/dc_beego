@@ -1307,7 +1307,12 @@
       ],
       "querystring_params": [
         "query",
-        "productid"
+        "productId",
+        "latlng",
+        "destination",
+        "weight",
+        "memberId",
+        "quantity"
       ],
       "extra_config": {}
     },
@@ -1608,7 +1613,8 @@
         "weight",
         "senderPosCode",
         "receiverPosCode",
-        "branchId"
+        "branchId",
+        "productId"
       ],
       "headers_to_pass": [
         "Authorization"
@@ -2024,7 +2030,7 @@
           "extra_config": {},
           "sd": "static",
           "host": [
-            "http://service01:8095"
+            "http://service02:8095"
           ],
           "disable_host_sanitize": false
         }
@@ -2213,6 +2219,25 @@
       "backend": [
         {
           "url_pattern": "/v3/midtrans/paymentNotification",
+          "encoding": "json",
+          "extra_config": {},
+          "sd": "static",
+          "host": [
+            "http://service01:8087"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/paymentNotificationDoku",
+      "method": "POST",
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v3/doku/paymentNotification",
           "encoding": "json",
           "extra_config": {},
           "sd": "static",
@@ -4203,7 +4228,9 @@
       "concurrent_calls": 1,
       "extra_config": {},
       "querystring_params": [
-        "voucherCode"
+        "voucherCode",
+        "isPatungan",
+        "uuid"
       ],
       "headers_to_pass": [
         "Authorization"

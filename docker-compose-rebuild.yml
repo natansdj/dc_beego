@@ -1,0 +1,287 @@
+version: '2.1'
+services:
+  #######################################
+  # Helper Service
+  #######################################
+#  cron:
+#    extends:
+#      file: common-services.yml
+#      service: beego
+#    container_name: ddc_cron
+#    ports:
+#      - "8199:8199"
+#    environment:
+#      VIRTUAL_HOST: "cron.ddc.vm"
+#      VIRTUAL_PORT: "8199"
+#    mem_limit: 100m
+#    networks:
+#      default:
+#        ipv4_address: 172.18.0.199
+#    working_dir: "/go/src/ddc_cron"
+#    entrypoint: "./run.sh"
+
+  #######################################
+  # DDC Services
+  #######################################
+  article:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_article
+    ports:
+      - "8091:8091"
+    environment:
+      VIRTUAL_HOST: "article.ddc.vm"
+      VIRTUAL_PORT: "8091"
+    networks:
+      default:
+        ipv4_address: 172.18.0.91
+    working_dir: "/go/src/ddc_article"
+#    entrypoint: "./ddc_article"
+
+  auth:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_auth
+    ports:
+      - "8083:8083"
+    expose:
+      - "2345"
+    environment:
+      VIRTUAL_HOST: "auth.ddc.vm"
+      VIRTUAL_PORT: "8083"
+    networks:
+      default:
+        ipv4_address: 172.18.0.83
+    working_dir: "/go/src/ddc_authentication"
+#    entrypoint: "./ddc_authentication"
+
+  challenge:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_challenge
+    ports:
+      - "8092:8092"
+    environment:
+      VIRTUAL_HOST: "challenge.ddc.vm"
+      VIRTUAL_PORT: "8092"
+    networks:
+      default:
+        ipv4_address: 172.18.0.92
+    working_dir: "/go/src/ddc_challenge"
+#    entrypoint: "./ddc_challenge"
+
+  # cors:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_cors
+  #   ports:
+  #     - "8079:8079"
+  #   environment:
+  #     VIRTUAL_HOST: "cors.ddc.vm"
+  #     VIRTUAL_PORT: "8079"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.79
+  #   working_dir: "/go/src/ddc_cors"
+
+  notification:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_notification
+    ports:
+      - "8082:8082"
+    environment:
+      VIRTUAL_HOST: "notif.ddc.vm"
+      VIRTUAL_PORT: "8082"
+    networks:
+      default:
+        ipv4_address: 172.18.0.82
+    working_dir: "/go/src/ddc_notification"
+#    entrypoint: "./ddc_notification"
+
+  product:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_product
+    ports:
+      - "8084:8084"
+    environment:
+      VIRTUAL_HOST: "product.ddc.vm"
+      VIRTUAL_PORT: "8084"
+    networks:
+      default:
+        ipv4_address: 172.18.0.84
+#    working_dir: "/go/src/ddc_product"
+
+  payment:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_payment
+    ports:
+      - "8087:8087"
+    environment:
+      VIRTUAL_HOST: "payment.ddc.vm"
+      VIRTUAL_PORT: "8087"
+    networks:
+      default:
+        ipv4_address: 172.18.0.87
+    working_dir: "/go/src/ddc_payment"
+#    entrypoint: "./ddc_payment"
+
+  profile:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_profile
+    ports:
+      - "8086:8086"
+    environment:
+      VIRTUAL_HOST: "profile.ddc.vm"
+      VIRTUAL_PORT: "8086"
+    networks:
+      default:
+        ipv4_address: 172.18.0.86
+    working_dir: "/go/src/ddc_profile"
+#    entrypoint: "./ddc_profile"
+
+  scheduler:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_scheduler
+    ports:
+      - "8088:8088"
+    environment:
+      VIRTUAL_HOST: "scheduler.ddc.vm"
+      VIRTUAL_PORT: "8088"
+    networks:
+      default:
+        ipv4_address: 172.18.0.88
+    working_dir: "/go/src/ddc_scheduler"
+#    entrypoint: "./ddc_scheduler"
+
+  shipping:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_shipping
+    ports:
+      - "8081:8081"
+    environment:
+      VIRTUAL_HOST: "shipping.ddc.vm"
+      VIRTUAL_PORT: "8081"
+    networks:
+      default:
+        ipv4_address: 172.18.0.81
+    working_dir: "/go/src/ddc_shipping"
+#    entrypoint: "./ddc_shipping"
+
+  event:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_event
+    ports:
+      - "8093:8093"
+    environment:
+      VIRTUAL_HOST: "event.ddc.vm"
+      VIRTUAL_PORT: "8093"
+    networks:
+      default:
+        ipv4_address: 172.18.0.93
+    working_dir: "/go/src/ddc_event"
+#    entrypoint: "./ddc_event"
+
+  order:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_order
+    ports:
+      - "8085:8085"
+    expose:
+      - "18085"
+    environment:
+      VIRTUAL_HOST: "order.ddc.vm"
+      VIRTUAL_PORT: "8085"
+    networks:
+      default:
+        ipv4_address: 172.18.0.85
+    working_dir: "/go/src/ddc_order"
+
+  voucher:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_voucher
+    ports:
+      - "8089:8089"
+    environment:
+      VIRTUAL_HOST: "voucher.ddc.vm"
+      VIRTUAL_PORT: "8089"
+    networks:
+      default:
+        ipv4_address: 172.18.0.89
+    working_dir: "/go/src/ddc_voucher"
+#    entrypoint: "./ddc_voucher"
+
+  discount:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_discount
+    ports:
+      - "8094:8094"
+    environment:
+      VIRTUAL_HOST: "discount.ddc.vm"
+      VIRTUAL_PORT: "8094"
+    networks:
+      default:
+        ipv4_address: 172.18.0.94
+    working_dir: "/go/src/ddc_discount"
+#    entrypoint: "./ddc_discount"
+
+  queue:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_queue
+    ports:
+      - "8095:8095"
+    environment:
+      VIRTUAL_HOST: "queue.ddc.vm"
+      VIRTUAL_PORT: "8095"
+    networks:
+      default:
+        ipv4_address: 172.18.0.95
+    working_dir: "/go/src/ddc_queue"
+#    entrypoint: "./ddc_queue"
+
+#######################################
+# Volumes
+#######################################
+volumes:
+  gosrc:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /var/www/go/src
+      o: bind
+  gopkg:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /var/www/go/pkg
+      o: bind
+
+networks:
+  default:
+    external:
+      name: dev

@@ -1,0 +1,55 @@
+version: '2.1'
+services:
+  #######################################
+  # DDC Services
+  #######################################
+
+  product:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_product
+    ports:
+      - "8084:8084"
+    network_mode: "host"
+    # networks:
+    #   default:
+    #     ipv4_address: 172.18.0.84
+    working_dir: "/go/src/ddc_product"
+    entrypoint: "./ddc_product"
+
+  queue:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_queue
+    ports:
+      - "8095:8095"
+    network_mode: "host"
+    # networks:
+    #   default:
+    #     ipv4_address: 172.18.0.95
+    working_dir: "/go/src/ddc_queue"
+    entrypoint: "./ddc_queue"
+
+#######################################
+# Volumes
+#######################################
+volumes:
+  gosrc:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /var/go/src
+      o: bind
+  gopkg:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /var/go/pkg
+      o: bind
+
+# networks:
+#   default:
+#     external:
+#       name: dev
