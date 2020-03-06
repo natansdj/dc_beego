@@ -182,6 +182,7 @@ services:
       - "service01:172.18.0.1"
       - "service02:172.18.0.1"
       - "servicestaging01:172.18.0.1"
+      - "servicestaging02:172.18.0.1"
 
   #######################################
   # Beego
@@ -211,24 +212,24 @@ services:
   #######################################
   # DDC Services
   #######################################
-  # article:
-  #   extends:
-  #     file: common-services.yml
-  #     service: beego
-  #   container_name: ddc_article
-  #   links:
-  #     - mariadb
-  #   ports:
-  #     - "8091:8091"
-  #   environment:
-  #     VIRTUAL_HOST: "article.ddc.vm"
-  #     VIRTUAL_PORT: "8091"
-  #     GO_SVC: "ddc_article"
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.91
-  #   working_dir: "/go/src/ddc_article"
-  #   entrypoint: "./ddc_article"
+  article:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_article
+    links:
+      - mariadb
+    ports:
+      - "8091:8091"
+    environment:
+      VIRTUAL_HOST: "article.ddc.vm"
+      VIRTUAL_PORT: "8091"
+      GO_SVC: "ddc_article"
+    networks:
+      default:
+        ipv4_address: 172.18.0.91
+    working_dir: "/go/src/ddc_article"
+    # entrypoint: "./ddc_article"
 
   auth:
     extends:
