@@ -12,13 +12,15 @@ services:
       - apparmor=unconfined
       - seccomp=unconfined
     extra_hosts:
-      - "service01:172.16.0.46"
-      - "service02:172.18.0.1"
-      - "servicestaging01:172.16.0.46"
-      - "servicestaging02:172.18.0.1"
+      - "service01:172.16.0.95"
+      - "service02:172.16.0.95"
+      # - "service02:172.16.0.74"
+      - "servicestaging01:172.16.0.95"
+      - "servicestaging02:172.16.0.95"
+      # - "servicestaging02:172.16.0.74"
     environment:
       TZ: "Asia/Jakarta"
-    mem_limit: 256m
+    mem_limit: 1024m
     volumes:
       - ./:/docker/
       - gosrc:/go/src/
