@@ -1,0 +1,93 @@
+DEV APP
+login server 172.16.0.182
+cd /var/www/ddc_app/
+sudo git fetch
+sudo git pull origin development
+npm install
+npm run build:dll
+sudo npm run build
+cd ..
+sudo rm -rf ddc_app_build/*
+sudo cp -r ddc_app/build/* ddc_app_build/
+
+staging app
+jenkin server 172.16.0.26
+cd /opt/jenkins/workspace/STAGING-ddc_app
+sudo git fetch
+sudo git pull origin staging
+sudo npm install
+sudo npm run build:dll
+sudo npm run build
+scp -r /opt/jenkins/workspace/STAGING-ddc_app/build/* /opt/jenkins/workspace/STAGING-ddc_app/build/.htaccess erwin@172.16.0.33:~/build/
+scp -r build/* build/.htaccess erwin@172.16.0.33:~/build/
+staging server 172.16.0.33
+sudo rm -rf /var/www/vhosts/appstaging.dusdusan.com/public_html/*
+sudo cp -r ~/build/* ~/build/.htaccess /var/www/vhosts/appstaging.dusdusan.com/public_html/
+
+prod app 172.16.1.0
+cd /var/www/vhosts/dusdusan.com/public_html/
+sudo git pull
+
+DEV BO
+jenkin server 172.16.0.26
+cd /opt/jenkins/workspace/DEV-ddc_backoffice
+sudo git fetch
+sudo git pull origin development
+sudo npm install
+sudo npm run build-dev
+scp -r dist/* erwin@172.16.0.182:~/build/
+pindah dev 172.16.0.182
+sudo rm -rf /var/www/ddc_backoffice_dev_build/
+cd /var/www/
+sudo mkdir ddc_backoffice_dev_build
+sudo cp -r ~/build/* /var/www/ddc_backoffice_dev_build/
+sudo cp -r ~/build/.htaccess /var/www/ddc_backoffice_dev_build/ 
+
+  
+staging BO
+jenkin server 172.16.0.26
+cd /opt/jenkins/workspace/STAGING-ddc_backoffice
+sudo git fetch
+sudo git pull origin staging
+sudo npm install
+sudo npm run build-staging
+scp -r dist/* erwin@172.16.0.250:~/build/
+pindah staging BO 172.16.0.250
+sudo rm -rf /var/www/vhosts/adminstaging.dusdusan.com/public_html/*
+sudo cp -r ~/build/* /var/www/vhosts/adminstaging.dusdusan.com/public_html/
+
+PROD BO 172.16.0.48
+cd /var/www/vhosts/backoffice.dusdusan.com/public_html/
+sudo git pull
+
+
+Note Build Prod APP
+Repo ddc_app_build (CLONE)
+Buat branch release --> Release/DDC_DDMMYYYY
+merge branch yg mau naik
+Build di local
+Copy file hasil build ke ddc_app_build kecuali file .htaccess
+push ddc_app_build update
+run script
+
+Note build Prod BO
+Repo ddc_backoffice_dev_build (CLONE)
+Buat branch release --> Release/DDCBO_DDMMYYYY
+merge branch yg mau naik
+Build di local
+Copy file hasil build ke ddc_backoffice_dev_build kecuali file .htaccess
+push ddc_backoffice_dev_build update
+run script
+
+Note untuk semua repo build set git remote untuk pertama kali
+wajib konek VPN
+ssh account
+U : erwin
+pass : pwddc123!@#erwin
+
+Note Fitur
+APP
+Patungan list TDS dan gudang branch feature/NewOrderV2
+
+BO
+Componet image upload compressed
