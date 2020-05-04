@@ -26,9 +26,6 @@ recreate:
 recreatebo:
 	docker-compose -f docker-compose.local.yml up -d --force-recreate mariadb redis backoffice api
 
-startbo:
-	docker-compose up -d mariadb redis backoffice api
-
 stop:
 	docker-compose stop
 
