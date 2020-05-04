@@ -25,4 +25,4 @@ services:
       - gopkg:/go/pkg/
       - gopkg:/var/www/go/pkg/
     entrypoint: "bee run"
-    restart: always
+    restart: unless-stopped
