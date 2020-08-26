@@ -11,20 +11,26 @@ list:
 up:
 	docker-compose up -d
 
+startdb:
+	docker-compose up -d mariadb mongodb redis
+
 start:
-	docker-compose up -d mariadb mongodb krakend app auth profile product shipping voucher discount order
+	docker-compose up -d krakend app auth profile product shipping voucher discount order
 
 start2:
-	docker-compose up -d mariadb mongodb krakend app auth profile product shipping voucher discount rabbit order queue payment
+	docker-compose up -d krakend app auth profile product shipping voucher discount order rabbit queue payment
 
 startbo:
-	docker-compose up -d mariadb mongodb redis backoffice api
+	docker-compose up -d backoffice api
+
+recreatedb:
+	docker-compose -f docker-compose.local.yml up -d --force-recreate mariadb mongodb redis
 
 recreate:
-	docker-compose -f docker-compose.local.yml up -d --force-recreate mariadb krakend app auth profile product shipping voucher discount redis rabbit mongodb queue payment
+	docker-compose -f docker-compose.local.yml up -d --force-recreate krakend app auth profile product shipping voucher discount order rabbit queue payment
 
 recreatebo:
-	docker-compose -f docker-compose.local.yml up -d --force-recreate mariadb redis backoffice api
+	docker-compose -f docker-compose.local.yml up -d --force-recreate backoffice api
 
 stop:
 	docker-compose stop
