@@ -361,19 +361,19 @@ volumes:
     driver: local
     driver_opts:
       type: bind
-      device: /home/a407/mariadb/db
+      device: /home/nath/mariadb/db
       o: bind
   gosrc:
     driver: local
     driver_opts:
       type: bind
-      device: /home/a407/go/src
+      device: /home/nath/go/src
       o: bind
   gopkg:
     driver: local
     driver_opts:
       type: bind
-      device: /home/a407/go/pkg
+      device: /home/nath/go/pkg
       o: bind
 
 networks:

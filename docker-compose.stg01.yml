@@ -62,20 +62,6 @@ services:
     working_dir: "/go/src/ddc_notification"
     entrypoint: "./ddc_notification"
 
-  product:
-    extends:
-      file: common-services.yml
-      service: beego
-    container_name: ddc_product
-    ports:
-      - "8084:8084"
-    network_mode: "host"
-    #networks:
-    #   default:
-    #     ipv4_address: 172.18.0.84
-    working_dir: "/go/src/ddc_product"
-    entrypoint: "./ddc_product"
-
   payment:
     extends:
       file: common-services.yml
