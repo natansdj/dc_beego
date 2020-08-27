@@ -7,13 +7,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.api
-    image: dev_workspace
-    container_name: ddc_backofficeapi
-    links:
-      - mariadb
-      - redis
+    image: ddc_api
+    container_name: ddc_api
     # ports:
     #   - "8000:80"
+    extra_hosts:
+      - "a407:192.168.43.150"
     expose:
       - "80"
       - "443"
@@ -115,6 +114,7 @@ services:
     env_file:
       - etc/environment.yml
     environment:
+      # TZ: "Etc/UTC"
       TZ: "Asia/Jakarta"
     mem_limit: 1g
     networks:
@@ -141,13 +141,12 @@ services:
   #       ipv4_address: 172.18.0.53
 
   mongodb:
-    # image: "mongo:3.6.11"
     image: "mongo:4.0-xenial"
     container_name: ddc_mongodb
     volumes:
       - mongodb:/data/db
-    # ports:
-      # - "27017:27017"
+    ports:
+      - "27017:27017"
     # restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -187,31 +186,6 @@ services:
       - "servicestaging02:172.18.0.1"
 
   #######################################
-  # Beego
-  #######################################
-  # beego:
-  #   extends:
-  #     file: common-services.yml
-  #     service: beego
-  #   # image: natansdj/go-beego
-  #   container_name: ddc_beego
-  #   links:
-  #     - mariadb
-  #   external_links:
-  #     - dev_mysql:mysql
-  #   expose:
-  #     - "8080"
-  #     - "8088"
-  #   environment:
-  #     VIRTUAL_HOST: "beego.vm"
-  #     VIRTUAL_PORT: "8080"
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.54
-  #   working_dir: "/go/src/github.com/natansdj/beego_docker"
-  #   entrypoint: "bee run"
-
-  #######################################
   # DDC Services
   #######################################
   # article:
@@ -219,8 +193,6 @@ services:
   #     file: common-services.yml
   #     service: beego
   #   container_name: ddc_article
-  #   links:
-  #     - mariadb
   #   ports:
   #     - "8091:8091"
   #   environment:
@@ -237,8 +209,9 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_auth
-    links:
-      - mariadb
+    # links:
+    #   - mariadb
+    #   - mongodb
     ports:
       - "8083:8083"
     expose:
@@ -258,8 +231,6 @@ services:
   #     file: common-services.yml
   #     service: beego
   #   container_name: ddc_challenge
-  #   links:
-  #     - mariadb
   #   ports:
   #     - "8092:8092"
   #   environment:
@@ -271,30 +242,11 @@ services:
   #       ipv4_address: 172.18.0.92
   #   working_dir: "/go/src/ddc_challenge"
 
-  # cors:
-  #   extends:
-  #     file: common-services.yml
-  #     service: beego
-  #   container_name: ddc_cors
-  #   links:
-  #     - mariadb
-  #   ports:
-  #     - "8079:8079"
-  #   environment:
-  #     VIRTUAL_HOST: "cors.ddc.vm"
-  #     VIRTUAL_PORT: "8079"
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.79
-  #   working_dir: "/go/src/ddc_cors"
-
   notification:
     extends:
       file: common-services.yml
       service: beego
     container_name: ddc_notification
-    links:
-      - mariadb
     ports:
       - "8082:8082"
     environment:
@@ -311,8 +263,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_product
-    links:
-      - mariadb
     ports:
       - "8084:8084"
     environment:
@@ -329,8 +279,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_payment
-    links:
-      - mariadb
     ports:
       - "8087:8087"
     environment:
@@ -347,8 +295,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_profile
-    links:
-      - mariadb
     ports:
       - "8086:8086"
     environment:
@@ -365,8 +311,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_scheduler
-    links:
-      - mariadb
     ports:
       - "8088:8088"
     environment:
@@ -383,8 +327,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_shipping
-    links:
-      - mariadb
     ports:
       - "8081:8081"
     environment:
@@ -401,8 +343,6 @@ services:
   #     file: common-services.yml
   #     service: beego
   #   container_name: ddc_event
-  #   links:
-  #     - mariadb
   #   ports:
   #     - "8093:8093"
   #   environment:
@@ -419,9 +359,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_order
-    links:
-      - mariadb
-      - mongodb
     ports:
       - "8085:8085"
     mem_limit: 400m
@@ -439,8 +376,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_voucher
-    links:
-      - mariadb
     ports:
       - "8089:8089"
     environment:
@@ -457,8 +392,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_discount
-    links:
-      - mariadb
     ports:
       - "8094:8094"
     environment:
@@ -475,8 +408,6 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_queue
-    links:
-      - mariadb
     ports:
       - "8095:8095"
     environment:
@@ -497,6 +428,8 @@ services:
     networks:
       default:
         ipv4_address: 172.18.0.254
+    volumes:
+      - redis:/data
     ports:
       - "6379:6379"
     mem_limit: 200m
@@ -626,6 +559,12 @@ volumes:
     driver_opts:
       type: bind
       device: /home/lxc/rabbitmq
+      o: bind
+  redis:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /home/lxc/redis_ddc
       o: bind
 
 networks:
