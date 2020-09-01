@@ -151,7 +151,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-    mem_limit: 1g
+    mem_limit: 400m
     networks:
       default:
         ipv4_address: 172.18.0.55
