@@ -498,6 +498,22 @@ services:
     working_dir: "/go/src/ddc_queue"
     # entrypoint: "./ddc_queue"
 
+  mentoring:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_mentoring
+    ports:
+      - "8096:8096"
+    environment:
+      VIRTUAL_HOST: "mentoring.ddc.vm"
+      VIRTUAL_PORT: "8096"
+      GO_SVC: "ddc_mentoring"
+    networks:
+      default:
+        ipv4_address: 172.18.0.96
+    working_dir: "/go/src/ddc_mentoring"
+
   #######################################
   # Redis
   #######################################
