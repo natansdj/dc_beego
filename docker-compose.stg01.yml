@@ -11,6 +11,8 @@ services:
     container_name: ddc_article
     ports:
       - "8091:8091"
+    environment:
+      GO_SVC: "ddc_article"
     network_mode: "host"
    # networks:
    #  default:
@@ -27,6 +29,8 @@ services:
       - "8083:8083"
     expose:
       - "2345"
+    environment:
+      GO_SVC: "ddc_authentication"
     network_mode: "host"
    # networks:
    #    default:
@@ -41,6 +45,8 @@ services:
     container_name: ddc_challenge
     ports:
       - "8092:8092"
+    environment:
+      GO_SVC: "ddc_challenge"
     network_mode: "host"
     #networks:
     #   default:
@@ -55,6 +61,8 @@ services:
     container_name: ddc_notification
     ports:
       - "8082:8082"
+    environment:
+      GO_SVC: "ddc_notification"
     network_mode: "host"
     #networks:
     #   default:
@@ -69,6 +77,8 @@ services:
     container_name: ddc_payment
     ports:
       - "8087:8087"
+    environment:
+      GO_SVC: "ddc_payment"
     network_mode: "host"
     #networks:
     #   default:
@@ -83,6 +93,8 @@ services:
     container_name: ddc_profile
     ports:
       - "8086:8086"
+    environment:
+      GO_SVC: "ddc_profile"
     network_mode: "host"
     #networks:
     #   default:
@@ -97,6 +109,8 @@ services:
     container_name: ddc_scheduler
     ports:
       - "8088:8088"
+    environment:
+      GO_SVC: "ddc_scheduler"
     network_mode: "host"
     #networks:
     #   default:
@@ -111,6 +125,8 @@ services:
     container_name: ddc_shipping
     ports:
       - "8081:8081"
+    environment:
+      GO_SVC: "ddc_shipping"
     network_mode: "host"
     #networks:
     #   default:
@@ -125,6 +141,8 @@ services:
     container_name: ddc_event
     ports:
       - "8093:8093"
+    environment:
+      GO_SVC: "ddc_event"
     network_mode: "host"
     #networks:
     #   default:
@@ -141,6 +159,8 @@ services:
       - "8085:8085"
     expose:
       - "18085"
+    environment:
+      GO_SVC: "ddc_order"
     network_mode: "host"
     #networks:
     #   default:
@@ -155,6 +175,8 @@ services:
     container_name: ddc_voucher
     ports:
       - "8089:8089"
+    environment:
+      GO_SVC: "ddc_voucher"
     network_mode: "host"
     #networks:
     #   default:
@@ -169,6 +191,8 @@ services:
     container_name: ddc_discount
     ports:
       - "8094:8094"
+    environment:
+      GO_SVC: "ddc_discount"
     network_mode: "host"
     #networks:
     #   default:
@@ -183,6 +207,8 @@ services:
     container_name: ddc_product
     ports:
       - "8084:8084"
+    environment:
+      GO_SVC: "ddc_product"
     # networks:
     #   default:
     #     ipv4_address: 172.18.0.84
@@ -196,6 +222,8 @@ services:
     container_name: ddc_queue
     ports:
       - "8095:8095"
+    environment:
+      GO_SVC: "ddc_queue"
     # networks:
     #   default:
     #     ipv4_address: 172.18.0.95
@@ -209,6 +237,8 @@ services:
     container_name: ddc_mentoring
     ports:
       - "8096:8096"
+    environment:
+      GO_SVC: "ddc_mentoring"
     working_dir: "/go/src/ddc_mentoring"
     entrypoint: "./ddc_mentoring"
 

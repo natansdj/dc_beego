@@ -10,9 +10,6 @@ services:
 #    container_name: ddc_cron
 #    ports:
 #      - "8199:8199"
-#    environment:
-#      VIRTUAL_HOST: "cron.ddc.vm"
-#      VIRTUAL_PORT: "8199"
 #    mem_limit: 100m
 #    networks:
 #      default:
@@ -31,8 +28,7 @@ services:
     ports:
       - "8091:8091"
     environment:
-      VIRTUAL_HOST: "article.ddc.vm"
-      VIRTUAL_PORT: "8091"
+      GO_SVC: "ddc_article"
     networks:
       default:
         ipv4_address: 172.18.0.91
@@ -49,8 +45,7 @@ services:
     expose:
       - "2345"
     environment:
-      VIRTUAL_HOST: "auth.ddc.vm"
-      VIRTUAL_PORT: "8083"
+      GO_SVC: "ddc_authentication"
     networks:
       default:
         ipv4_address: 172.18.0.83
@@ -65,8 +60,7 @@ services:
     ports:
       - "8092:8092"
     environment:
-      VIRTUAL_HOST: "challenge.ddc.vm"
-      VIRTUAL_PORT: "8092"
+      GO_SVC: "ddc_challenge"
     networks:
       default:
         ipv4_address: 172.18.0.92
@@ -80,9 +74,6 @@ services:
   #   container_name: ddc_cors
   #   ports:
   #     - "8079:8079"
-  #   environment:
-  #     VIRTUAL_HOST: "cors.ddc.vm"
-  #     VIRTUAL_PORT: "8079"
   #   networks:
   #     default:
   #       ipv4_address: 172.18.0.79
@@ -96,8 +87,7 @@ services:
     ports:
       - "8082:8082"
     environment:
-      VIRTUAL_HOST: "notif.ddc.vm"
-      VIRTUAL_PORT: "8082"
+      GO_SVC: "ddc_notification"
     networks:
       default:
         ipv4_address: 172.18.0.82
@@ -112,8 +102,7 @@ services:
     ports:
       - "8084:8084"
     environment:
-      VIRTUAL_HOST: "product.ddc.vm"
-      VIRTUAL_PORT: "8084"
+      GO_SVC: "ddc_product"
     networks:
       default:
         ipv4_address: 172.18.0.84
@@ -128,8 +117,7 @@ services:
     ports:
       - "8087:8087"
     environment:
-      VIRTUAL_HOST: "payment.ddc.vm"
-      VIRTUAL_PORT: "8087"
+      GO_SVC: "ddc_payment"
     networks:
       default:
         ipv4_address: 172.18.0.87
@@ -144,8 +132,7 @@ services:
     ports:
       - "8086:8086"
     environment:
-      VIRTUAL_HOST: "profile.ddc.vm"
-      VIRTUAL_PORT: "8086"
+      GO_SVC: "ddc_profile"
     networks:
       default:
         ipv4_address: 172.18.0.86
@@ -160,8 +147,7 @@ services:
     ports:
       - "8088:8088"
     environment:
-      VIRTUAL_HOST: "scheduler.ddc.vm"
-      VIRTUAL_PORT: "8088"
+      GO_SVC: "ddc_scheduler"
     networks:
       default:
         ipv4_address: 172.18.0.88
@@ -176,8 +162,7 @@ services:
     ports:
       - "8081:8081"
     environment:
-      VIRTUAL_HOST: "shipping.ddc.vm"
-      VIRTUAL_PORT: "8081"
+      GO_SVC: "ddc_shipping"
     networks:
       default:
         ipv4_address: 172.18.0.81
@@ -192,8 +177,7 @@ services:
     ports:
       - "8093:8093"
     environment:
-      VIRTUAL_HOST: "event.ddc.vm"
-      VIRTUAL_PORT: "8093"
+      GO_SVC: "ddc_event"
     networks:
       default:
         ipv4_address: 172.18.0.93
@@ -210,8 +194,7 @@ services:
     expose:
       - "18085"
     environment:
-      VIRTUAL_HOST: "order.ddc.vm"
-      VIRTUAL_PORT: "8085"
+      GO_SVC: "ddc_order"
     networks:
       default:
         ipv4_address: 172.18.0.85
@@ -226,8 +209,7 @@ services:
     ports:
       - "8089:8089"
     environment:
-      VIRTUAL_HOST: "voucher.ddc.vm"
-      VIRTUAL_PORT: "8089"
+      GO_SVC: "ddc_voucher"
     networks:
       default:
         ipv4_address: 172.18.0.89
@@ -242,8 +224,7 @@ services:
     ports:
       - "8094:8094"
     environment:
-      VIRTUAL_HOST: "discount.ddc.vm"
-      VIRTUAL_PORT: "8094"
+      GO_SVC: "ddc_discount"
     networks:
       default:
         ipv4_address: 172.18.0.94
@@ -258,8 +239,7 @@ services:
     ports:
       - "8095:8095"
     environment:
-      VIRTUAL_HOST: "queue.ddc.vm"
-      VIRTUAL_PORT: "8095"
+      GO_SVC: "ddc_queue"
     networks:
       default:
         ipv4_address: 172.18.0.95
@@ -274,8 +254,7 @@ services:
     ports:
       - "8096:8096"
     environment:
-      VIRTUAL_HOST: "mentoring.ddc.vm"
-      VIRTUAL_PORT: "8096"
+      GO_SVC: "ddc_mentoring"
     networks:
       default:
         ipv4_address: 172.18.0.96
