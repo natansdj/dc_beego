@@ -17,6 +17,7 @@ services:
     expose:
       - "80"
       - "443"
+      - "1215"
       - "4200"
       - "9000"
     volumes:
@@ -96,6 +97,52 @@ services:
     networks:
       default:
         ipv4_address: 172.18.0.51
+
+  mentor:
+    build:
+      context: docker/node/
+      dockerfile: Dockerfile
+    user: node
+    image: ddc_app_mentor
+    container_name: ddc_app_mentor
+    volumes:
+      - ./:/docker/
+      - ../_htdocs_ddc/ddc_app_mentoring:/home/app
+    ports:
+      - "3001:3000"
+    environment:
+      NEXT_TELEMETRY_DISABLED: "1"
+      NODE_ENV: "production"
+      VIRTUAL_HOST: "mentor.ddc.vm"
+      VIRTUAL_PORT: "3000"
+    mem_limit: 300m
+    networks:
+      default:
+        ipv4_address: 172.18.0.54
+    entrypoint: "/docker/docker/node/run.sh"
+
+  # passenger:
+  #   build:
+  #     context: docker/passenger/
+  #     dockerfile: Dockerfile
+  #   image: ddc_passenger
+  #   container_name: ddc_passenger
+  #   volumes:
+  #     - ./:/docker/
+  #     - ../_htdocs_ddc/ddc_app_mentoring:/home/app
+  #     - ./docker/passenger/webapp.conf:/etc/nginx/sites-enabled/webapp.conf
+  #   ports:
+  #     - "18081:80"
+  #     - "3001:3000"
+  #   environment:
+  #     PASSENGER_APP_ENV: "production"
+  #     NODE_ENV: "production"
+  #     VIRTUAL_HOST: "mentor.ddc.vm"
+  #     VIRTUAL_PORT: "80"
+  #   mem_limit: 300m
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.56
 
   #######################################
   # MariaDB server

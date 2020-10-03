@@ -35,6 +35,12 @@ recreatebo:
 stop:
 	docker-compose stop
 
+stopbo:
+	docker-compose stop backoffice api
+
+stopdb:
+	docker-compose stop mariadb mongodb redis
+
 state:
 	docker-compose ps
 
