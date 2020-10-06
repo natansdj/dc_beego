@@ -81,22 +81,44 @@ services:
   #######################################
   # DDC React Frontend
   #######################################
+  # app:
+  #   image: jojomi/nginx-static
+  #   container_name: ddc_app
+  #   volumes:
+  #     - ./:/docker/
+  #     - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
+  #     - ../_htdocs_ddc/ddc_app_build:/var/www:ro
+  #   ports:
+  #     - "18080:80"
+  #   environment:
+  #     VIRTUAL_HOST: "ddc.vm"
+  #     VIRTUAL_PORT: "80"
+  #   mem_limit: 1g
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.51
+
   app:
-    image: jojomi/nginx-static
+    build:
+      context: docker/node/
+      dockerfile: Dockerfile
+    user: node
+    image: ddc_app
     container_name: ddc_app
     volumes:
       - ./:/docker/
-      - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
-      - ../_htdocs_ddc/ddc_app_build:/var/www:ro
+      - ../_htdocs_ddc/ddc_app:/home/app
     ports:
-      - "18080:80"
+      - "3001:3000"
     environment:
+      NODE_ENV: "production"
       VIRTUAL_HOST: "ddc.vm"
-      VIRTUAL_PORT: "80"
-    mem_limit: 100m
+      VIRTUAL_PORT: "3000"
+    mem_limit: 1g
     networks:
       default:
         ipv4_address: 172.18.0.51
+    entrypoint: "/docker/docker/node/run_react.sh"
 
   mentor:
     build:
@@ -109,7 +131,7 @@ services:
       - ./:/docker/
       - ../_htdocs_ddc/ddc_app_mentoring:/home/app
     ports:
-      - "3001:3000"
+      - "3002:3000"
     environment:
       NEXT_TELEMETRY_DISABLED: "1"
       NODE_ENV: "production"
@@ -119,7 +141,7 @@ services:
     networks:
       default:
         ipv4_address: 172.18.0.54
-    entrypoint: "/docker/docker/node/run.sh"
+    entrypoint: "/docker/docker/node/run_nextjs.sh"
 
   # passenger:
   #   build:
@@ -219,7 +241,7 @@ services:
       VIRTUAL_HOST: "api.ddc.vm"
       VIRTUAL_PORT: "8080"
       KRAKEND_CONFIG: "ddcApiGateway.json"
-    mem_limit: 100m
+    mem_limit: 300m
     volumes:
       - ./:/docker/
       - ./etc/krakend:/etc/krakend
