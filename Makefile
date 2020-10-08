@@ -20,6 +20,9 @@ start:
 start2:
 	docker-compose up -d krakend app auth profile product shipping voucher discount order rabbit queue payment
 
+start3:
+	docker-compose up -d krakend app auth profile product shipping voucher discount order rabbit queue payment mentor backoffice api
+	
 startbo:
 	docker-compose up -d backoffice api
 
