@@ -11,6 +11,7 @@ services:
     container_name: ddc_auth
     ports:
       - "8083:8083"
+      - "9083:9083"
     expose:
       - "2345"
     environment:
@@ -26,6 +27,7 @@ services:
     container_name: ddc_payment
     ports:
       - "8087:8087"
+      - "9087:9087"
     environment:
       GO_SVC: "ddc_payment"
     network_mode: "host"
@@ -39,6 +41,7 @@ services:
     container_name: ddc_profile
     ports:
       - "8086:8086"
+      - "9086:9086"
     environment:
       GO_SVC: "ddc_profile"
     network_mode: "host"
@@ -52,6 +55,7 @@ services:
     container_name: ddc_order
     ports:
       - "8085:8085"
+      - "9085:9085"
     expose:
       - "18085"
     environment:
@@ -67,6 +71,7 @@ services:
     container_name: ddc_product
     ports:
       - "8084:8084"
+      - "9084:9084"
     environment:
       GO_SVC: "ddc_product"
     network_mode: "host"
@@ -80,6 +85,7 @@ services:
     container_name: ddc_queue
     ports:
       - "8095:8095"
+      - "9095:9095"
     environment:
       GO_SVC: "ddc_queue"
     network_mode: "host"
@@ -93,6 +99,7 @@ services:
     container_name: ddc_mentoring
     ports:
       - "8096:8096"
+      - "9096:9096"
     environment:
       GO_SVC: "ddc_mentoring"
     network_mode: "host"

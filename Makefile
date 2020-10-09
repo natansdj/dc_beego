@@ -18,10 +18,12 @@ start:
 	docker-compose up -d krakend app auth profile product shipping voucher discount order
 
 start2:
-	docker-compose up -d krakend app auth profile product shipping voucher discount order rabbit queue payment
+	docker-compose up -d rabbit queue payment
 
-start3:
-	docker-compose up -d krakend app auth profile product shipping voucher discount order rabbit queue payment mentor backoffice api
+startmentor:
+	docker-compose up -d mentor mentoring
+	
+startall: startdb && start && startbo && start2 && startmentor
 	
 startbo:
 	docker-compose up -d backoffice api
@@ -43,7 +45,7 @@ stopbo:
 
 stopdb:
 	docker-compose stop mariadb mongodb redis
-
+	
 state:
 	docker-compose ps
 
@@ -66,6 +68,7 @@ shell:
 root:
 	docker-compose exec --user root app /bin/bash
 
+sehn:	docker manage
 #############################
 # Argument fix workaround
 #############################

@@ -313,21 +313,21 @@ services:
   #       ipv4_address: 172.18.0.92
   #   working_dir: "/go/src/ddc_challenge"
 
-  notification:
-    extends:
-      file: common-services.yml
-      service: beego
-    container_name: ddc_notification
-    ports:
-      - "8082:8082"
-    environment:
-      VIRTUAL_HOST: "notif.ddc.vm"
-      VIRTUAL_PORT: "8082"
-      GO_SVC: "ddc_notification"
-    networks:
-      default:
-        ipv4_address: 172.18.0.82
-    working_dir: "/go/src/ddc_notification"
+  # notification:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_notification
+  #   ports:
+  #     - "8082:8082"
+  #   environment:
+  #     VIRTUAL_HOST: "notif.ddc.vm"
+  #     VIRTUAL_PORT: "8082"
+  #     GO_SVC: "ddc_notification"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.82
+  #   working_dir: "/go/src/ddc_notification"
 
   product:
     extends:
