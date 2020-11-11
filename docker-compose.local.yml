@@ -70,7 +70,7 @@ services:
       - ../_htdocs_ddc/ddc_backoffice_dev_build:/var/www:ro
 #      - ../_htdocs_ddc/ddc_backoffice/dist:/var/www:ro
     ports:
-      - "3000:80"
+      - "3001:80"
     mem_limit: 100m
     environment:
       - WEB_DOCUMENT_ROOT=/var/www/dist
@@ -409,21 +409,21 @@ services:
         ipv4_address: 172.18.0.81
     working_dir: "/go/src/ddc_shipping"
 
-  # event:
-  #   extends:
-  #     file: common-services.yml
-  #     service: beego
-  #   container_name: ddc_event
-  #   ports:
-  #     - "8093:8093"
-  #   environment:
-  #     VIRTUAL_HOST: "event.ddc.vm"
-  #     VIRTUAL_PORT: "8093"
-  #     GO_SVC: "ddc_event"
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.93
-  #   working_dir: "/go/src/ddc_event"
+  event:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_event
+    ports:
+      - "8093:8093"
+    environment:
+      VIRTUAL_HOST: "event.ddc.vm"
+      VIRTUAL_PORT: "8093"
+      GO_SVC: "ddc_event"
+    networks:
+      default:
+        ipv4_address: 172.18.0.93
+    working_dir: "/go/src/ddc_event"
 
   order:
     extends:
@@ -517,8 +517,6 @@ services:
         ipv4_address: 172.18.0.254
     volumes:
       - redis:/data
-    ports:
-      - "6379:6379"
     mem_limit: 200m
     restart: unless-stopped
     environment:

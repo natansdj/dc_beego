@@ -22,9 +22,9 @@ start2:
 
 startmentor:
 	docker-compose up -d mentor mentoring
-	
+
 startall: startdb && start && startbo && start2 && startmentor
-	
+
 startbo:
 	docker-compose up -d backoffice api
 
@@ -40,12 +40,15 @@ recreatebo:
 stop:
 	docker-compose stop
 
+stopmentor:
+	docker-compose up -d mentor mentoring
+
 stopbo:
 	docker-compose stop backoffice api
 
 stopdb:
 	docker-compose stop mariadb mongodb redis
-	
+
 state:
 	docker-compose ps
 
