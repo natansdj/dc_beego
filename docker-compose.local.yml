@@ -297,21 +297,21 @@ services:
     working_dir: "/go/src/ddc_authentication"
     # entrypoint: "bee dlv -package=\"ddc_auth\" -port=2345"
 
-  # challenge:
-  #   extends:
-  #     file: common-services.yml
-  #     service: beego
-  #   container_name: ddc_challenge
-  #   ports:
-  #     - "8092:8092"
-  #   environment:
-  #     VIRTUAL_HOST: "challenge.ddc.vm"
-  #     VIRTUAL_PORT: "8092"
-  #     GO_SVC: "ddc_challenge"
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.92
-  #   working_dir: "/go/src/ddc_challenge"
+  challenge:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_challenge
+    ports:
+      - "8092:8092"
+    environment:
+      VIRTUAL_HOST: "challenge.ddc.vm"
+      VIRTUAL_PORT: "8092"
+      GO_SVC: "ddc_challenge"
+    networks:
+      default:
+        ipv4_address: 172.18.0.92
+    working_dir: "/go/src/ddc_challenge"
 
   # notification:
   #   extends:
