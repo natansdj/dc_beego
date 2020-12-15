@@ -48,6 +48,20 @@ services:
     working_dir: "/go/src/ddc_profile"
     entrypoint: "./ddc_profile"
 
+  voucher:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_voucher
+    ports:
+      - "8089:8089"
+      - "9089:9089"
+    environment:
+      GO_SVC: "ddc_voucher"
+    network_mode: "host"
+    working_dir: "/go/src/ddc_voucher"
+    entrypoint: "./ddc_voucher"
+
   order:
     extends:
       file: common-services.yml
@@ -61,6 +75,7 @@ services:
     environment:
       GO_SVC: "ddc_order"
     network_mode: "host"
+    mem_limit: 2048m
     working_dir: "/go/src/ddc_order"
     entrypoint: "./ddc_order"
 
@@ -75,6 +90,7 @@ services:
     environment:
       GO_SVC: "ddc_product"
     network_mode: "host"
+    mem_limit: 2048m
     working_dir: "/go/src/ddc_product"
     entrypoint: "./ddc_product"
 
@@ -89,6 +105,7 @@ services:
     environment:
       GO_SVC: "ddc_queue"
     network_mode: "host"
+    mem_limit: 2048m
     working_dir: "/go/src/ddc_queue"
     entrypoint: "./ddc_queue"
 

@@ -14,10 +14,8 @@ services:
     extra_hosts:
       - "service01:172.16.0.95"
       - "service02:172.16.0.95"
-      # - "service02:172.16.0.74"
       - "servicestaging01:172.16.0.95"
       - "servicestaging02:172.16.0.95"
-      # - "servicestaging02:172.16.0.74"
     environment:
       TZ: "Asia/Jakarta"
     mem_limit: 1024m
@@ -27,5 +25,6 @@ services:
       - gosrc:/var/go/src/
       - gopkg:/go/pkg/
       - gopkg:/var/go/pkg/
-    entrypoint: "bee run"
+    # entrypoint: "bee run"
+    entrypoint: "/docker/docker/beego/beerun.sh"
     restart: always
