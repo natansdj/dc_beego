@@ -257,6 +257,35 @@ services:
       - "servicestaging02:172.18.0.1"
 
   #######################################
+  # Elastic
+  #######################################
+  elastic:
+    image: elasticsearch:7.10.1
+    container_name: ddc_elastic
+    environment:
+      - node.name=es01
+      # - cluster.name=es-docker-cluster
+      # - discovery.seed_hosts=es02,es03
+      # - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es01:/usr/share/elasticsearch/data
+    ports:
+      - 127.0.0.1:9200:9200
+    expose:
+      - "9200"
+      - "9300"
+    networks:
+      default:
+        ipv4_address: 172.18.0.60
+
+  #######################################
   # DDC Services
   #######################################
   # article:
@@ -650,6 +679,12 @@ volumes:
     driver_opts:
       type: bind
       device: /home/lxc/redis_ddc
+      o: bind
+  es01:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /home/lxc/elasticdata
       o: bind
 
 networks:
