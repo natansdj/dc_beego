@@ -263,8 +263,8 @@ services:
     image: elasticsearch:7.10.1
     container_name: ddc_elastic
     environment:
-      - node.name=es01
-      # - cluster.name=es-docker-cluster
+      - node.name=ddc_es01
+      - cluster.name=es-docker-cluster
       # - discovery.seed_hosts=es02,es03
       # - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
@@ -274,6 +274,7 @@ services:
       memlock:
         soft: -1
         hard: -1
+    mem_limit: 3g
     volumes:
       - es01:/usr/share/elasticsearch/data
     ports:
