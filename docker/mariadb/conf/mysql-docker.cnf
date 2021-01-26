@@ -55,6 +55,9 @@ long_query_time     = 1
 ## will have their own buffers
 ## - prevent swapping here -
 
-max_connections    = 20
-max_allowed_packet = 16M
+#max_connections    = 20
+#max_allowed_packet = 16M
 
+## modify for multiple use
+max_connections    = 100
+max_allowed_packet = 32M
