@@ -38,7 +38,10 @@ recreatebo:
 	docker-compose -f docker-compose.local.yml up -d --force-recreate backoffice api
 
 stop:
-	docker-compose stop
+	docker-compose stop krakend app auth profile product shipping voucher discount order
+
+stop2:
+	rabbit queue payment
 
 stopmentor:
 	docker-compose up -d mentor mentoring
