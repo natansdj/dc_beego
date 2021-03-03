@@ -41,7 +41,7 @@ stop:
 	docker-compose stop krakend app auth profile product shipping voucher discount order
 
 stop2:
-	rabbit queue payment
+	docker-compose stop rabbit queue payment
 
 stopmentor:
 	docker-compose up -d mentor mentoring
