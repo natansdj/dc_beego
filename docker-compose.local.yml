@@ -177,7 +177,7 @@ services:
     image: ddc_mariadb
     container_name: ddc_mariadb
     ports:
-      - "3306:3306"
+      - "3316:3306"
     volumes:
       - mariadb:/var/lib/mysql
       - ./etc/mariadb/z999-docker1.cnf:/etc/mysql/conf.d/z999-docker.cnf
@@ -199,7 +199,7 @@ services:
   #   image: ddc_mariadb
   #   container_name: ddc_mariadb2
   #   ports:
-  #     - "3307:3306"
+  #     - "3317:3306"
   #   volumes:
   #     - mariadb2:/var/lib/mysql
   #     - ./etc/mariadb/z999-docker2.cnf:/etc/mysql/conf.d/z999-docker.cnf
@@ -274,7 +274,7 @@ services:
       memlock:
         soft: -1
         hard: -1
-    mem_limit: 3g
+    mem_limit: 2g
     volumes:
       - es01:/usr/share/elasticsearch/data
     ports:
@@ -285,6 +285,23 @@ services:
     networks:
       default:
         ipv4_address: 172.18.0.60
+
+  #######################################
+  # Others
+  #######################################
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    ports:
+      - "8000:8000"
+      - "9001:9000"
+    mem_limit: 300m
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/portainer_data:/data
+    networks:
+      default:
+        ipv4_address: 172.18.0.5
 
   #######################################
   # DDC Services

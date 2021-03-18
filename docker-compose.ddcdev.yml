@@ -17,6 +17,23 @@ services:
 #    working_dir: "/go/src/ddc_cron"
 #    entrypoint: "./run.sh"
 
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    ports:
+      - "8000:8000"
+      - "9001:9000"
+    mem_limit: 500m
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/portainer_data:/data
+    extra_hosts:
+      - "servicestaging01:172.16.0.46"
+    networks:
+      default:
+        ipv4_address: 172.18.0.5
+
   #######################################
   # DDC Services
   #######################################
