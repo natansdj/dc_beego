@@ -1,0 +1,20 @@
+config:
+    target: http://172.18.0.1:8085
+    phases:
+      - duration: 100
+        arrivalRate: 4
+    defaults:
+      headers:
+        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTc5OTE1NjQsImlzcyI6IjM0MTcwOGY0LTQwZWUtNWUyYi1hNmIxLWU5NGE1YjVkMWMyMyIsInN1YiI6IkxvZ2luIn0.0fnSY3fjdaMGEuR_Q-Z1_cIaej93Zz1NSO25uFDC6Bo'
+scenarios:
+    - flow:
+        - get:
+            url: "/v3/groupingCart/totalCart"
+            capture:
+              - regexp: "[^]*"
+                as: "response5"
+        # - get:
+        #     url: "/groupingCart"
+        #     capture:
+        #       - regexp: "[^]*"
+        #         as: "response6"

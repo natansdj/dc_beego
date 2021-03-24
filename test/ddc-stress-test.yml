@@ -5,7 +5,7 @@ config:
         arrivalRate: 1
     defaults:
       headers:
-        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDk3NTU2ODQsImlzcyI6IjlkNjgyMTk3LWJkNjgtMTFlOC1iMzNmLTAyMDAyM2JmMDAwMSIsInN1YiI6IkxvZ2luIn0.wxO7h7jRnodAogfhxwRTh5ZtpH8HHIvfAyY0gXI7nJA'
+        Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTc5OTE1NjQsImlzcyI6IjM0MTcwOGY0LTQwZWUtNWUyYi1hNmIxLWU5NGE1YjVkMWMyMyIsInN1YiI6IkxvZ2luIn0.0fnSY3fjdaMGEuR_Q-Z1_cIaej93Zz1NSO25uFDC6Bo'
 scenarios:
     - flow:
         - get:
@@ -29,3 +29,8 @@ scenarios:
             capture:
               - regexp: "[^]*"
                 as: "response5"
+        - get:
+            url: "/groupingCart"
+            capture:
+              - regexp: "[^]*"
+                as: "response6"

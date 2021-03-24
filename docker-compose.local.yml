@@ -242,7 +242,7 @@ services:
       VIRTUAL_HOST: "api.ddc.vm"
       VIRTUAL_PORT: "8080"
       KRAKEND_CONFIG: "ddcApiGateway.json"
-    mem_limit: 300m
+    mem_limit: 500m
     volumes:
       - ./:/docker/
       # - ./etc/krakend:/etc/krakend
@@ -285,23 +285,6 @@ services:
     networks:
       default:
         ipv4_address: 172.18.0.60
-
-  #######################################
-  # Others
-  #######################################
-  portainer:
-    image: portainer/portainer-ce
-    container_name: portainer
-    ports:
-      - "8000:8000"
-      - "9001:9000"
-    mem_limit: 300m
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /opt/portainer_data:/data
-    networks:
-      default:
-        ipv4_address: 172.18.0.5
 
   #######################################
   # DDC Services
