@@ -245,7 +245,8 @@ services:
       # FC_ENABLE: 1
       # FC_SETTINGS: "./settings"
       # FC_PARTIALS: "./partials"
-      # FC_OUT: "/docker/etc/krakend/out.json"
+      # FC_TEMPLATES: "./partials"
+      # FC_OUT: "/etc/krakend/krakend.json"
     mem_limit: 500m
     volumes:
       - ./:/docker/
