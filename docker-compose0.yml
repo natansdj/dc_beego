@@ -173,8 +173,7 @@ services:
     mem_limit: 100m
     volumes:
       - ./:/docker/
-      - ./etc/krakend:/etc/krakend
-      - ../_htdocs_ddc/ddc_api_gateway/ddcApiGateway.json:/etc/krakend/ddcApiGateway.json
+      - ../_htdocs_ddc/ddc_api_gateway.json:/etc/krakend
     networks:
       default:
         ipv4_address: 172.18.0.59

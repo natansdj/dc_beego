@@ -138,7 +138,7 @@ services:
       NODE_ENV: "production"
       VIRTUAL_HOST: "mentor.ddc.vm"
       VIRTUAL_PORT: "3000"
-    mem_limit: 300m
+    mem_limit: 500m
     networks:
       default:
         ipv4_address: 172.18.0.54
@@ -242,10 +242,13 @@ services:
       VIRTUAL_HOST: "api.ddc.vm"
       VIRTUAL_PORT: "8080"
       KRAKEND_CONFIG: "ddcApiGateway.json"
+      # FC_ENABLE: 1
+      # FC_SETTINGS: "./settings"
+      # FC_PARTIALS: "./partials"
+      # FC_OUT: "/docker/etc/krakend/out.json"
     mem_limit: 500m
     volumes:
       - ./:/docker/
-      # - ./etc/krakend:/etc/krakend
       - ../_htdocs_ddc/ddc_api_gateway:/etc/krakend
     networks:
       default:
@@ -566,7 +569,7 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    mem_limit: 500m
+    mem_limit: 300m
     restart: unless-stopped
     volumes:
       - ./etc/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
