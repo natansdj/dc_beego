@@ -12,6 +12,7 @@ services:
       - apparmor=unconfined
       - seccomp=unconfined
     extra_hosts:
+      - "mariadb:172.18.0.52"
       - "service01:172.18.0.1"
       - "service02:172.18.0.1"
       - "servicestaging01:172.18.0.1"
@@ -23,10 +24,10 @@ services:
     volumes:
       - ./:/docker/
       - gosrc:/go/src/
-      - gosrc:/var/www/go/src/
+      #      - gosrc:/var/www/go/src/
       - gopkg:/go/pkg/
-      - gopkg:/var/www/go/pkg/
-      - gosrc:/home/nath/go/src/
-      - gopkg:/home/nath/go/pkg/
+    #      - gopkg:/var/www/go/pkg/
+    #      - gosrc:/home/nath/go/src/
+    #      - gopkg:/home/nath/go/pkg/
     # entrypoint: "bee run"
     entrypoint: "/docker/docker/beego/beerun.sh"

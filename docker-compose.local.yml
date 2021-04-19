@@ -13,6 +13,7 @@ services:
     #   - "8000:80"
     extra_hosts:
       - "a407:192.168.43.150"
+      - "mariadb:172.18.0.52"
       - "api.ddc.vm:172.18.0.1"
       - "service01:172.18.0.1"
       - "service02:172.18.0.1"
@@ -68,7 +69,7 @@ services:
       - ./:/docker/
       - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
       - ../_htdocs_ddc/ddc_backoffice_dev_build:/var/www:ro
-#      - ../_htdocs_ddc/ddc_backoffice/dist:/var/www:ro
+    #      - ../_htdocs_ddc/ddc_backoffice/dist:/var/www:ro
     ports:
       - "3001:80"
     mem_limit: 100m
@@ -319,6 +320,7 @@ services:
     #   - mongodb
     ports:
       - "8083:8083"
+      - "18083:18083"
     expose:
       - "2345"
     environment:
@@ -370,6 +372,7 @@ services:
     container_name: ddc_product
     ports:
       - "8084:8084"
+      - "18084:18084"
     environment:
       VIRTUAL_HOST: "product.ddc.vm"
       VIRTUAL_PORT: "8084"
@@ -466,6 +469,7 @@ services:
     container_name: ddc_order
     ports:
       - "8085:8085"
+      - "18085:18085"
     mem_limit: 400m
     environment:
       VIRTUAL_HOST: "order.ddc.vm"
@@ -499,6 +503,7 @@ services:
     container_name: ddc_discount
     ports:
       - "8094:8094"
+      - "18094:18094"
     environment:
       VIRTUAL_HOST: "discount.ddc.vm"
       VIRTUAL_PORT: "8094"
@@ -515,6 +520,7 @@ services:
     container_name: ddc_queue
     ports:
       - "8095:8095"
+      - "18095:18095"
     environment:
       VIRTUAL_HOST: "queue.ddc.vm"
       VIRTUAL_PORT: "8095"
