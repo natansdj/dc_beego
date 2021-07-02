@@ -1,0 +1,15 @@
+[Unit]
+Description=DDC Shipping 4.0
+Documentation=https://apidocs.dusdusan.com
+Wants=network.target
+After=network.target
+
+[Service]
+PIDFile=/tmp/ddc_shipping.pid
+User=root
+Group=root
+WorkingDirectory=/var/go/src/ddc_shipping
+ExecStart=/bin/bash -c '/var/go/src/ddc_shipping/ddc_shipping'
+
+[Install]
+WantedBy=multi-user.target
