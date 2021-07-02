@@ -123,6 +123,20 @@ services:
     working_dir: "/go/src/ddc_mentoring"
     entrypoint: "./ddc_mentoring"
 
+  shipping:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_shipping
+    ports:
+      - "8081:8081"
+      - "9081:9081"
+    environment:
+      GO_SVC: "ddc_shipping"
+    network_mode: "host"
+    working_dir: "/go/src/ddc_shipping"
+    entrypoint: "./ddc_shipping"
+
 #######################################
 # Volumes
 #######################################

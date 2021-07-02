@@ -12,6 +12,9 @@ fi
 cd ${WORKDIR}
 echo "WORKDIR : ${WORKDIR}"
 
+go mod download
+go mod vendor
+
 #
 if [ -z "$GO_SVC" ]
 then
