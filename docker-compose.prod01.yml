@@ -137,6 +137,20 @@ services:
     working_dir: "/go/src/ddc_shipping"
     entrypoint: "./ddc_shipping"
 
+  scheduler:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_scheduler
+    ports:
+      - "8088:8088"
+      - "9088:9088"
+    environment:
+      GO_SVC: "ddc_scheduler"
+    network_mode: "host"
+    working_dir: "/go/src/ddc_scheduler"
+    entrypoint: "./ddc_scheduler"
+    
 #######################################
 # Volumes
 #######################################
