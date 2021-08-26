@@ -34,7 +34,6 @@ services:
     env_file:
       - etc/environment.yml
       - etc/environment.development.yml
-    mem_limit: 300m
     environment:
       VIRTUAL_HOST: "backofficeapi.ddc.vm"
       VIRTUAL_PORT: "80"
@@ -42,22 +41,22 @@ services:
       default:
         ipv4_address: 172.18.0.100
 
-  cron:
-    extends:
-      file: common-services.yml
-      service: beego
-    container_name: ddc_cron
-    ports:
-      - "8099:8099"
-    environment:
-      VIRTUAL_HOST: "cron.ddc.vm"
-      VIRTUAL_PORT: "8099"
-    mem_limit: 100m
-    networks:
-      default:
-        ipv4_address: 172.18.0.99
-    working_dir: "/go/src/ddc_cron"
-    entrypoint: "./run.sh"
+  # cron:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_cron
+  #   ports:
+  #     - "8099:8099"
+  #   environment:
+  #     VIRTUAL_HOST: "cron.ddc.vm"
+  #     VIRTUAL_PORT: "8099"
+  #   mem_limit: 100m
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.99
+  #   working_dir: "/go/src/ddc_cron"
+  #   entrypoint: "./run.sh"
 
   #######################################
   # DDC Backoffice Angular Front
@@ -69,7 +68,7 @@ services:
       - ./:/docker/
       - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
       - ../_htdocs_ddc/ddc_backoffice_dev_build:/var/www:ro
-    #      - ../_htdocs_ddc/ddc_backoffice/dist:/var/www:ro
+#      - ../_htdocs_ddc/ddc_backoffice/dist:/var/www:ro
     ports:
       - "3001:80"
     mem_limit: 100m
@@ -122,28 +121,28 @@ services:
   #       ipv4_address: 172.18.0.51
   #   entrypoint: "/docker/docker/node/run_react.sh"
 
-  mentor:
-    build:
-      context: docker/node/
-      dockerfile: Dockerfile
-    user: node
-    image: ddc_app_mentor
-    container_name: ddc_app_mentor
-    volumes:
-      - ./:/docker/
-      - ../_htdocs_ddc/ddc_app_mentoring:/home/app
-    ports:
-      - "3002:3000"
-    environment:
-      NEXT_TELEMETRY_DISABLED: "1"
-      NODE_ENV: "production"
-      VIRTUAL_HOST: "mentor.ddc.vm"
-      VIRTUAL_PORT: "3000"
-    mem_limit: 500m
-    networks:
-      default:
-        ipv4_address: 172.18.0.54
-    entrypoint: "/docker/docker/node/run_nextjs.sh"
+  # mentor:
+  #   build:
+  #     context: docker/node/
+  #     dockerfile: Dockerfile
+  #   user: node
+  #   image: ddc_app_mentor
+  #   container_name: ddc_app_mentor
+  #   volumes:
+  #     - ./:/docker/
+  #     - ../_htdocs_ddc/ddc_app_mentoring:/home/app
+  #   ports:
+  #     - "3002:3000"
+  #   environment:
+  #     NEXT_TELEMETRY_DISABLED: "1"
+  #     NODE_ENV: "production"
+  #     VIRTUAL_HOST: "mentor.ddc.vm"
+  #     VIRTUAL_PORT: "3000"
+  #   mem_limit: 500m
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.54
+  #   entrypoint: "/docker/docker/node/run_nextjs.sh"
 
   # passenger:
   #   build:
@@ -248,7 +247,7 @@ services:
       # FC_PARTIALS: "./partials"
       # FC_TEMPLATES: "./partials"
       # FC_OUT: "/etc/krakend/krakend.json"
-    mem_limit: 500m
+    mem_limit: 600m
     volumes:
       - ./:/docker/
       - ../_htdocs_ddc/ddc_api_gateway:/etc/krakend
@@ -264,32 +263,32 @@ services:
   #######################################
   # Elastic
   #######################################
-  elastic:
-    image: elasticsearch:7.10.1
-    container_name: ddc_elastic
-    environment:
-      - node.name=ddc_es01
-      - cluster.name=es-docker-cluster
-      # - discovery.seed_hosts=es02,es03
-      # - cluster.initial_master_nodes=es01,es02,es03
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - discovery.type=single-node
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    mem_limit: 2g
-    volumes:
-      - es01:/usr/share/elasticsearch/data
-    ports:
-      - 127.0.0.1:9200:9200
-    expose:
-      - "9200"
-      - "9300"
-    networks:
-      default:
-        ipv4_address: 172.18.0.60
+  # elastic:
+  #   image: elasticsearch:7.10.1
+  #   container_name: ddc_elastic
+  #   environment:
+  #     - node.name=ddc_es01
+  #     - cluster.name=es-docker-cluster
+  #     # - discovery.seed_hosts=es02,es03
+  #     # - cluster.initial_master_nodes=es01,es02,es03
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #     - discovery.type=single-node
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   mem_limit: 2g
+  #   volumes:
+  #     - es01:/usr/share/elasticsearch/data
+  #   ports:
+  #     - 127.0.0.1:9200:9200
+  #   expose:
+  #     - "9200"
+  #     - "9300"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.60
 
   #######################################
   # DDC Services
@@ -320,7 +319,6 @@ services:
     #   - mongodb
     ports:
       - "8083:8083"
-      - "18083:18083"
     expose:
       - "2345"
     environment:
@@ -372,7 +370,6 @@ services:
     container_name: ddc_product
     ports:
       - "8084:8084"
-      - "18084:18084"
     environment:
       VIRTUAL_HOST: "product.ddc.vm"
       VIRTUAL_PORT: "8084"
@@ -469,7 +466,6 @@ services:
     container_name: ddc_order
     ports:
       - "8085:8085"
-      - "18085:18085"
     mem_limit: 400m
     environment:
       VIRTUAL_HOST: "order.ddc.vm"
@@ -503,7 +499,6 @@ services:
     container_name: ddc_discount
     ports:
       - "8094:8094"
-      - "18094:18094"
     environment:
       VIRTUAL_HOST: "discount.ddc.vm"
       VIRTUAL_PORT: "8094"
@@ -518,6 +513,8 @@ services:
       file: common-services.yml
       service: beego
     container_name: ddc_queue
+    # expose:
+    #   - "18095"
     ports:
       - "8095:8095"
       - "18095:18095"
@@ -573,6 +570,7 @@ services:
     networks:
       default:
         ipv4_address: 172.18.0.253
+        enable_ipv6: false
     ports:
       - "5672:5672"
       - "15672:15672"
