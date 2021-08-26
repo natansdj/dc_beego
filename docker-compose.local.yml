@@ -570,7 +570,6 @@ services:
     networks:
       default:
         ipv4_address: 172.18.0.253
-        enable_ipv6: false
     ports:
       - "5672:5672"
       - "15672:15672"
