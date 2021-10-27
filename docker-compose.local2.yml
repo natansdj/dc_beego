@@ -37,6 +37,9 @@ services:
     environment:
       VIRTUAL_HOST: "backofficeapi.ddc.vm"
       VIRTUAL_PORT: "80"
+      PHP_XDEBUG_ENABLED: 1
+      XDEBUG_SESSION: "PHPSTORM"
+      PHP_IDE_CONFIG: serverName=backofficeapi.ddc.vm
     networks:
       default:
         ipv4_address: 172.18.0.100
