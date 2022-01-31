@@ -9,8 +9,8 @@ services:
       dockerfile: Dockerfile.api
     image: ddc_api
     container_name: ddc_api
-    # ports:
-    #   - "8000:80"
+    ports:
+      - "8888:80"
     extra_hosts:
       - "a407:192.168.43.150"
       - "mariadb:172.18.0.52"
@@ -23,6 +23,7 @@ services:
       - "1215"
       - "4200"
       - "9000"
+      - "9003"
     volumes:
       - ../_htdocs_ddc/ddc_api:/app/
       - ./:/docker/
@@ -44,22 +45,22 @@ services:
       default:
         ipv4_address: 172.18.0.100
 
-  # cron:
-  #   extends:
-  #     file: common-services.yml
-  #     service: beego
-  #   container_name: ddc_cron
-  #   ports:
-  #     - "8099:8099"
-  #   environment:
-  #     VIRTUAL_HOST: "cron.ddc.vm"
-  #     VIRTUAL_PORT: "8099"
-  #   mem_limit: 100m
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.99
-  #   working_dir: "/go/src/ddc_cron"
-  #   entrypoint: "./run.sh"
+  cron:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_cron
+    ports:
+      - "8099:8099"
+    environment:
+      VIRTUAL_HOST: "cron.ddc.vm"
+      VIRTUAL_PORT: "8099"
+    mem_limit: 100m
+    networks:
+      default:
+        ipv4_address: 172.18.0.99
+    working_dir: "/go/src/ddc_cron"
+    entrypoint: "./run.sh"
 
   #######################################
   # DDC Backoffice Angular Front
@@ -124,28 +125,28 @@ services:
   #       ipv4_address: 172.18.0.51
   #   entrypoint: "/docker/docker/node/run_react.sh"
 
-  # mentor:
-  #   build:
-  #     context: docker/node/
-  #     dockerfile: Dockerfile
-  #   user: node
-  #   image: ddc_app_mentor
-  #   container_name: ddc_app_mentor
-  #   volumes:
-  #     - ./:/docker/
-  #     - ../_htdocs_ddc/ddc_app_mentoring:/home/app
-  #   ports:
-  #     - "3002:3000"
-  #   environment:
-  #     NEXT_TELEMETRY_DISABLED: "1"
-  #     NODE_ENV: "production"
-  #     VIRTUAL_HOST: "mentor.ddc.vm"
-  #     VIRTUAL_PORT: "3000"
-  #   mem_limit: 500m
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.18.0.54
-  #   entrypoint: "/docker/docker/node/run_nextjs.sh"
+  mentor:
+    build:
+      context: docker/node/
+      dockerfile: Dockerfile
+    user: node
+    image: ddc_app_mentor
+    container_name: ddc_app_mentor
+    volumes:
+      - ./:/docker/
+      - ../_htdocs_ddc/ddc_app_mentoring:/home/app
+    ports:
+      - "3002:3000"
+    environment:
+      NEXT_TELEMETRY_DISABLED: "1"
+      NODE_ENV: "production"
+      VIRTUAL_HOST: "mentor.ddc.vm"
+      VIRTUAL_PORT: "3000"
+    mem_limit: 500m
+    networks:
+      default:
+        ipv4_address: 172.18.0.54
+    entrypoint: "/docker/docker/node/run_nextjs.sh"
 
   # passenger:
   #   build:
@@ -250,7 +251,7 @@ services:
       # FC_PARTIALS: "./partials"
       # FC_TEMPLATES: "./partials"
       # FC_OUT: "/etc/krakend/krakend.json"
-    mem_limit: 600m
+    mem_limit: 800m
     volumes:
       - ./:/docker/
       - ../_htdocs_ddc/ddc_api_gateway:/etc/krakend
@@ -350,21 +351,21 @@ services:
         ipv4_address: 172.18.0.92
     working_dir: "/go/src/ddc_challenge"
 
-  notification:
-    extends:
-      file: common-services.yml
-      service: beego
-    container_name: ddc_notification
-    ports:
-      - "8082:8082"
-    environment:
-      VIRTUAL_HOST: "notif.ddc.vm"
-      VIRTUAL_PORT: "8082"
-      GO_SVC: "ddc_notification"
-    networks:
-      default:
-        ipv4_address: 172.18.0.82
-    working_dir: "/go/src/ddc_notification"
+  # notification:
+  #   extends:
+  #     file: common-services.yml
+  #     service: beego
+  #   container_name: ddc_notification
+  #   ports:
+  #     - "8082:8082"
+  #   environment:
+  #     VIRTUAL_HOST: "notif.ddc.vm"
+  #     VIRTUAL_PORT: "8082"
+  #     GO_SVC: "ddc_notification"
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.82
+  #   working_dir: "/go/src/ddc_notification"
 
   product:
     extends:
@@ -537,6 +538,7 @@ services:
     container_name: ddc_mentoring
     ports:
       - "8096:8096"
+      - "18096:18096"
     environment:
       VIRTUAL_HOST: "mentoring.ddc.vm"
       VIRTUAL_PORT: "8096"
