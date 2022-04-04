@@ -548,6 +548,23 @@ services:
         ipv4_address: 172.18.0.96
     working_dir: "/go/src/ddc_mentoring"
 
+  arisan:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_arisan
+    ports:
+      - "8097:8097"
+      - "18097:18097"
+    environment:
+      VIRTUAL_HOST: "arisan.ddc.vm"
+      VIRTUAL_PORT: "8097"
+      GO_SVC: "ddc_arisan"
+    networks:
+      default:
+        ipv4_address: 172.18.0.97
+    working_dir: "/go/src/ddc_arisan"
+
   #######################################
   # Redis
   #######################################

@@ -278,6 +278,20 @@ services:
     working_dir: "/go/src/ddc_mentoring"
     entrypoint: "./ddc_mentoring"
 
+  arisan:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_arisan
+    ports:
+      - "8097:8097"
+    environment:
+      GO_SVC: "ddc_arisan"
+    networks:
+      default:
+        ipv4_address: 172.18.0.97
+    working_dir: "/go/src/ddc_arisan"
+
 #######################################
 # Volumes
 #######################################

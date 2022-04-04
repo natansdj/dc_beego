@@ -9,8 +9,8 @@ services:
       dockerfile: Dockerfile.api
     image: ddc_api
     container_name: ddc_api
-    # ports:
-    #   - "8000:80"
+    ports:
+      - "8888:80"
     extra_hosts:
       - "a407:192.168.43.150"
       - "mariadb:172.18.0.52"
@@ -23,6 +23,7 @@ services:
       - "1215"
       - "4200"
       - "9000"
+      - "9003"
     volumes:
       - ../_htdocs_ddc/ddc_api:/app/
       - ./:/docker/
@@ -250,7 +251,7 @@ services:
       # FC_PARTIALS: "./partials"
       # FC_TEMPLATES: "./partials"
       # FC_OUT: "/etc/krakend/krakend.json"
-    mem_limit: 600m
+    mem_limit: 800m
     volumes:
       - ./:/docker/
       - ../_htdocs_ddc/ddc_api_gateway:/etc/krakend
@@ -537,6 +538,7 @@ services:
     container_name: ddc_mentoring
     ports:
       - "8096:8096"
+      - "18096:18096"
     environment:
       VIRTUAL_HOST: "mentoring.ddc.vm"
       VIRTUAL_PORT: "8096"
@@ -545,6 +547,23 @@ services:
       default:
         ipv4_address: 172.18.0.96
     working_dir: "/go/src/ddc_mentoring"
+
+  arisan:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_arisan
+    ports:
+      - "8097:8097"
+      - "18097:18097"
+    environment:
+      VIRTUAL_HOST: "arisan.ddc.vm"
+      VIRTUAL_PORT: "8097"
+      GO_SVC: "ddc_arisan"
+    networks:
+      default:
+        ipv4_address: 172.18.0.97
+    working_dir: "/go/src/ddc_arisan"
 
   #######################################
   # Redis
@@ -577,7 +596,7 @@ services:
       - "5672:5672"
       - "15672:15672"
     mem_limit: 300m
-    restart: unless-stopped
+    # restart: unless-stopped
     volumes:
       - ./etc/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
       - rabbitmq-homedir:/var/lib/rabbitmq

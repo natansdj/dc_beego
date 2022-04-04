@@ -179,6 +179,20 @@ services:
     working_dir: "/go/src/ddc_notification"
     entrypoint: "./ddc_notification"
 
+  arisan:
+    extends:
+      file: common-services.yml
+      service: beego
+    container_name: ddc_arisan
+    ports:
+      - "8097:8097"
+      - "9087:9087"
+    environment:
+      GO_SVC: "ddc_arisan"
+    network_mode: "host"
+    working_dir: "/go/src/ddc_arisan"
+    entrypoint: "./ddc_arisan"
+
 #######################################
 # Volumes
 #######################################
