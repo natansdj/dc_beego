@@ -27,5 +27,5 @@ services:
       - gosrc:/var/go/src/
       - gopkg:/go/pkg/
       - gopkg:/var/go/pkg/
-    entrypoint: "bee run"
+    entrypoint: "/docker/docker/beego/beerun.sh"
     restart: always

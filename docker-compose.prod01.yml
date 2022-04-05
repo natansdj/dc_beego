@@ -44,6 +44,7 @@ services:
       - "9086:9086"
     environment:
       GO_SVC: "ddc_profile"
+    mem_limit: 2g
     network_mode: "host"
     working_dir: "/go/src/ddc_profile"
     entrypoint: "./ddc_profile"
