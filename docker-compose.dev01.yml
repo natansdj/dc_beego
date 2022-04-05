@@ -3,19 +3,19 @@ services:
   #######################################
   # Helper Service
   #######################################
-#  cron:
-#    extends:
-#      file: common-services.yml
-#      service: beego
-#    container_name: ddc_cron
-#    ports:
-#      - "8199:8199"
-#    mem_limit: 100m
-#    networks:
-#      default:
-#        ipv4_address: 172.18.0.199
-#    working_dir: "/go/src/ddc_cron"
-#    entrypoint: "./run.sh"
+  #  cron:
+  #    extends:
+  #      file: common-services.yml
+  #      service: beego
+  #    container_name: ddc_cron
+  #    ports:
+  #      - "8199:8199"
+  #    mem_limit: 100m
+  #    networks:
+  #      default:
+  #        ipv4_address: 172.18.0.199
+  #    working_dir: "/go/src/ddc_cron"
+  #    entrypoint: "./run.sh"
 
   portainer:
     image: portainer/portainer-ce
@@ -33,6 +33,37 @@ services:
     networks:
       default:
         ipv4_address: 172.18.0.5
+
+  #######################################
+  # Elastic
+  #######################################
+  elastic:
+    image: elasticsearch:7.10.1
+    container_name: ddc_elastic
+    environment:
+      - node.name=ddc_es01
+      - cluster.name=es-docker-cluster
+      # - discovery.seed_hosts=es02,es03
+      # - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 3g
+    volumes:
+      - es01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    expose:
+      - "9200"
+      - "9300"
+    networks:
+      default:
+        ipv4_address: 172.18.0.60
 
   #######################################
   # DDC Services
@@ -291,6 +322,7 @@ services:
       default:
         ipv4_address: 172.18.0.97
     working_dir: "/go/src/ddc_arisan"
+    entrypoint: "./ddc_arisan"
 
 #######################################
 # Volumes
@@ -307,6 +339,12 @@ volumes:
     driver_opts:
       type: bind
       device: /var/www/go/pkg
+      o: bind
+  es01:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /var/lib/elasticdata
       o: bind
 
 networks:
