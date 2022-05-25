@@ -23,6 +23,9 @@ start2:
 startmentor:
 	docker-compose up -d mentor mentoring
 
+startarisan:
+	docker-compose up -d arisan app_arisan
+
 startall: startdb && start && startbo && start2 && startmentor
 
 startbo:
@@ -44,7 +47,10 @@ stop2:
 	docker-compose stop rabbit queue payment
 
 stopmentor:
-	docker-compose up -d mentor mentoring
+	docker-compose stop mentor mentoring
+
+stopmentor:
+	docker-compose stop arisan app_arisan
 
 stopbo:
 	docker-compose stop backoffice api

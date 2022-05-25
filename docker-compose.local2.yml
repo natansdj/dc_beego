@@ -148,6 +148,29 @@ services:
   #       ipv4_address: 172.18.0.54
   #   entrypoint: "/docker/docker/node/run_nextjs.sh"
 
+  # app_arisan:
+  #   build:
+  #     context: docker/node/
+  #     dockerfile: Dockerfile
+  #   user: node
+  #   image: ddc_app_arisan
+  #   container_name: ddc_app_arisan
+  #   volumes:
+  #     - ./:/docker/
+  #     - ../_htdocs_ddc/ddc_app_arisan:/home/app
+  #   ports:
+  #     - "3003:3000"
+  #   environment:
+  #     NEXT_TELEMETRY_DISABLED: "1"
+  #     NODE_ENV: "production"
+  #     VIRTUAL_HOST: "arisan.ddc.vm"
+  #     VIRTUAL_PORT: "3000"
+  #   mem_limit: 500m
+  #   networks:
+  #     default:
+  #       ipv4_address: 172.18.0.57
+  #   entrypoint: "/docker/docker/node/run_nextjs.sh"
+    
   # passenger:
   #   build:
   #     context: docker/passenger/

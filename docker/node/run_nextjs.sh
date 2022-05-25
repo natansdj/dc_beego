@@ -1,5 +1,5 @@
 #!/bin/sh
 
-npm install
-npm run build
-npm run start
+yarn install --quiet --no-progress
+yarn build
+yarn start
