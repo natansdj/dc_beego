@@ -49,7 +49,7 @@ stop2:
 stopmentor:
 	docker-compose stop mentor mentoring
 
-stopmentor:
+stoparisan:
 	docker-compose stop arisan app_arisan
 
 stopbo:
