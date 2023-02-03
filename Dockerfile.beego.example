@@ -1,3 +1,3 @@
-FROM natansdj/go-beego:latest
+FROM natansdj/go-beego:1.16
 
 ENV GOPATH /go
