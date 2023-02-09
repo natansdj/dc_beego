@@ -605,7 +605,7 @@ services:
     environment:
       VIRTUAL_HOST: "media.ddc.vm"
       VIRTUAL_PORT: "8098"
-      GO_SVC: "ddc_test"
+      GO_SVC: "ddc_media"
     mem_limit: 400m
     networks:
       default:
