@@ -596,7 +596,7 @@ services:
       service: beego
     build:
       context: .
-      dockerfile: Dockerfile.beego-1.18-libvips
+      dockerfile: Dockerfile.media
     image: ddc_beego:1.18-libvips
     container_name: ddc_media
     ports:
@@ -611,7 +611,7 @@ services:
       default:
         ipv4_address: 172.18.0.98
     working_dir: "/go/src/ddc_media"
-    entrypoint: "./ddc_media"
+
 
   #######################################
   # Redis
