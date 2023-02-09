@@ -72,7 +72,7 @@ services:
       - ./:/docker/
       - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
       - ../_htdocs_ddc/ddc_backoffice_dev_build:/var/www:ro
-#      - ../_htdocs_ddc/ddc_backoffice/dist:/var/www:ro
+    #      - ../_htdocs_ddc/ddc_backoffice/dist:/var/www:ro
     ports:
       - "3001:80"
     mem_limit: 100m
@@ -125,51 +125,51 @@ services:
   #       ipv4_address: 172.18.0.51
   #   entrypoint: "/docker/docker/node/run_react.sh"
 
-  mentor:
-    build:
-      context: docker/node/
-      dockerfile: Dockerfile
-    user: node
-    image: ddc_app_mentor
-    container_name: ddc_app_mentor
-    volumes:
-      - ./:/docker/
-      - ../_htdocs_ddc/ddc_app_mentoring:/home/app
-    ports:
-      - "3002:3000"
-    environment:
-      NEXT_TELEMETRY_DISABLED: "1"
-      NODE_ENV: "production"
-      VIRTUAL_HOST: "mentor.ddc.vm"
-      VIRTUAL_PORT: "3000"
-    mem_limit: 500m
-    networks:
-      default:
-        ipv4_address: 172.18.0.54
-    entrypoint: "/docker/docker/node/run_nextjs.sh"
+#  mentor:
+#    build:
+#      context: docker/node/
+#      dockerfile: Dockerfile
+#    user: node
+#    image: ddc_app_mentor
+#    container_name: ddc_app_mentor
+#    volumes:
+#      - ./:/docker/
+#      - ../_htdocs_ddc/ddc_app_mentoring:/home/app
+#    ports:
+#      - "3002:3000"
+#    environment:
+#      NEXT_TELEMETRY_DISABLED: "1"
+#      NODE_ENV: "production"
+#      VIRTUAL_HOST: "mentor.ddc.vm"
+#      VIRTUAL_PORT: "3002"
+#    mem_limit: 500m
+#    networks:
+#      default:
+#        ipv4_address: 172.18.0.54
+#    entrypoint: "/docker/docker/node/run_nextjs.sh"
 
-  app_arisan:
-    build:
-      context: docker/node/
-      dockerfile: Dockerfile
-    user: node
-    image: ddc_app_arisan
-    container_name: ddc_app_arisan
-    volumes:
-      - ./:/docker/
-      - ../_htdocs_ddc/ddc_app_arisan:/home/app
-    ports:
-      - "3003:3000"
-    environment:
-      NEXT_TELEMETRY_DISABLED: "1"
-      NODE_ENV: "production"
-      VIRTUAL_HOST: "arisan.ddc.vm"
-      VIRTUAL_PORT: "3000"
-    mem_limit: 500m
-    networks:
-      default:
-        ipv4_address: 172.18.0.57
-    entrypoint: "/docker/docker/node/run_nextjs.sh"
+#  app_arisan:
+#    build:
+#      context: docker/node/
+#      dockerfile: Dockerfile
+#    user: node
+#    image: ddc_app_arisan
+#    container_name: ddc_app_arisan
+#    volumes:
+#      - ./:/docker/
+#      - ../_htdocs_ddc/ddc_app_arisan:/home/app
+#    ports:
+#      - "3003:3001"
+#    environment:
+#      NEXT_TELEMETRY_DISABLED: "1"
+#      NODE_ENV: "development"
+#      VIRTUAL_HOST: "arisan.ddc.vm"
+#      VIRTUAL_PORT: "3001"
+#    mem_limit: 500m
+#    networks:
+#      default:
+#        ipv4_address: 172.18.0.57
+#    entrypoint: "/docker/docker/node/run_nextjs.sh"
 
   # passenger:
   #   build:
@@ -259,6 +259,8 @@ services:
   #######################################
   krakend:
     image: devopsfaith/krakend:config-watcher
+    # image: devopsfaith/krakend:2.0.6-config-watcher
+    # image: devopsfaith/krakend:latest
     container_name: ddc_krakend
     ports:
       - "8080:8080"
@@ -269,6 +271,7 @@ services:
       VIRTUAL_HOST: "api.ddc.vm"
       VIRTUAL_PORT: "8080"
       KRAKEND_CONFIG: "ddcApiGateway.json"
+      # KRAKEND_CONFIG: "krakend.json"
       # FC_ENABLE: 1
       # FC_SETTINGS: "./settings"
       # FC_PARTIALS: "./partials"
@@ -401,6 +404,7 @@ services:
       VIRTUAL_HOST: "product.ddc.vm"
       VIRTUAL_PORT: "8084"
       GO_SVC: "ddc_product"
+    mem_limit: 400m
     networks:
       default:
         ipv4_address: 172.18.0.84
@@ -580,13 +584,34 @@ services:
       - "8097:8097"
       - "18097:18097"
     environment:
-      VIRTUAL_HOST: "arisan.ddc.vm"
-      VIRTUAL_PORT: "8097"
       GO_SVC: "ddc_arisan"
     networks:
       default:
         ipv4_address: 172.18.0.97
     working_dir: "/go/src/ddc_arisan"
+
+  media:
+    extends:
+      file: common-services.yml
+      service: beego
+    build:
+      context: .
+      dockerfile: Dockerfile.beego-1.18-libvips
+    image: ddc_beego:1.18-libvips
+    container_name: ddc_media
+    ports:
+      - "8098:8098"
+      - "18098:18098"
+    environment:
+      VIRTUAL_HOST: "media.ddc.vm"
+      VIRTUAL_PORT: "8098"
+      GO_SVC: "ddc_test"
+    mem_limit: 400m
+    networks:
+      default:
+        ipv4_address: 172.18.0.98
+    working_dir: "/go/src/ddc_media"
+    entrypoint: "./ddc_media"
 
   #######################################
   # Redis
