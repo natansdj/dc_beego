@@ -1,7 +1,6 @@
 ###
 # Docker image
-# with libvips support
-# natansdj/go-beego:1.16-libvips
+# natansdj/go-beego
 ###
 ARG GO_VERSION=1.16
 
@@ -35,8 +34,6 @@ ENV GOPATH /go
 
 # Install beego & bee
 RUN go get github.com/astaxie/beego
-RUN export GO111MODULE=on && go get -u github.com/beego/bee
-RUN go get gopkg.in/mgo.v2/bson
-RUN go get github.com/dgrijalva/jwt-go
-RUN go get github.com/garyburd/redigo/redis
 RUN go get github.com/go-delve/delve/cmd/dlv
+#RUN export GO111MODULE=on && go get github.com/beego/bee@v1.12.3
+RUN go get github.com/beego/bee@v1.12.3

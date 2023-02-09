@@ -1,6 +1,7 @@
 ###
 # Docker image
-# natansdj/go-beego
+# with libvips support
+# natansdj/go-beego:1.18-libvips
 ###
 ARG GO_VERSION=1.18
 
