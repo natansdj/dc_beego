@@ -170,7 +170,7 @@ services:
   #     default:
   #       ipv4_address: 172.18.0.57
   #   entrypoint: "/docker/docker/node/run_nextjs.sh"
-    
+
   # passenger:
   #   build:
   #     context: docker/passenger/
@@ -393,7 +393,7 @@ services:
   product:
     extends:
       file: common-services.yml
-      service: beego
+      service: beego-media
     container_name: ddc_product
     ports:
       - "8084:8084"

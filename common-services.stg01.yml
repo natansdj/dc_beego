@@ -29,3 +29,31 @@ services:
       - gopkg:/var/go/pkg/
     entrypoint: "/docker/docker/beego/beerun.sh"
     restart: always
+  beego-media:
+    build:
+      context: .
+      dockerfile: Dockerfile.media
+    image: ddc_beego:1.18-libvips
+    # cap and privileged needed for slowlog
+    cap_add:
+      - SYS_PTRACE
+    privileged: true
+    security_opt:
+      - apparmor=unconfined
+      - seccomp=unconfined
+    extra_hosts:
+      - "service01:172.16.0.46"
+      - "service02:172.16.0.46"
+      - "servicestaging01:172.16.0.46"
+      - "servicestaging02:172.16.0.46"
+    environment:
+      TZ: "Asia/Jakarta"
+    mem_limit: 1024m
+    volumes:
+      - ./:/docker/
+      - gosrc:/go/src/
+      - gosrc:/var/go/src/
+      - gopkg:/go/pkg/
+      - gopkg:/var/go/pkg/
+    entrypoint: "/docker/docker/beego/beerun-media.sh"
+    restart: always

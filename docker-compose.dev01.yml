@@ -145,7 +145,7 @@ services:
   product:
     extends:
       file: common-services.yml
-      service: beego
+      service: beego-media
     container_name: ddc_product
     ports:
       - "8084:8084"
@@ -323,6 +323,22 @@ services:
         ipv4_address: 172.18.0.97
     working_dir: "/go/src/ddc_arisan"
     entrypoint: "./ddc_arisan"
+
+  media:
+    extends:
+      file: common-services.yml
+      service: beego-media
+    container_name: ddc_media
+    ports:
+      - "8098:8098"
+      - "18098:18098"
+    environment:
+      GO_SVC: "ddc_media"
+    networks:
+      default:
+        ipv4_address: 172.18.0.98
+    working_dir: "/go/src/ddc_media"
+    entrypoint: "./ddc_media"
 
 #######################################
 # Volumes

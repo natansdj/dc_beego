@@ -396,7 +396,7 @@ services:
   product:
     extends:
       file: common-services.yml
-      service: beego
+      service: beego-media
     container_name: ddc_product
     ports:
       - "8084:8084"
@@ -593,11 +593,7 @@ services:
   media:
     extends:
       file: common-services.yml
-      service: beego
-    build:
-      context: .
-      dockerfile: Dockerfile.media
-    image: ddc_beego:1.18-libvips
+      service: beego-media
     container_name: ddc_media
     ports:
       - "8098:8098"
@@ -606,7 +602,6 @@ services:
       VIRTUAL_HOST: "media.ddc.vm"
       VIRTUAL_PORT: "8098"
       GO_SVC: "ddc_media"
-    mem_limit: 400m
     networks:
       default:
         ipv4_address: 172.18.0.98
