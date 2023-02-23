@@ -9,7 +9,7 @@ list:
 #############################
 
 up:
-	docker-compose up -d
+	start
 
 startdb:
 	docker-compose up -d mariadb mongodb redis
@@ -62,11 +62,11 @@ state:
 	docker-compose ps
 
 rebuild:
-	docker-compose stop
-	docker-compose pull
-	docker-compose rm --force app
+	docker-compose stop api
+	docker-compose pull api
+	docker-compose rm --force api
 	docker-compose build --no-cache --pull
-	docker-compose up -d --force-recreate
+	docker-compose up -d --force-recreate api
 
 #############################
 # General
@@ -75,10 +75,10 @@ rebuild:
 bash: shell
 
 shell:
-	docker-compose exec --user application app /bin/bash
+	docker-compose exec --user application api /bin/bash
 
 root:
-	docker-compose exec --user root app /bin/bash
+	docker-compose exec --user root api /bin/bash
 
 sehn:	docker manage
 #############################

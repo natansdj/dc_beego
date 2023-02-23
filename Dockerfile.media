@@ -1,6 +1,7 @@
 FROM natansdj/go-beego:1.18-libvips
 
 ENV GOPATH /go
+ENV GOBIN $GOPATH/bin
 
 #RUN apt-get update && apt-get install -y --no-install-recommends \
 #    netcat \
@@ -9,3 +10,6 @@ ENV GOPATH /go
 RUN rm -f /etc/localtime \
     && ln -s /usr/share/zoneinfo/Asia/Jakarta /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata
+
+# Configure volume/workdir
+WORKDIR /go/src/$GO_SVC

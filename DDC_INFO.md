@@ -16,3 +16,5 @@ DDC Go Service List
 - ddc_discount : 8094
 - ddc_queue : 8095
 - ddc_mentoring : 8096
+- ddc_arisan : 8097
+- ddc_media : 8098

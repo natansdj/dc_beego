@@ -1,6 +1,6 @@
 ###
 # Docker image
-# natansdj/go-beego
+# natansdj/go-beego:1.18
 ###
 ARG GO_VERSION=1.18
 
@@ -9,6 +9,8 @@ ARG GO_VERSION=1.18
 FROM golang:${GO_VERSION}
 
 ENV GOPATH /go
+ENV GOBIN $GOPATH/bin
 
 # Install beego & bee
-RUN go install github.com/beego/bee@v1.12.3
+RUN go install github.com/beego/bee@v1.12.3 \
+  && bee version

@@ -9,8 +9,10 @@ ARG GO_VERSION=1.17
 FROM golang:${GO_VERSION}
 
 ENV GOPATH /go
+ENV GOBIN $GOPATH/bin
 
 # Install beego & bee
 RUN go get github.com/astaxie/beego
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
-RUN go install github.com/beego/bee@v1.12.3
+RUN go install github.com/beego/bee@v1.12.3 \
+  && bee version

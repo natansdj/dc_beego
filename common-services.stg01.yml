@@ -28,7 +28,7 @@ services:
       - gopkg:/go/pkg/
       - gopkg:/var/go/pkg/
     entrypoint: "/docker/docker/beego/beerun.sh"
-    restart: always
+    restart: unless-stopped
   beego-media:
     build:
       context: .
@@ -56,4 +56,4 @@ services:
       - gopkg:/go/pkg/
       - gopkg:/var/go/pkg/
     entrypoint: "/docker/docker/beego/beerun-media.sh"
-    restart: always
+    restart: unless-stopped
