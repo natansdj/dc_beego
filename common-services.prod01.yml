@@ -18,10 +18,36 @@ services:
       - "servicestaging02:172.16.0.95"
     environment:
       TZ: "Asia/Jakarta"
-    mem_limit: 1024m
+    mem_limit: 1g
     volumes:
       - ./:/docker/
       - gosrc:/go/src/
+      - gopkg:/go/pkg/
+    entrypoint: "/docker/docker/beego/beerun.sh"
+    restart: always
+  beego-1.18:
+    build:
+      context: .
+      dockerfile: Dockerfile.118
+    image: ddc_beego:1.18
+    # cap and privileged needed for slowlog
+    cap_add:
+      - SYS_PTRACE
+    privileged: true
+    security_opt:
+      - apparmor=unconfined
+      - seccomp=unconfined
+    extra_hosts:
+      - "service01:172.16.0.46"
+      - "service02:172.16.0.46"
+      - "servicestaging01:172.16.0.46"
+      - "servicestaging02:172.16.0.46"
+    environment:
+      TZ: "Asia/Jakarta"
+      DDC_ENV: "local"
+    mem_limit: 1g
+    volumes:
+      - ./:/docker/
       - gopkg:/go/pkg/
     entrypoint: "/docker/docker/beego/beerun.sh"
     restart: always
@@ -44,10 +70,9 @@ services:
       - "servicestaging02:172.16.0.95"
     environment:
       TZ: "Asia/Jakarta"
-    mem_limit: 1024m
+    mem_limit: 1g
     volumes:
       - ./:/docker/
-      - gosrc:/go/src/
       - gopkg:/go/pkg/
     entrypoint: "/docker/docker/beego/beerun-media.sh"
     restart: always

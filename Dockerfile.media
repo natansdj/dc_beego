@@ -12,4 +12,4 @@ RUN rm -f /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata
 
 # Configure volume/workdir
-WORKDIR /go/src/$GO_SVC
+WORKDIR /go/src

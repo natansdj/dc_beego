@@ -154,6 +154,8 @@ services:
     networks:
       default:
         ipv4_address: 172.18.0.84
+    volumes:
+      - /var/www/go/src/ddc_product:/go/src/ddc_product
     working_dir: "/go/src/ddc_product"
     entrypoint: "./ddc_product"
 

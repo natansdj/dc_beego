@@ -203,7 +203,7 @@ services:
   product:
     extends:
       file: common-services.yml
-      service: beego-media
+      service: beego
     container_name: ddc_product
     ports:
       - "8084:8084"
@@ -269,6 +269,8 @@ services:
     environment:
       GO_SVC: "ddc_media"
     network_mode: "host"
+    volumes:
+      - /var/go/src/ddc_media:/go/src/ddc_media
     working_dir: "/go/src/ddc_media"
     entrypoint: "./ddc_media"
 
@@ -293,3 +295,4 @@ volumes:
 #  default:
 #    external:
 #      name: dev
+

@@ -205,6 +205,8 @@ services:
     environment:
       GO_SVC: "ddc_media"
     network_mode: "host"
+    volumes:
+      - /var/go/src/ddc_media:/go/src/ddc_media
     working_dir: "/go/src/ddc_media"
     entrypoint: "./ddc_media"
 

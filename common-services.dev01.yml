@@ -21,9 +21,7 @@ services:
     volumes:
       - ./:/docker/
       - gosrc:/go/src/
-#      - gosrc:/var/www/go/src/
       - gopkg:/go/pkg/
-#      - gopkg:/var/www/go/pkg/
     entrypoint: "/docker/docker/beego/beerun.sh"
     restart: unless-stopped
   beego-1.18:
@@ -48,10 +46,8 @@ services:
     mem_limit: 1g
     volumes:
       - ./:/docker/
-      - gosrc:/go/src/
-#      - gosrc:/var/www/go/src/
+#      - gosrc:/go/src/
       - gopkg:/go/pkg/
-#      - gopkg:/var/www/go/pkg/
     entrypoint: "/docker/docker/beego/beerun.sh"
     restart: unless-stopped
   beego-media:
@@ -76,6 +72,5 @@ services:
     volumes:
       - ./:/docker/
       - gopkg:/go/pkg/
-#      - gopkg:/var/www/go/pkg/
     entrypoint: "/docker/docker/beego/beerun-media.sh"
     restart: unless-stopped
