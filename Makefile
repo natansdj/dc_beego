@@ -58,6 +58,9 @@ stopbo:
 stopdb:
 	docker-compose stop mariadb mongodb redis
 
+stopall:
+	stopdb && stop && stopbo && stop2 && stopmentor
+
 state:
 	docker-compose ps
 

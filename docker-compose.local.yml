@@ -258,8 +258,8 @@ services:
   # KrakenD
   #######################################
   krakend:
-    image: devopsfaith/krakend:config-watcher
-    # image: devopsfaith/krakend:2.0.6-config-watcher
+    # image: devopsfaith/krakend:config-watcher
+    image: devopsfaith/krakend:2.0.6-config-watcher
     # image: devopsfaith/krakend:latest
     container_name: ddc_krakend
     ports:
@@ -277,7 +277,7 @@ services:
       # FC_PARTIALS: "./partials"
       # FC_TEMPLATES: "./partials"
       # FC_OUT: "/etc/krakend/krakend.json"
-    mem_limit: 800m
+    mem_limit: 2g
     volumes:
       - ./:/docker/
       - ../_htdocs_ddc/ddc_api_gateway:/etc/krakend
