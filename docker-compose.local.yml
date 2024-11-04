@@ -72,7 +72,7 @@ services:
       - ./:/docker/
       - ./etc/nginx-static/default.conf:/etc/nginx/sites-enabled/default.conf
       - ../_htdocs_ddc/ddc_backoffice_dev_build:/var/www:ro
-    #      - ../_htdocs_ddc/ddc_backoffice/dist:/var/www:ro
+#      - ../_htdocs_ddc/ddc_backoffice/dist:/var/www:ro
     ports:
       - "3001:80"
     mem_limit: 100m
@@ -258,9 +258,9 @@ services:
   # KrakenD
   #######################################
   krakend:
-    # image: devopsfaith/krakend:config-watcher
-    image: devopsfaith/krakend:2.0.6-config-watcher
-    # image: devopsfaith/krakend:latest
+    image: devopsfaith/krakend:config-watcher
+    # image: devopsfaith/krakend:2.0.6-config-watcher
+    # image: devopsfaith/krakend:2.3
     container_name: ddc_krakend
     ports:
       - "8080:8080"
