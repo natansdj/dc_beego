@@ -1,0 +1,12 @@
+FROM natansdj/go-beego:1.16
+
+ENV GOPATH /go
+ENV GOBIN $GOPATH/bin
+
+#RUN apt-get update && apt-get install -y --no-install-recommends \
+#    netcat \
+# && rm -rf /var/lib/apt/lists/*
+
+RUN rm -f /etc/localtime \
+    && ln -s /usr/share/zoneinfo/Asia/Jakarta /etc/localtime \
+    && dpkg-reconfigure -f noninteractive tzdata

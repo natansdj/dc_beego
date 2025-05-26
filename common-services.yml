@@ -1,0 +1,82 @@
+version: '2.1'
+services:
+  beego:
+    build:
+      context: .
+    image: ddc_beego
+    # cap and privileged needed for slowlog
+    cap_add:
+      - SYS_PTRACE
+    privileged: true
+    security_opt:
+      - apparmor=unconfined
+      - seccomp=unconfined
+    extra_hosts:
+      - "mariadb:172.18.0.52"
+      - "service01:172.18.0.1"
+      - "service02:172.18.0.1"
+      - "servicestaging01:172.18.0.1"
+      - "servicestaging02:172.18.0.1"
+      - "a407:192.168.43.150"
+    environment:
+      TZ: "Asia/Jakarta"
+      DDC_ENV: "local"
+    mem_limit: 1g
+    volumes:
+      - ./:/docker/
+      - gosrc:/go/src/
+      - gopkg:/go/pkg/
+    entrypoint: "/docker/docker/beego/beerun.sh"
+  beego-1.18:
+    build:
+      context: .
+      dockerfile: Dockerfile.118
+    image: ddc_beego:1.18
+    # cap and privileged needed for slowlog
+    cap_add:
+      - SYS_PTRACE
+    privileged: true
+    security_opt:
+      - apparmor=unconfined
+      - seccomp=unconfined
+    extra_hosts:
+      - "mariadb:172.18.0.52"
+      - "service01:172.18.0.1"
+      - "service02:172.18.0.1"
+      - "servicestaging01:172.18.0.1"
+      - "servicestaging02:172.18.0.1"
+      - "a407:192.168.43.150"
+    environment:
+      TZ: "Asia/Jakarta"
+      DDC_ENV: "local"
+    mem_limit: 1g
+    volumes:
+      - ./:/docker/
+      - gosrc:/go/src/
+      - gopkg:/go/pkg/
+    entrypoint: "/docker/docker/beego/beerun.sh"
+  beego-media:
+    build:
+      context: .
+      dockerfile: Dockerfile.media
+    image: ddc_beego:1.18-libvips
+    # cap and privileged needed for slowlog
+    cap_add:
+      - SYS_PTRACE
+    privileged: true
+    security_opt:
+      - apparmor=unconfined
+      - seccomp=unconfined
+    extra_hosts:
+      - "mariadb:172.18.0.52"
+      - "service01:172.18.0.1"
+      - "service02:172.18.0.1"
+      - "servicestaging01:172.18.0.1"
+      - "servicestaging02:172.18.0.1"
+    environment:
+      TZ: "Asia/Jakarta"
+    mem_limit: 1g
+    volumes:
+      - ./:/docker/
+      - gopkg:/go/pkg/
+    entrypoint: "/docker/docker/beego/beerun-media.sh"
